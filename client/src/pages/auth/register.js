@@ -15,6 +15,7 @@ const Page = () => {
       email: '',
       name: '',
       password: '',
+      surname: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -27,6 +28,10 @@ const Page = () => {
         .string()
         .max(255)
         .required('Name is required'),
+      surname: Yup
+        .string()
+        .max(255)
+        .required('Surname is required'),
       password: Yup
         .string()
         .max(255)
@@ -34,8 +39,15 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
-        router.push('/');
+        console.log("saveduser2",values, helpers)
+
+        const formData = new FormData()
+        for (let value in values){
+          formData.append(value, values[value])
+        }
+
+        await auth.signUp(formData);
+        // router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -105,6 +117,16 @@ const Page = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                />
+                <TextField
+                  error={!!(formik.touched.surname && formik.errors.surname)}
+                  fullWidth
+                  helperText={formik.touched.surname && formik.errors.surname}
+                  label="Surname"
+                  name="surname"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.surname}
                 />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
