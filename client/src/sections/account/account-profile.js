@@ -8,6 +8,8 @@ import {
   Divider,
   Typography
 } from '@mui/material';
+import { useEffect } from 'react';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const user = {
   avatar: '/assets/avatars/avatar-anika-visser.png',
@@ -18,7 +20,30 @@ const user = {
   timezone: 'GTM-7'
 };
 
-export const AccountProfile = () => (
+export const AccountProfile = () => { 
+  const state = useAuthContext()
+  const getAccount = async (id) => {
+    
+    console.log("fetchdata3", state) 
+    const accountResponse = await fetch(
+        "http://localhost:3001/account/" + id,
+        {
+          method: "GET",
+          headers: {"Authorization": "Bearer " + state?.user?.token }
+        }
+      )
+      const account = await accountResponse.json()
+  
+      console.log("accountss",accountResponse)
+  
+      return account
+    };
+
+  useEffect(() => {
+    getAccount("6435987be54a1761d03b547a");
+  }, [])
+  
+  return (
   <Card>
     <CardContent>
       <Box
@@ -66,4 +91,4 @@ export const AccountProfile = () => (
       </Button>
     </CardActions>
   </Card>
-);
+)};

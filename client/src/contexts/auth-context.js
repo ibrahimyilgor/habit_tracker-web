@@ -66,6 +66,10 @@ export const AuthProvider = (props) => {
   const initialized = useRef(false);
   const router = useRouter();
 
+  useEffect(() => {
+    console.log("state",state)
+  }, [state])
+
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
@@ -77,17 +81,24 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
+      isAuthenticated = window.sessionStorage.getItem('user') !== null;
     } catch (err) {
       console.error(err);
     }
 
+    let tempUser = window.sessionStorage.getItem('user')
+    if(tempUser){
+      tempUser = JSON.parse(tempUser)
+    }
+    console.log("tempuser",tempUser)
+
     if (isAuthenticated) {
-      const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
-        email: 'anika.visser@devias.io'
+        const user = {
+          id: tempUser?.user?._id,
+          token: tempUser?.token,
+          avatar: '/assets/avatars/avatar-anika-visser.png',
+          name: tempUser?.user?.name,
+          email: tempUser?.user?.email
       };
 
       dispatch({
@@ -125,8 +136,9 @@ export const AuthProvider = (props) => {
     if (loggedIn.token){
       dispatch({
         type: HANDLERS.SIGN_IN,
-        payload: loggedIn.user
+        payload: loggedIn
       })
+      window.sessionStorage.setItem('user', JSON.stringify(loggedIn))
       router.push('/');
     }
 
@@ -154,6 +166,7 @@ export const AuthProvider = (props) => {
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
+    sessionStorage.removeItem('user');
   };
 
   return (
