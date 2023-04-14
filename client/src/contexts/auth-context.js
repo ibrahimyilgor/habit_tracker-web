@@ -94,11 +94,15 @@ export const AuthProvider = (props) => {
 
     if (isAuthenticated) {
         const user = {
-          id: tempUser?.user?._id,
           token: tempUser?.token,
-          avatar: '/assets/avatars/avatar-anika-visser.png',
-          name: tempUser?.user?.name,
-          email: tempUser?.user?.email
+          user: {
+            id: tempUser?.user?._id,
+            avatar: '/assets/avatars/avatar-anika-visser.png',
+            name: tempUser?.user?.name,
+            surname: tempUser?.user?.surname,
+            createdAt: tempUser?.user?.createdAt,
+            email: tempUser?.user?.email
+          }
       };
 
       dispatch({
@@ -119,6 +123,37 @@ export const AuthProvider = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  const getAccount = async (id) => {
+    const accountResponse = await fetch(
+        "http://localhost:3001/account/" + id,
+        {
+          method: "GET",
+          headers: {"Authorization": "Bearer " + state?.user?.token }
+        }
+      )
+      const account = await accountResponse.json()
+
+      console.log("account", account)
+
+      const user = {
+        token: state?.user?.token,
+        user: {
+          id: account?._id,
+          avatar: '/assets/avatars/avatar-anika-visser.png',
+          name: account?.name,
+          surname: account?.surname,
+          createdAt: account?.createdAt,
+          email: account?.email
+        }
+    };
+
+      dispatch({
+        type: HANDLERS.SIGN_IN,
+        payload: user
+      })
+      return account
+    };
 
   const signIn = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
@@ -175,7 +210,8 @@ export const AuthProvider = (props) => {
         ...state,
         signIn,
         signUp,
-        signOut
+        signOut,
+        getAccount
       }}
     >
       {children}

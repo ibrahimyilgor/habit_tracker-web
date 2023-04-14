@@ -14,3 +14,17 @@ export const getAccount = async (req, res) => {
         res.status(404).json({error: err.message});
     }
 }
+
+/*UPDATE USER*/
+
+
+export const updateAccount = async (req, res) => {
+    try{
+        const { _id, name, surname } = req.body
+        await User.updateOne({_id: _id}, {$set: {name: name, surname: surname}})
+        res.status(200).json({ message: "Account updated successfully." })
+    }
+    catch (err){
+        res.status(500).json({ error: err.message });
+    }
+}

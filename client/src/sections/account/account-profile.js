@@ -8,8 +8,9 @@ import {
   Divider,
   Typography
 } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { ParseToDate, ParseToDateAndHour } from 'src/utils/date';
 
 const user = {
   avatar: '/assets/avatars/avatar-anika-visser.png',
@@ -22,25 +23,11 @@ const user = {
 
 export const AccountProfile = () => { 
   const state = useAuthContext()
-  const getAccount = async (id) => {
-    
-    console.log("fetchdata3", state) 
-    const accountResponse = await fetch(
-        "http://localhost:3001/account/" + id,
-        {
-          method: "GET",
-          headers: {"Authorization": "Bearer " + state?.user?.token }
-        }
-      )
-      const account = await accountResponse.json()
-  
-      console.log("accountss",accountResponse)
-  
-      return account
-    };
 
   useEffect(() => {
-    getAccount("6435987be54a1761d03b547a");
+    if(state?.user?.user?._id){
+      state.getAccount(state?.user?.user?._id);
+    }
   }, [])
   
   return (
@@ -65,19 +52,13 @@ export const AccountProfile = () => {
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {state?.user?.user?.name} {state?.user?.user?.surname}
         </Typography>
         <Typography
           color="text.secondary"
           variant="body2"
         >
-          {user.city} {user.country}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
-        >
-          {user.timezone}
+          {state?.user?.user?.createdAt ? ParseToDate(state?.user?.user?.createdAt) : ""}
         </Typography>
       </Box>
     </CardContent>
