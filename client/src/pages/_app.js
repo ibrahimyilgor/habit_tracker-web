@@ -9,6 +9,7 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import { RestaurantProvider } from 'src/contexts/restaurant-context';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -36,16 +37,18 @@ const App = (props) => {
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AuthConsumer>
-              {
-                (auth) => auth.isLoading
-                  ? <SplashScreen />
-                  : getLayout(<Component {...pageProps} />)
-              }
-            </AuthConsumer>
-          </ThemeProvider>
+          <RestaurantProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <AuthConsumer>
+                {
+                  (auth) => auth.isLoading
+                    ? <SplashScreen />
+                    : getLayout(<Component {...pageProps} />)
+                }
+              </AuthConsumer>
+            </ThemeProvider>
+          </RestaurantProvider>
         </AuthProvider>
       </LocalizationProvider>
     </CacheProvider>

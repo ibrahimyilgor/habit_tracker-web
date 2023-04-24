@@ -6,6 +6,10 @@ import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import CreditCardIcon from '@heroicons/react/24/solid/CreditCardIcon';
+import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
+import PaintBrushIcon from '@heroicons/react/24/solid/PaintBrushIcon';
+import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -19,20 +23,40 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
-    path: '/customers',
+    title: 'Branches',
+    path: '/branches',
     icon: (
       <SvgIcon fontSize="small">
-        <UsersIcon />
+        <BuildingStorefrontIcon />
       </SvgIcon>
     )
   },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Menu',
+    path: '/menu',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <DocumentTextIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Theme',
+    path: '/theme',
+    icon: (
+      <SvgIcon fontSize="small">
+        <PaintBrushIcon />
+      </SvgIcon>
+    )
+  },
+
+
+  {
+    title: 'Plan',
+    path: '/plan',
+    icon: (
+      <SvgIcon fontSize="small">
+        <CreditCardIcon />
       </SvgIcon>
     )
   },
@@ -80,5 +104,23 @@ export const items = [
         <XCircleIcon />
       </SvgIcon>
     )
-  }
+  },
+  {
+    title: 'Customers',
+    path: '/customers',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Companies',
+    path: '/companies',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
 ];

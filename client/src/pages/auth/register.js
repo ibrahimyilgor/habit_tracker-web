@@ -28,10 +28,6 @@ const Page = () => {
         .string()
         .max(255)
         .required('Name is required'),
-      surname: Yup
-        .string()
-        .max(255)
-        .required('Surname is required'),
       password: Yup
         .string()
         .max(255)
@@ -117,16 +113,6 @@ const Page = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
-                />
-                <TextField
-                  error={!!(formik.touched.surname && formik.errors.surname)}
-                  fullWidth
-                  helperText={formik.touched.surname && formik.errors.surname}
-                  label="Surname"
-                  name="surname"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.surname}
                 />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}

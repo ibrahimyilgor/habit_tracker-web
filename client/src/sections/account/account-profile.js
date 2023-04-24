@@ -25,8 +25,8 @@ export const AccountProfile = () => {
   const state = useAuthContext()
 
   useEffect(() => {
-    if(state?.user?.user?._id){
-      state.getAccount(state?.user?.user?._id);
+    if(state?.user?.user?.id){
+      state.getUser(state?.user?.user?.id);
     }
   }, [])
   
@@ -52,7 +52,7 @@ export const AccountProfile = () => {
           gutterBottom
           variant="h5"
         >
-          {state?.user?.user?.name} {state?.user?.user?.surname}
+          {state?.user?.user?.name}
         </Typography>
         <Typography
           color="text.secondary"

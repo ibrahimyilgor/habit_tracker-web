@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema(
     {
         name: {
-            type: String,
-            required: true,
-            min: 2,
-            max: 50
-        },
-        surname: {
             type: String,
             required: true,
             min: 2,
@@ -27,18 +22,24 @@ const UserSchema = new mongoose.Schema(
             min: 8,
             max: 50,
         },
-        gender: {
+        role: {
+          type: String,
+          enum: ['user', 'admin'],
+          default: 'user'
+        },
+        address: {
             type: String,
             required: false,
         },
-        birth_date: {
-            type: Date,
-            required: false,
-        },
-        country: {
+        phone: {
             type: String,
             required: false,
-        }
+        },
+        restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
+        plan: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Plan',
+        },
     },
     {timestamps: true}
 )

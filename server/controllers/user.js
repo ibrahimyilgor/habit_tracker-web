@@ -2,7 +2,7 @@ import User from "../models/User.js"
 
 /*READ USER*/
 
-export const getAccount = async (req, res) => {
+export const getUser = async (req, res) => {
     console.log("idd", req.params)
     try{
         const { id } = req.params
@@ -18,10 +18,10 @@ export const getAccount = async (req, res) => {
 /*UPDATE USER*/
 
 
-export const updateAccount = async (req, res) => {
+export const updateUser = async (req, res) => {
     try{
-        const { _id, name, surname } = req.body
-        await User.updateOne({_id: _id}, {$set: {name: name, surname: surname}})
+        const { _id, name, address, phone } = req.body
+        await User.updateOne({_id: _id}, {$set: {name: name, address: address, phone: phone}})
         res.status(200).json({ message: "Account updated successfully." })
     }
     catch (err){

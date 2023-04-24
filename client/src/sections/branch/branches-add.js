@@ -11,14 +11,16 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { HANDLERS, useAuthContext } from 'src/contexts/auth-context';
+import { useRestaurantContext } from 'src/contexts/restaurant-context';
 
-export const AccountProfileDetails = () => {
+export const BranchAdd = ({back}) => {
   const state = useAuthContext()
+  const restaurant = useRestaurantContext()
+
   const [values, setValues] = useState({
-    id: state?.user?.user?._id,
-    name: state?.user?.user?.name ||  "",
-    phone: state?.user?.user?.phone || "",
-    address: state?.user?.user?.address || ""
+    name:  "",
+    phone: "",
+    address: ""
   });
 
   useEffect(() => {
@@ -37,25 +39,8 @@ export const AccountProfileDetails = () => {
 
   const handleSubmit = useCallback(
     async (event) => {
-      event.preventDefault();
-      try {
-        const response = await fetch("http://localhost:3001/user/updateUser", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + state?.user?.token
-          },
-          body: JSON.stringify({ _id: values?.id, name: values?.name, address: values?.address, phone: values?.phone })
-      });
-      const data = await response.json();
-      console.log("submit", data)
-      state.getUser(state?.user?.user?._id)
-
-      return data;
-      } catch (error) {
-        console.error("Error updating user:", error);
-        // handle the error, e.g. show a message to the user
-      }
+        event.preventDefault();
+        await restaurant.addBranch({id: state?.user?.user?._id, name: values?.name, phone: values?.phone, address: values?.address})
     },
     [values]
   );
@@ -122,9 +107,12 @@ export const AccountProfileDetails = () => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained" type="submit">
-            Save details
-          </Button>
+            <Button variant="contained" onClick={back}>
+                Back
+            </Button>
+            <Button variant="contained" type="submit">
+                Add Branch
+            </Button>
         </CardActions>
       </Card>
     </form>

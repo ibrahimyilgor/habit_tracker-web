@@ -17,7 +17,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-export const CustomersTable = (props) => {
+export const BranchesTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -34,7 +34,7 @@ export const CustomersTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
-
+  console.log("itemsss",items)
   return (
     <Card>
       <Scrollbar>
@@ -74,8 +74,7 @@ export const CustomersTable = (props) => {
             </TableHead>
             <TableBody>
               {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+                const isSelected = selected.includes(customer._id);
 
                 return (
                   <TableRow
@@ -119,7 +118,7 @@ export const CustomersTable = (props) => {
                       {customer.phone}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {"-"}
                     </TableCell>
                   </TableRow>
                 );
@@ -141,7 +140,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+BranchesTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

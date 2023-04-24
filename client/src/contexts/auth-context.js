@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
 
-const HANDLERS = {
+export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
   SIGN_OUT: 'SIGN_OUT'
@@ -96,12 +96,14 @@ export const AuthProvider = (props) => {
         const user = {
           token: tempUser?.token,
           user: {
-            id: tempUser?.user?._id,
+            _id: tempUser?.user?._id,
             avatar: '/assets/avatars/avatar-anika-visser.png',
             name: tempUser?.user?.name,
-            surname: tempUser?.user?.surname,
             createdAt: tempUser?.user?.createdAt,
-            email: tempUser?.user?.email
+            email: tempUser?.user?.email,
+            address: tempUser?.user?.address,
+            phone: tempUser?.user?.phone,
+            restaurants: tempUser?.user?.restaurants
           }
       };
 
@@ -124,27 +126,29 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const getAccount = async (id) => {
-    const accountResponse = await fetch(
-        "http://localhost:3001/account/" + id,
+  const getUser = async (id) => {
+    const userResponse = await fetch(
+        "http://localhost:3001/user/" + id,
         {
           method: "GET",
           headers: {"Authorization": "Bearer " + state?.user?.token }
         }
       )
-      const account = await accountResponse.json()
+      const tempUser = await userResponse.json()
 
-      console.log("account", account)
+      console.log("user", tempUser)
 
       const user = {
         token: state?.user?.token,
         user: {
-          id: account?._id,
+          _id: tempUser?._id,
           avatar: '/assets/avatars/avatar-anika-visser.png',
-          name: account?.name,
-          surname: account?.surname,
-          createdAt: account?.createdAt,
-          email: account?.email
+          name: tempUser?.name,
+          createdAt: tempUser?.createdAt,
+          email: tempUser?.email,
+          address: tempUser?.address,
+          phone: tempUser?.phone,
+          restaurants: tempUser?.restaurants
         }
     };
 
@@ -152,7 +156,10 @@ export const AuthProvider = (props) => {
         type: HANDLERS.SIGN_IN,
         payload: user
       })
-      return account
+
+      window.sessionStorage.setItem('user', JSON.stringify(user))
+
+      return tempUser
     };
 
   const signIn = async (values, onSubmitProps) => {
@@ -211,7 +218,7 @@ export const AuthProvider = (props) => {
         signIn,
         signUp,
         signOut,
-        getAccount
+        getUser
       }}
     >
       {children}

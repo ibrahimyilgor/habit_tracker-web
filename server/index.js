@@ -9,7 +9,8 @@ import morgan from "morgan"
 import path from "path"
 import { fileURLToPath } from "url"
 import authRoutes from "./routes/auth.js"
-import accountRoutes from "./routes/account.js"
+import userRoutes from "./routes/user.js"
+import restaurantRoutes from "./routes/restaurant.js"
 import { register } from "./controllers/auth.js"
 import { verifyToken } from "./middleware/auth.js";
 
@@ -49,7 +50,8 @@ app.post("/auth/register", upload.single("picture"), register)
 
 /*ROUTES*/
 app.use("/auth", authRoutes)
-app.use("/account", accountRoutes)
+app.use("/user", userRoutes)
+app.use("/restaurant", restaurantRoutes)
 /*MONGOOSE SETUP*/
 
 const PORT = process.env.PORT || 6001

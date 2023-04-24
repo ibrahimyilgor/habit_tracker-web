@@ -1,12 +1,12 @@
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
 
-export const CustomersSearch = () => (
+export const BranchesSearch = () => (
   <Card sx={{ p: 2 }}>
     <OutlinedInput
       defaultValue=""
       fullWidth
-      placeholder="Search customer"
+      placeholder="Search branch"
       startAdornment={(
         <InputAdornment position="start">
           <SvgIcon
