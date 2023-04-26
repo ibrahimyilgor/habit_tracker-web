@@ -6,6 +6,7 @@ import {
   Card,
   Checkbox,
   Stack,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -16,6 +17,11 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
+import { useRestaurantContext } from 'src/contexts/restaurant-context';
+import { useAuthContext } from 'src/contexts/auth-context';
+import { useEffect, useRef, useState } from 'react';
 
 export const BranchesTable = (props) => {
   const {
@@ -29,8 +35,17 @@ export const BranchesTable = (props) => {
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
+    selected = [],
+    setOpenEdit,
+    setSelectedForEdit
   } = props;
+
+  const state = useAuthContext()
+  const restaurant = useRestaurantContext()
+
+  useEffect(() => {
+    console.log("ibrahime", items)
+  }, [items]);
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -42,7 +57,7 @@ export const BranchesTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
@@ -54,21 +69,18 @@ export const BranchesTable = (props) => {
                       }
                     }}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   Name
                 </TableCell>
                 <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Location
+                  Address
                 </TableCell>
                 <TableCell>
                   Phone
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -82,18 +94,18 @@ export const BranchesTable = (props) => {
                     key={customer.id}
                     selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(customer._id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(customer._id);
                           }
                         }}
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Stack
                         alignItems="center"
@@ -104,21 +116,35 @@ export const BranchesTable = (props) => {
                           {getInitials(customer.name)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                        {customer?.name.length > 100 ? (customer?.name.slice(0,100) + "...") : customer?.name}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
-                    </TableCell>
-                    <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer.address}
                     </TableCell>
                     <TableCell>
                       {customer.phone}
                     </TableCell>
                     <TableCell>
-                      {"-"}
+                    <SvgIcon 
+                      htmlColor='gray' 
+                      style={{marginRight: 5, cursor:"pointer"}}
+                      onClick={() => {
+                        setSelectedForEdit(customer)
+                        setOpenEdit(true)
+                      }}>
+                        <PencilIcon />
+                      </SvgIcon>
+                      <SvgIcon 
+                        htmlColor='red' 
+                        style={{cursor:"pointer"}}
+                        onClick={() => {
+                          restaurant.deleteBranch(customer?._id); 
+                          restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+                        } }>
+                          <XCircleIcon />
+                      </SvgIcon>
                     </TableCell>
                   </TableRow>
                 );

@@ -31,13 +31,17 @@ export const AccountProfile = () => {
   }, [])
   
   return (
-  <Card>
-    <CardContent>
+  <Card sx={{
+    height: "100%",
+  }}>
+    <CardContent sx={{height: "80%"}}>
       <Box
         sx={{
           alignItems: 'center',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          justifyContent: "center",
+          height: "100%"
         }}
       >
         <Avatar

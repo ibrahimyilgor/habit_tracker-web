@@ -18,6 +18,7 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
+import { BranchSelector } from 'src/sections/branch/branch-selector';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -68,7 +69,7 @@ export const SideNav = (props) => {
               p: '12px'
             }}
           >
-            <div>
+            {/* <div>
               <Typography
                 color="inherit"
                 variant="subtitle1"
@@ -81,13 +82,14 @@ export const SideNav = (props) => {
               >
                 {restaurant?.branch || "X Branch"}
               </Typography>
-            </div>
-            <SvgIcon
+            </div> */}
+            <BranchSelector />
+            {/* <SvgIcon
               fontSize="small"
               sx={{ color: 'neutral.500' }}
             >
               <ChevronUpDownIcon />
-            </SvgIcon>
+            </SvgIcon> */}
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />

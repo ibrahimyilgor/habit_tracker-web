@@ -12,16 +12,16 @@ import {
 } from '@mui/material';
 import { HANDLERS, useAuthContext } from 'src/contexts/auth-context';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
-import CustomizedSnackbars from '../snackbar';
 
-export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
+export const BranchEdit = ({back, selectedForEdit, setSelectedForEdit, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
 
   const [values, setValues] = useState({
-    name:  "",
-    phone: "",
-    address: ""
+    id:  selectedForEdit?._id,
+    name:  selectedForEdit?.name,
+    phone: selectedForEdit?.phone,
+    address: selectedForEdit?.address
   });
 
   useEffect(() => {
@@ -41,21 +41,31 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
-      await restaurant.addBranch({id: state?.user?.user?._id, name: values?.name, phone: values?.phone, address: values?.address}).then(res => {
-        console.log("return", res)
-        if(res.success === true){
-          restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
-          setSnackbarOpen(true);
-          setSnackbarSeverity('success');
-          setSnackbarMessage('Branch added successfully!');
-          back()
-        }
-        else {
-          setSnackbarSeverity('error');
-          setSnackbarMessage('Failed to add branch!');
-          setSnackbarOpen(true);
-        }
-      })
+      try {
+        const response = await fetch("http://localhost:3001/restaurant/updateBranch", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + state?.user?.token
+          },
+          body: JSON.stringify({
+            _id: values?.id,
+            name: values?.name,
+            address: values?.address,
+            phone: values?.phone
+          })
+        })
+        const data = await response.json();
+        setSnackbarOpen(true);
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Branch edited successfully!');
+        restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+        back()
+        return data;
+      } catch (error) {
+        console.error("Error updating branch:", error);
+        // handle the error, e.g. show a message to the user
+      }
     },
     [values]
   );
@@ -70,7 +80,8 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
       <Card>
         <CardHeader
           // subheader="The information can be edited"
-          title="Add Branch" />
+          title="Edit Branch"
+        />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid
@@ -88,7 +99,8 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
                   onChange={handleChange}
                   required
                   value={values.name}
-                  helperText={values.name.length < 3 && "Name must contain minimum three characters"} />
+                  helperText={values.name.length < 3 && "Name must contain minimum three characters"}
+                />
               </Grid>
               <Grid
                 xs={12}
@@ -98,8 +110,9 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
                   fullWidth
                   label="Address"
                   name="address"
-                  onChange={handleChange}
-                  value={values.address} />
+                  onChange={handleChange}s
+                  value={values.address}
+                />
               </Grid>
               <Grid
                 xs={12}
@@ -110,19 +123,20 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
                   label="Phone"
                   name="phone"
                   onChange={handleChange}
-                  value={values.phone} />
+                  value={values.phone}
+                />
               </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained" onClick={back}>
-            Back
-          </Button>
-          <Button variant="contained" type="submit" disabled={values.name.length < 3}>
-            Add Branch
-          </Button>
+            <Button variant="contained" onClick={back}>
+                Back
+            </Button>
+            <Button variant="contained" type="submit" disabled={values.name.length < 3}>
+                Edit Branch
+            </Button>
         </CardActions>
       </Card>
     </form>

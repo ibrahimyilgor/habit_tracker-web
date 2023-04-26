@@ -8,6 +8,7 @@ export const RestaurantContext = createContext({ undefined });
 export const RestaurantProvider = (props) => {
   const { children } = props;
   const [restaurants, setRestaurants] = useState([])
+  const [selectedBranchIds, setSelectedBranchIds] = useState([])
   const router = useRouter();
   const state = useAuthContext()
 
@@ -23,20 +24,18 @@ export const RestaurantProvider = (props) => {
       }
       console.log("tempUser", tempUser)
       if(tempUser?.token){
-        getBranches(tempUser?.user?._id, tempUser?.token)
+        getBranches(tempUser?.user?._id, tempUser?.token, null)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state?.user?.token]
   );
 
-  const getBranches = async (id, token) => {
-    console.log("restaurants3", state)
-    const restaurantResponse = await fetch(
-        "http://localhost:3001/restaurant/" + id,
+  const getBranches = async (id, token, name=null) => {
+    const restaurantResponse = await fetch(`http://localhost:3001/restaurant/${id}`,
         {
           method: "GET",
-          headers: {"Authorization": "Bearer " + token }
+          headers: {"Authorization": "Bearer " + token },
         }
       )
       const tempRestaurant = await restaurantResponse.json()
@@ -65,13 +64,43 @@ export const RestaurantProvider = (props) => {
         });
   
         const data = await response.json();
-  
+        if(data.restaurant) {
+          data.success = true
+        }
+        else {
+          data.success = false
+        }
         console.log(data.message);
         console.log(data.restaurant);
+        return data
       } catch (err) {
+        err.success = false
         console.error(err);
+        return err
       }
     };
+
+    const deleteBranch = async (id) => {
+      console.log("ibrahimmm", id)
+      try {
+        const response = await fetch(`http://localhost:3001/restaurant/${id}/deleteBranch`, {
+          method: 'DELETE',
+          headers: {
+            "Authorization": "Bearer " + state?.user?.token
+          },
+        });
+        const data = await response.json();
+        if(selectedBranchIds.includes(id)){ // Remove from branch selector if the branch is selected
+          var index = selectedBranchIds.indexOf(id);
+          if (index !== -1) {
+            selectedBranchIds.splice(index, 1);
+          }
+        }
+        console.log(data); // { message: 'Restaurant deleted successfully' }
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
   
 
@@ -81,7 +110,10 @@ export const RestaurantProvider = (props) => {
         restaurants,
         setRestaurants,
         getBranches,
-        addBranch
+        addBranch,
+        deleteBranch,
+        selectedBranchIds, 
+        setSelectedBranchIds
       }}
     >
       {children}

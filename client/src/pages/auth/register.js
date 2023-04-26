@@ -6,10 +6,17 @@ import * as Yup from 'yup';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import CustomizedSnackbars from 'src/sections/snackbar';
+import { useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -42,8 +49,27 @@ const Page = () => {
           formData.append(value, values[value])
         }
 
-        await auth.signUp(formData);
-        // router.push('/');
+        await auth.signUp(formData).then(res => {
+          if(res.error){
+            if(res.error.includes("duplicate key error")){
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('Email is already used');
+            }
+            else{
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('Failed to register');
+            }
+
+          }
+          else{
+            setSnackbarOpen(true);
+            setSnackbarSeverity('success');
+            setSnackbarMessage('Registered successfully!');
+            // router.push('/');
+          }
+        });
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -105,7 +131,6 @@ const Page = () => {
             >
               <Stack spacing={3}>
                 <TextField
-                  error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
                   label="Name"
@@ -115,7 +140,6 @@ const Page = () => {
                   value={formik.values.name}
                 />
                 <TextField
-                  error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
                   label="Email Address"
@@ -126,7 +150,6 @@ const Page = () => {
                   value={formik.values.email}
                 />
                 <TextField
-                  error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
                   label="Password"
@@ -159,6 +182,11 @@ const Page = () => {
           </div>
         </Box>
       </Box>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage} />
     </>
   );
 };

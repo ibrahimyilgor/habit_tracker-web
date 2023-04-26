@@ -1,5 +1,5 @@
 import express from "express";
-import { addBranch, getBranches } from "../controllers/restaurant.js";
+import { addBranch, deleteBranch, getBranches, updateBranch } from "../controllers/restaurant.js";
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -9,5 +9,11 @@ router.get("/:id", verifyToken, getBranches);
 
 /* ADD */
 router.post("/:userId/addBranch", verifyToken, addBranch);
+
+/* DELETE */
+router.delete("/:id/deleteBranch", verifyToken, deleteBranch);
+
+/* UPDATE */
+router.put("/updateBranch", verifyToken, updateBranch);
 
 export default router;

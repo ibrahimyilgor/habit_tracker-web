@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -12,6 +12,8 @@ import { BranchesSearch } from 'src/sections/branch/branches-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { BranchAdd } from 'src/sections/branch/branches-add';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
+import { BranchEdit } from 'src/sections/branch/branch-edit';
+import CustomizedSnackbars from 'src/sections/snackbar';
 
 const now = new Date();
 
@@ -19,6 +21,9 @@ const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openAdd, setOpenAdd] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
+  const [selectedForEdit, setSelectedForEdit] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   const restaurant = useRestaurantContext()
 
@@ -36,14 +41,21 @@ const Page = () => {
       () => {
         return applyPagination(restaurant?.restaurants || [], page, rowsPerPage);
       },
-      [page, rowsPerPage]
+      [page, rowsPerPage, restaurant]
     );
   };
+
+  useEffect(
+      () => {
+       setPage(0) 
+      },
+      [rowsPerPage]
+    );
   
   const useBranchIds = (branches) => {
     return useMemo(
       () => {
-        return branches.map((branch) => branch.id);
+        return branches.map((branch) => branch._id);
       },
       [branches]
     );
@@ -52,6 +64,10 @@ const Page = () => {
   const branches = useBranches(page, rowsPerPage);
   const branchesIds = useBranchIds(branches);
   const branchesSelection = useSelection(branchesIds);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   const handleRowsPerPageChange = useCallback(
     (event) => {
@@ -90,7 +106,7 @@ const Page = () => {
                   direction="row"
                   spacing={1}
                 >
-                  <Button
+                  {/* <Button
                     color="inherit"
                     startIcon={(
                       <SvgIcon fontSize="small">
@@ -109,10 +125,10 @@ const Page = () => {
                     )}
                   >
                     Export
-                  </Button>
+                  </Button> */}
                 </Stack>
               </Stack>
-              {!openAdd && (
+              {!openAdd && !openEdit && (
               <div>
                 <Button
                   startIcon={(
@@ -128,12 +144,12 @@ const Page = () => {
               </div>
               )}
             </Stack>
-            {!openAdd && (
+            {!openAdd && !openEdit && (
               <>
-                <BranchesSearch />
+                {/* <BranchesSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/> */}
                 <BranchesTable
                   count={restaurant?.restaurants?.length || 0}
-                  items={restaurant?.restaurants}
+                  items={branches}
                   onDeselectAll={branchesSelection.handleDeselectAll}
                   onDeselectOne={branchesSelection.handleDeselectOne}
                   onPageChange={handlePageChange}
@@ -142,15 +158,37 @@ const Page = () => {
                   onSelectOne={branchesSelection.handleSelectOne}
                   page={page}
                   rowsPerPage={rowsPerPage}
+                  setOpenEdit={setOpenEdit}
+                  setSelectedForEdit={setSelectedForEdit}
                   selected={branchesSelection.selected} />
               </>
             )}
             {openAdd && (
-              <BranchAdd back={() => setOpenAdd(false)}/>
+              <BranchAdd 
+                back={() => setOpenAdd(false)}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+            )}
+            {openEdit && (
+              <BranchEdit 
+                selectedForEdit={selectedForEdit} 
+                setSelectedForEdit={setSelectedForEdit} 
+                back={() => setOpenEdit(false)}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+              />
             )}
           </Stack>
         </Container>
       </Box>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage} />
     </>
   );
 };
