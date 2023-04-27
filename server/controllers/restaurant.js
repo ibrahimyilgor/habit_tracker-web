@@ -49,14 +49,26 @@ export const addBranch = async (req, res) => {
 export const deleteBranch = async (req, res) => {
   console.log("ibrahimmm", req.params.id)
   try {
-    const restaurant = await Restaurant.findByIdAndDelete(req.params.id);
-    if (!restaurant) {
-      return res.status(404).send({ error: 'Restaurant not found' });
-    }
-    res.send({ message: 'Restaurant deleted successfully' });
+    Restaurant.findByIdAndDelete(req.params.id).then((deletedRestaurant) => {
+      return User.findByIdAndUpdate(
+        req.params.userId,
+        { $pull: { restaurants:  req.params.id } },
+        { new: true } // Return the updated user document
+      );
+    })
+    .then((updatedUser) => {
+      // Successfully removed the deleted restaurant's ObjectId from the user's restaurants field
+      res.status(200).json({ success: true }); // Send success response to client
+    })
+    .catch((err) => {
+      // Handle error
+      console.error(err);
+      res.status(500).json({ success: false, error: 'Failed to delete branch' }); // Send error response to client
+    });
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ success: false, error: 'Server error' }); // Send error response to client
   }
 }
 

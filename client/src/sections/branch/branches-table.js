@@ -37,7 +37,10 @@ export const BranchesTable = (props) => {
     rowsPerPage = 0,
     selected = [],
     setOpenEdit,
-    setSelectedForEdit
+    setSelectedForEdit,
+    setSnackbarOpen,
+    setSnackbarSeverity,
+    setSnackbarMessage
   } = props;
 
   const state = useAuthContext()
@@ -140,8 +143,20 @@ export const BranchesTable = (props) => {
                         htmlColor='red' 
                         style={{cursor:"pointer"}}
                         onClick={() => {
-                          restaurant.deleteBranch(customer?._id); 
-                          restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+                          restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
+                            if(res.success === true){
+                              setSnackbarOpen(true);
+                              setSnackbarSeverity('success');
+                              setSnackbarMessage('Branch deleted successfully!');
+                              restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+                            }
+                            else {
+                              setSnackbarOpen(true);
+                              setSnackbarSeverity('error');
+                              setSnackbarMessage('Branch could not deleted successfully!');
+                            }
+                          }); 
+
                         } }>
                           <XCircleIcon />
                       </SvgIcon>

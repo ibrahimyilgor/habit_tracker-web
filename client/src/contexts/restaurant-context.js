@@ -80,10 +80,10 @@ export const RestaurantProvider = (props) => {
       }
     };
 
-    const deleteBranch = async (id) => {
+    const deleteBranch = async (id, userId) => {
       console.log("ibrahimmm", id)
       try {
-        const response = await fetch(`http://localhost:3001/restaurant/${id}/deleteBranch`, {
+        const response = await fetch(`http://localhost:3001/restaurant/${id}/${userId}/deleteBranch`, {
           method: 'DELETE',
           headers: {
             "Authorization": "Bearer " + state?.user?.token
@@ -96,9 +96,9 @@ export const RestaurantProvider = (props) => {
             selectedBranchIds.splice(index, 1);
           }
         }
-        console.log(data); // { message: 'Restaurant deleted successfully' }
+        return {success: true}
       } catch (error) {
-        console.error(error);
+        return {success: false}
       }
     }
 

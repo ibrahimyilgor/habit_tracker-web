@@ -160,7 +160,10 @@ const Page = () => {
                   rowsPerPage={rowsPerPage}
                   setOpenEdit={setOpenEdit}
                   setSelectedForEdit={setSelectedForEdit}
-                  selected={branchesSelection.selected} />
+                  selected={branchesSelection.selected}
+                  setSnackbarOpen={setSnackbarOpen}
+                  setSnackbarSeverity={setSnackbarSeverity}
+                  setSnackbarMessage={setSnackbarMessage} />
               </>
             )}
             {openAdd && (

@@ -11,7 +11,7 @@ router.get("/:id", verifyToken, getBranches);
 router.post("/:userId/addBranch", verifyToken, addBranch);
 
 /* DELETE */
-router.delete("/:id/deleteBranch", verifyToken, deleteBranch);
+router.delete("/:id/:userId/deleteBranch", verifyToken, deleteBranch);
 
 /* UPDATE */
 router.put("/updateBranch", verifyToken, updateBranch);
