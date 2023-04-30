@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import BellIcon from '@heroicons/react/24/solid/BellIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
+import LanguageIcon from '@heroicons/react/24/solid/LanguageIcon';
 import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
+import ArrowsPointingOutIcon from '@heroicons/react/24/solid/ArrowsPointingOutIcon';
+import ArrowsPointingInIcon from '@heroicons/react/24/solid/ArrowsPointingInIcon';
 import {
   Avatar,
   Badge,
@@ -16,6 +18,8 @@ import {
 import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
+import { LanguagePopover } from './language-popover';
+import { useState } from 'react';
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -23,7 +27,25 @@ const TOP_NAV_HEIGHT = 64;
 export const TopNav = (props) => {
   const { onNavOpen } = props;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
   const accountPopover = usePopover();
+  const languagePopover = usePopover();
+
+  const [fullScreen, setFullScreen] = useState(false)
+
+
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        setFullScreen(true)
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen(); 
+        setFullScreen(false)
+      }
+    }
+  }
 
   return (
     <>
@@ -78,10 +100,21 @@ export const TopNav = (props) => {
             direction="row"
             spacing={2}
           >
-            <Tooltip title="Contacts">
-              <IconButton>
+            <Tooltip title="Language">
+              <IconButton  
+                onClick={languagePopover.handleOpen}
+                ref={languagePopover.anchorRef}>
+                  <SvgIcon fontSize="small">
+                    <LanguageIcon />
+                  </SvgIcon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Fullscreen">
+              <IconButton
+                onClick={toggleFullScreen}
+              >
                 <SvgIcon fontSize="small">
-                  <UsersIcon />
+                  {!fullScreen ? (<ArrowsPointingOutIcon />) : (<ArrowsPointingInIcon />)}
                 </SvgIcon>
               </IconButton>
             </Tooltip>
@@ -115,6 +148,11 @@ export const TopNav = (props) => {
         anchorEl={accountPopover.anchorRef.current}
         open={accountPopover.open}
         onClose={accountPopover.handleClose}
+      />
+      <LanguagePopover
+        anchorEl={languagePopover.anchorRef.current}
+        open={languagePopover.open}
+        onClose={languagePopover.handleClose}
       />
     </>
   );

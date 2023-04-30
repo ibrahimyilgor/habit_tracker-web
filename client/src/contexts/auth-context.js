@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
-
 export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
@@ -162,6 +161,47 @@ export const AuthProvider = (props) => {
       return tempUser
     };
 
+    const deleteUser = async (id) => {
+      try {
+        const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
+          method: 'DELETE',
+          headers: {
+            "Authorization": "Bearer " + state?.user?.token
+          },
+        });
+        const data = await response.json();
+
+        dispatch({
+          type: HANDLERS.SIGN_OUT
+        })
+        sessionStorage.removeItem('user');
+        return {success: true}
+      } catch (error) {
+        console.log("errorr",error)
+        return {success: false}
+      }
+    };
+
+    const updatePassword = async (id, password) => {
+      try {
+        const response = await fetch("http://localhost:3001/auth/updatePassword", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + state?.user?.token
+          },
+          body: JSON.stringify({ _id: id, password: password })
+        });
+        const data = await response.json();
+        console.log("submit", data)
+
+      return data;
+      } catch (error) {
+        console.log("errorr",error)
+        return {success: false}
+      }
+    };
+
   const signIn = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
       "http://localhost:3001/auth/login",
@@ -189,7 +229,12 @@ export const AuthProvider = (props) => {
   };
 
   const signUp = async (formData) => {
-    console.log("singup", formData)
+
+    const password = formData.password;
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    formData.password = hashedPassword
+
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
       {
@@ -218,7 +263,9 @@ export const AuthProvider = (props) => {
         signIn,
         signUp,
         signOut,
-        getUser
+        getUser,
+        deleteUser,
+        updatePassword
       }}
     >
       {children}

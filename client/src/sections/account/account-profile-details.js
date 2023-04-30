@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { HANDLERS, useAuthContext } from 'src/contexts/auth-context';
 
-export const AccountProfileDetails = () => {
+export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const state = useAuthContext()
   const [values, setValues] = useState({
     id: state?.user?.user?._id,
@@ -49,6 +49,9 @@ export const AccountProfileDetails = () => {
       });
       const data = await response.json();
       console.log("submit", data)
+      setSnackbarOpen(true);
+      setSnackbarSeverity('success');
+      setSnackbarMessage('Account updated successfully!');
       state.getUser(state?.user?.user?._id)
 
       return data;
@@ -69,7 +72,7 @@ export const AccountProfileDetails = () => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
+          subheader="Basic Information"
           title="Profile"
         />
         <CardContent sx={{ pt: 0 }}>

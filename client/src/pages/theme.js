@@ -4,11 +4,11 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { AccountProfile } from 'src/sections/account/account-profile';
 import { AccountProfileDetails } from 'src/sections/account/account-profile-details';
 
-const Plan = () => (
+const Theme = () => (
   <>
     <Head>
       <title>
-        Plan | Devias Kit
+      Theme | Devias Kit
       </title>
     </Head>
     <Box
@@ -59,10 +59,10 @@ const Plan = () => (
   </>
 );
 
-Plan.getLayout = (plan) => (
+Theme.getLayout = (theme) => (
   <DashboardLayout>
-    {plan}
+    {theme}
   </DashboardLayout>
 );
 
-export default Plan;
+export default Theme;

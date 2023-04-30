@@ -1,4 +1,5 @@
 import User from "../models/User.js"
+import Restaurant from "../models/Restaurant.js"
 
 /*READ USER*/
 
@@ -28,3 +29,17 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }
+
+/*DELETE USER*/
+
+export const deleteUser = async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        await Restaurant.deleteMany({ user_id: req.params.id });
+
+        res.status(200).json({ success: true, message: `Deleted user ${deletedUser.name} and all their branches.` });
+        console.log("ssccccssss");
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error deleting user.', error: error });    }
+  }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
 import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
 import {
+  Avatar,
   Box,
   Button,
   Divider,
@@ -19,6 +20,7 @@ import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { BranchSelector } from 'src/sections/branch/branch-selector';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -26,6 +28,8 @@ export const SideNav = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const {restaurant} = useRestaurantContext()
+  const state = useAuthContext()
+
   const content = (
     <Scrollbar
       sx={{
@@ -56,6 +60,45 @@ export const SideNav = (props) => {
             }}
           >
             <Logo />
+          </Box>
+          <Box
+            sx={{
+              alignItems: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              borderRadius: 1,
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 2,
+              p: '12px',
+              flexDirection: "row"
+            }}
+          >
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "65px"}}>
+              <Avatar
+                src={"/assets/avatars/avatar-anika-visser.png"}
+                sx={{
+                  height: 40,
+                  width: 40
+                }}
+              />
+            </div>
+            <div style={{display: "flex", flexDirection: "column", flex: 1}}>
+
+              <Typography
+                color="inherit"
+                variant="subtitle1"
+                wrap
+              >
+                {state?.user?.user?.name || ""}
+              </Typography>
+              <Typography
+                color="neutral.400"
+                variant="body2"
+              >
+                {restaurant?.plan || "Basic Plan"}
+              </Typography>
+            </div>
           </Box>
           <Box
             sx={{

@@ -10,10 +10,9 @@ import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { RestaurantProvider } from 'src/contexts/restaurant-context';
+import SplashScreen from './splash';
 
 const clientSideEmotionCache = createEmotionCache();
-
-const SplashScreen = () => null;
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;

@@ -55,3 +55,24 @@ export const login = async(req, res) => {
         res.status(500).json({error: err.message});
     }  
 }
+
+/* UPDATE PASSWORD */
+
+export const updatePassword = async (req, res) => {
+    try{
+        const {
+            _id,
+            password,
+        } = req.body
+
+        const salt = await bcrypt.genSalt();
+        console.log("pwsalt", _id, password, salt, req.body)
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        await User.updateOne({_id: _id}, {$set: {password: passwordHash}})
+        res.status(200).json({ message: "Password updated successfully." })
+    }
+    catch (err){
+        res.status(500).json({error: err.message});
+    }
+}

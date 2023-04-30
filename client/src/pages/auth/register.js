@@ -64,10 +64,10 @@ const Page = () => {
 
           }
           else{
-            setSnackbarOpen(true);
-            setSnackbarSeverity('success');
-            setSnackbarMessage('Registered successfully!');
-            // router.push('/');
+            // setSnackbarOpen(true);
+            // setSnackbarSeverity('success');
+            // setSnackbarMessage('Registered successfully!');
+            router.push('/');
           }
         });
       } catch (err) {

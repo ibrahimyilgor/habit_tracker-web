@@ -9,6 +9,7 @@ import {
   Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { ImageUploader } from 'src/components/dropzone';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { ParseToDate, ParseToDateAndHour } from 'src/utils/date';
 
@@ -23,6 +24,7 @@ const user = {
 
 export const AccountProfile = () => { 
   const state = useAuthContext()
+  const [uploadImageOpen, setUploadImageOpen] = useState()
 
   useEffect(() => {
     if(state?.user?.user?.id){
@@ -31,49 +33,54 @@ export const AccountProfile = () => {
   }, [])
   
   return (
-  <Card sx={{
-    height: "100%",
-  }}>
-    <CardContent sx={{height: "80%"}}>
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: "center",
-          height: "100%"
-        }}
-      >
-        <Avatar
-          src={user.avatar}
+  <><Card sx={{
+      height: "100%",
+    }}>
+      <CardContent sx={{ height: "80%" }}>
+        <Box
           sx={{
-            height: 80,
-            mb: 2,
-            width: 80
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: "center",
+            height: "100%"
           }}
-        />
-        <Typography
-          gutterBottom
-          variant="h5"
         >
-          {state?.user?.user?.name}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
+          <Avatar
+            src={user.avatar}
+            sx={{
+              height: 80,
+              mb: 2,
+              width: 80
+            }} />
+          <Typography
+            gutterBottom
+            variant="h5"
+          >
+            {state?.user?.user?.name}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+          >
+            {state?.user?.user?.createdAt ? ParseToDate(state?.user?.user?.createdAt) : ""}
+          </Typography>
+        </Box>
+      </CardContent>
+      <Divider />
+      <CardActions>
+        <Button
+          fullWidth
+          variant="text"
+          onClick={() => setUploadImageOpen(true)}
         >
-          {state?.user?.user?.createdAt ? ParseToDate(state?.user?.user?.createdAt) : ""}
-        </Typography>
-      </Box>
-    </CardContent>
-    <Divider />
-    <CardActions>
-      <Button
-        fullWidth
-        variant="text"
-      >
-        Upload picture
-      </Button>
-    </CardActions>
-  </Card>
+          Upload picture
+        </Button>
+      </CardActions>
+    </Card>
+    <ImageUploader 
+      open={uploadImageOpen}
+      onClose={() => setUploadImageOpen(false)}
+    />
+    </>
 )};
