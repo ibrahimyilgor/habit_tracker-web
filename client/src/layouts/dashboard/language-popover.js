@@ -6,21 +6,22 @@ import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
+import i18n from 'src/i18n'
+
+export const languages = [
+  { code: 'tr', name: "turkish", flag: 'https://flagcdn.com/tr.svg', ratio: 1.5 },
+  { code: 'en', name: "english", flag: 'https://flagcdn.com/gb.svg', ratio: 1.66 },
+  // Add more languages here
+];
 
 export const LanguagePopover = (props) => {
     const { anchorEl, onClose, open } = props;
-    const {t, i18n} = useTranslation()
+    const {t} = useTranslation()
 
-    const changeLanguage = lng => {
-        i18n.changeLanguage(lng);
+    const changeLang = lng => {
+      i18n.changeLanguage(lng);
+      onClose?.()
     };
-
-  
-    const languages = [
-      { code: 'tr', name: 'Türkçe', flag: 'https://flagcdn.com/tr.svg', ratio: 1.5 },
-      { code: 'en', name: 'English', flag: 'https://flagcdn.com/gb.svg', ratio: 1.66 },
-      // Add more languages here
-    ];
   
     const handleLanguageSelect = useCallback(
       (lang) => {
@@ -60,16 +61,15 @@ export const LanguagePopover = (props) => {
         >
           {languages.map((lang, index) => (
             <Fragment key={lang.code}>
-                <MenuItem onClick={() => changeLanguage(lang.code)}>
+                <MenuItem onClick={() => changeLang(lang.code)}>
                     <Box sx={{ mr: 1, display: "flex"}}>
                     <img src={lang.flag} alt={lang.name} width={36} height={36/lang.ratio} />
                     </Box>
-                    <Typography variant="body1">{lang.name}</Typography>
+                    <Typography variant="body1">{t("languages." + lang.name)}</Typography>
                 </MenuItem>
                 {(index !== languages.length -1) && <Divider />}
             </Fragment>
           ))}
-          <p>{i18n.language}</p>
         </MenuList>
       </Popover>
     );

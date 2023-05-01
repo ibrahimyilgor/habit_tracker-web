@@ -18,7 +18,6 @@ export const getUser = async (req, res) => {
 
 /*UPDATE USER*/
 
-
 export const updateUser = async (req, res) => {
     try{
         const { _id, name, address, phone } = req.body

@@ -96,7 +96,7 @@ export const AuthProvider = (props) => {
           token: tempUser?.token,
           user: {
             _id: tempUser?.user?._id,
-            avatar: '/assets/avatars/avatar-anika-visser.png',
+            logo: tempUser?.user?.logo,
             name: tempUser?.user?.name,
             createdAt: tempUser?.user?.createdAt,
             email: tempUser?.user?.email,
@@ -137,17 +137,19 @@ export const AuthProvider = (props) => {
 
       console.log("user", tempUser)
 
+      const image = new Image();
+
       const user = {
         token: state?.user?.token,
         user: {
           _id: tempUser?._id,
-          avatar: '/assets/avatars/avatar-anika-visser.png',
           name: tempUser?.name,
           createdAt: tempUser?.createdAt,
           email: tempUser?.email,
           address: tempUser?.address,
           phone: tempUser?.phone,
-          restaurants: tempUser?.restaurants
+          restaurants: tempUser?.restaurants,
+          logo: tempUser?.logo
         }
     };
 

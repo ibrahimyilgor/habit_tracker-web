@@ -18,8 +18,11 @@ import {
 import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
-import { LanguagePopover } from './language-popover';
-import { useState } from 'react';
+import { LanguagePopover, languages } from './language-popover';
+import { useEffect, useState } from 'react';
+import { useAuthContext } from 'src/contexts/auth-context';
+import { useTranslation } from 'react-i18next';
+import i18n from 'src/i18n'
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -31,9 +34,16 @@ export const TopNav = (props) => {
   const accountPopover = usePopover();
   const languagePopover = usePopover();
 
+  const {t} = useTranslation()
+
   const [fullScreen, setFullScreen] = useState(false)
+  const [flagInfo, setFlagInfo] = useState()
 
+  useEffect(() => {
+    setFlagInfo(languages.filter(x => x.code === i18n.language)[0])
+  },[i18n.language])
 
+  const state = useAuthContext()
 
   function toggleFullScreen() {
     if (!document.fullscreenElement) {
@@ -87,7 +97,7 @@ export const TopNav = (props) => {
                 </SvgIcon>
               </IconButton>
             )}
-            <Tooltip title="Search">
+            <Tooltip title={t("topNav.search")}>
               <IconButton>
                 <SvgIcon fontSize="small">
                   <MagnifyingGlassIcon />
@@ -100,16 +110,14 @@ export const TopNav = (props) => {
             direction="row"
             spacing={2}
           >
-            <Tooltip title="Language">
+            <Tooltip title={t("topNav.language")}>
               <IconButton  
                 onClick={languagePopover.handleOpen}
                 ref={languagePopover.anchorRef}>
-                  <SvgIcon fontSize="small">
-                    <LanguageIcon />
-                  </SvgIcon>
+                  <img src={flagInfo?.flag} alt={i18n.language || ""} width={36} height={36/flagInfo?.ratio} />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Fullscreen">
+            <Tooltip title={t("topNav.fullscreen")}>
               <IconButton
                 onClick={toggleFullScreen}
               >
@@ -118,7 +126,7 @@ export const TopNav = (props) => {
                 </SvgIcon>
               </IconButton>
             </Tooltip>
-            <Tooltip title="Notifications">
+            <Tooltip title={t("topNav.notifications")}>
               <IconButton>
                 <Badge
                   badgeContent={4}
@@ -139,7 +147,7 @@ export const TopNav = (props) => {
                 height: 40,
                 width: 40
               }}
-              src="/assets/avatars/avatar-anika-visser.png"
+              src={`data:image/jpeg;base64,${state?.user?.user?.logo}` || ""}
             />
           </Stack>
         </Stack>

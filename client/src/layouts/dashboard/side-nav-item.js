@@ -1,9 +1,11 @@
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import { Box, ButtonBase } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const SideNavItem = (props) => {
   const { active = false, disabled, external, icon, path, title } = props;
+  const {t} = useTranslation()
 
   const linkProps = path
     ? external
@@ -75,7 +77,7 @@ export const SideNavItem = (props) => {
             })
           }}
         >
-          {title}
+          {t("sideNav." + title?.toLowerCase?.())}
         </Box>
       </ButtonBase>
     </li>

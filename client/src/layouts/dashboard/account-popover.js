@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { useTranslation } from 'react-i18next';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const auth = useAuth();
   const state = useAuthContext()
+  const {t} = useTranslation()
 
   const handleSignOut = useCallback(
     () => {
@@ -38,7 +40,7 @@ export const AccountPopover = (props) => {
         }}
       >
         <Typography variant="overline">
-          Account
+          {t("topNav.accountPopover.account")}
         </Typography>
         <Typography
           color="text.secondary"
@@ -59,7 +61,7 @@ export const AccountPopover = (props) => {
         }}
       >
         <MenuItem onClick={handleSignOut}>
-          Sign out
+          {t("topNav.accountPopover.signOut")}
         </MenuItem>
       </MenuList>
     </Popover>

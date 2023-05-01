@@ -1,0 +1,31 @@
+{
+    "topNav": {
+        "search": "Search",
+        "language": "Language",
+        "fullscreen": "Fullscreen",
+        "notifications": "Notifications",
+        "accountPopover": {
+            "account": "Account",
+            "signOut": "Sign Out"
+        }
+    },
+    "languages": {
+        "turkish": "Turkish",
+        "english": "English"
+    },
+    "sideNav": {
+        "overview": "Overview",
+        "branches": "Branches",
+        "menu": "Menu",
+        "theme": "Theme",
+        "plan": "Plan",
+        "account": "Account",
+        "settings": "Settings",
+        "login": "Login",
+        "register": "Sign Up",
+        "error": "Error",
+        "customers": "Customers",
+        "companies": "Companies"
+    }
+}
+  

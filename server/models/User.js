@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: false,
         },
+        logo: {
+            type: String,
+            default: ""
+        },
         restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
         plan: {
             type: mongoose.Schema.Types.ObjectId,

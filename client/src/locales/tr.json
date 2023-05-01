@@ -1,0 +1,31 @@
+{
+    "topNav": {
+        "search": "Ara",
+        "language": "Dil",
+        "fullscreen": "Tam Ekran",
+        "notifications": "Bildirimler",
+        "accountPopover": {
+            "account": "Hesap",
+            "signOut": "Çıkış Yap"
+        }
+    },
+    "languages": {
+        "turkish": "Türkçe",
+        "english": "İngilizce"
+    },
+    "sideNav": {
+        "overview": "Genel Bakış",
+        "branches": "Şubeler",
+        "menu": "Menü",
+        "theme": "Tema",
+        "plan": "Plan",
+        "account": "Hesap",
+        "settings": "Ayarlar",
+        "login": "Giriş Yap",
+        "register": "Kayıt Ol",
+        "error": "Hata",
+        "customers": "Müşteriler",
+        "companies": "Şirketler"
+    }
+}
+  
