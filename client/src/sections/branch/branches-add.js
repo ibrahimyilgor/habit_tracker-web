@@ -13,10 +13,13 @@ import {
 import { HANDLERS, useAuthContext } from 'src/contexts/auth-context';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import CustomizedSnackbars from '../snackbar';
+import { useTranslation } from 'react-i18next';
 
 export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
+
+  const {t} = useTranslation()
 
   const [values, setValues] = useState({
     name:  "",
@@ -70,7 +73,7 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
       <Card>
         <CardHeader
           // subheader="The information can be edited"
-          title="Add Branch" />
+          title={t("branches.addBranch")} />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid
@@ -83,12 +86,12 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
               >
                 <TextField
                   fullWidth
-                  label="Name"
+                  label={t("branches.name")}
                   name="name"
                   onChange={handleChange}
                   required
                   value={values.name}
-                  helperText={values.name.length < 3 && "Name must contain minimum three characters"} />
+                  helperText={values.name.length < 3 && t("branches.nameMinThreeChar")} />
               </Grid>
               <Grid
                 xs={12}
@@ -96,7 +99,7 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
               >
                 <TextField
                   fullWidth
-                  label="Address"
+                  label={t("branches.address")}
                   name="address"
                   onChange={handleChange}
                   value={values.address} />
@@ -107,7 +110,7 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
               >
                 <TextField
                   fullWidth
-                  label="Phone"
+                  label={t("branches.phone")}
                   name="phone"
                   onChange={handleChange}
                   value={values.phone} />
@@ -118,10 +121,10 @@ export const BranchAdd = ({back, setSnackbarOpen, setSnackbarSeverity, setSnackb
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained" onClick={back}>
-            Back
+            {t("common.back")}
           </Button>
           <Button variant="contained" type="submit" disabled={values.name.length < 3}>
-            Add Branch
+            {t("common.add")}
           </Button>
         </CardActions>
       </Card>

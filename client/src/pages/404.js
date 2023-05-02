@@ -2,8 +2,13 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-const Page = () => (
+const Page = () => {
+  
+  const {t} = useTranslation()
+
+  return (
   <>
     <Head>
       <title>
@@ -48,15 +53,14 @@ const Page = () => (
             sx={{ mb: 3 }}
             variant="h3"
           >
-            404: The page you are looking for isn’t here
+            {t("error.404error")}
           </Typography>
           <Typography
             align="center"
             color="text.secondary"
             variant="body1"
           >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
+            {t("error.404errorDetail")}
           </Typography>
           <Button
             component={NextLink}
@@ -69,12 +73,12 @@ const Page = () => (
             sx={{ mt: 3 }}
             variant="contained"
           >
-            Go back to dashboard
+            {t("error.goBackToDashboard")}
           </Button>
         </Box>
       </Container>
     </Box>
   </>
-);
+)};
 
 export default Page;

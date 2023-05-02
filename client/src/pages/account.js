@@ -7,12 +7,15 @@ import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { AccountDelete } from 'src/sections/account/account-delete';
 import CustomizedSnackbars from 'src/sections/snackbar';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Page = () => {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const {t} = useTranslation()
   
   return(
     <>
@@ -32,7 +35,7 @@ const Page = () => {
           <Stack spacing={3}>
             <div>
               <Typography variant="h4">
-                Account
+                {t("account.title")}
               </Typography>
             </div>
             <div>

@@ -11,10 +11,13 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { useTranslation } from 'react-i18next';
 
 export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const auth = useAuth();
   const state = useAuthContext()
+
+  const {t} = useTranslation()
 
   const [values, setValues] = useState({
     password: '',
@@ -64,8 +67,8 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
-          subheader="Update password"
-          title="Password"
+          subheader={t("account.updatePassword")}
+          title={t("account.password")}
         />
         <Divider />
         <CardContent>
@@ -75,7 +78,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
           >
             <TextField
               fullWidth
-              label="Password"
+              label={t("account.password")}
               name="password"
               onChange={handleChange}
               type="password"
@@ -83,7 +86,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
             />
             <TextField
               fullWidth
-              label="Password (Confirm)"
+              label={t("account.passwordConfirm")}
               name="confirm"
               onChange={handleChange}
               type="password"
@@ -94,7 +97,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained" type="submit" disabled={values.password !== values.confirm}>
-            Update
+            {t("common.save")}
           </Button>
         </CardActions>
       </Card>

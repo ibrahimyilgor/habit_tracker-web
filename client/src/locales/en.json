@@ -26,6 +26,49 @@
         "error": "Error",
         "customers": "Customers",
         "companies": "Companies"
+    },
+    "branches": {
+        "title": "Branches",
+        "name": "Branch Name",
+        "address": "Address",
+        "phone": "Phone Number",
+        "actions": "Actions",
+        "addBranch": "Add Branch",
+        "updateBranch": "Update Branch",
+        "nameMinThreeChar": "Branch name must be at least three characters",
+        "rowsPerPageLabel": "Rows per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}"
+    },
+    "account": {
+        "title": "Account",
+        "profile": "Profile",
+        "basicInformation": "Update Basic Information",
+        "name": "Account Name",
+        "address": "Address",
+        "phone": "Phone Number",
+        "uploadAvatar": "Update Photo",
+        "updatePassword": "Change Password",
+        "password": "Password",
+        "passwordConfirm": "Confirm Password",
+        "accountDelete": "Delete Account",
+        "accountDeleteMessage": "Your account will be permanently deleted"
+    },
+    "imageUploader": {
+        "title": "Update Photo",
+        "dropFile": "Drop photo here"
+    },
+    "error": {
+        "404error": "404: The page you are looking for isn’t here",
+        "404errorDetail": "Please check the URL and try again, or use the navigation menu to find what you are looking for",
+        "goBackToDashboard": "Go back to dashboard"
+    },
+    "common": {
+        "add": "Add",
+        "back": "Back",
+        "update": "Update",
+        "save": "Save",
+        "delete": "Delete",
+        "clear": "Clear"
     }
 }
   

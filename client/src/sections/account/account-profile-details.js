@@ -11,6 +11,7 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { HANDLERS, useAuthContext } from 'src/contexts/auth-context';
+import { useTranslation } from 'react-i18next';
 
 export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const state = useAuthContext()
@@ -24,6 +25,8 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
   useEffect(() => {
     console.log("values", state, values)
   }, [values])
+
+  const {t} = useTranslation()
 
   const handleChange = useCallback(
     (event) => {
@@ -72,8 +75,8 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
     >
       <Card>
         <CardHeader
-          subheader="Basic Information"
-          title="Profile"
+          subheader={t("account.basicInformation")}
+          title={t("account.profile")}
         />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
@@ -87,7 +90,7 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
               >
                 <TextField
                   fullWidth
-                  label="Name"
+                  label={t("account.name")}
                   name="name"
                   onChange={handleChange}
                   required
@@ -100,7 +103,7 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
               >
                 <TextField
                   fullWidth
-                  label="Address"
+                  label={t("account.address")}
                   name="address"
                   onChange={handleChange}
                   required
@@ -113,7 +116,7 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
               >
                 <TextField
                   fullWidth
-                  label="Phone"
+                  label={t("account.phone")}
                   name="phone"
                   onChange={handleChange}
                   required
@@ -126,7 +129,7 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained" type="submit">
-            Save details
+            {t("common.save")}
           </Button>
         </CardActions>
       </Card>

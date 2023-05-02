@@ -13,6 +13,7 @@ import { ImageUploader } from 'src/components/dropzone';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { ParseToDate, ParseToDateAndHour } from 'src/utils/date';
 import CustomizedSnackbars from '../snackbar';
+import { useTranslation } from 'react-i18next';
 
 const user = {
   avatar: '/assets/avatars/avatar-anika-visser.png',
@@ -31,6 +32,8 @@ export const AccountProfile = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const {t} = useTranslation()
 
   useEffect(() => {
     if(state?.user?.user?.id){
@@ -100,7 +103,7 @@ export const AccountProfile = () => {
           variant="text"
           onClick={() => setUploadImageOpen(true)}
         >
-          Upload picture
+          {t("account.uploadAvatar")}
         </Button>
       </CardActions>
     </Card>

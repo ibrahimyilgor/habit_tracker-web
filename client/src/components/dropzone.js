@@ -26,7 +26,13 @@
       <Modal open={open} onClose={onClose}>
         <Box
           sx={{
+            height: "350px",
+            width: "350px",
             position: "absolute",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
@@ -54,6 +60,7 @@
                 border: "1px dashed",
                 borderColor: "divider",
                 cursor: "pointer",
+                height: "70%",
                 "&:hover": {
                   opacity: 0.7,
                 },
@@ -61,9 +68,6 @@
             >
               <input {...getInputProps()} />
               <Typography variant="h6">{t("imageUploader.dropFile")}</Typography>
-              <Typography variant="subtitle1" sx={{ mt: 1 }}>
-                {t("imageUploader.dropFileDescription")}
-              </Typography>
             </Box>
           )}
           {selectedFile && (
@@ -72,6 +76,7 @@
                 display: "flex",
                 alignItems: "center",
                 mb: 2,
+                height: "70%",
               }}
             >
               <Box
@@ -96,13 +101,13 @@
                 sx={{ ml: 2 }}
                 onClick={handleClearFile}
               >
-                {t("imageUploader.clear")}
+                {t("common.clear")}
               </Button>
             </Box>
           )}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Button variant="contained" onClick={onClose} sx={{ mr: 2 }}>
-              {t("common.cancel")}
+              {t("common.back")}
             </Button>
             <Button
               variant="contained"
@@ -110,7 +115,7 @@
               onClick={handleSubmit}
               disabled={!selectedFile}
             >
-              {t("common.submit")}
+              {t("common.save")}
             </Button>
           </Box>
         </Box>

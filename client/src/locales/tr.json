@@ -26,6 +26,49 @@
         "error": "Hata",
         "customers": "Müşteriler",
         "companies": "Şirketler"
+    },
+    "branches": {
+        "title": "Şubeler",
+        "name": "Şube Adı",
+        "address": "Adres",
+        "phone": "Telefon Numarası",
+        "actions": "Aksiyonlar",
+        "addBranch": "Şube Ekle",
+        "updateBranch": "Şubeyi Güncelle", 
+        "nameMinThreeChar": "Şube adı en az üç karakterden oluşmalıdır",
+        "rowsPerPageLabel": "Sayfa başına şube sayısı",
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası"
+    },
+    "account": {
+        "title": "Hesap",
+        "profile": "Profil",
+        "basicInformation": "Temel bilgileri güncelle",
+        "name": "Hesap Adı",
+        "address": "Adres",
+        "phone": "Telefon Numarası",
+        "uploadAvatar": "Fotoğrafı Güncelle",
+        "updatePassword": "Parolayı değiştir",
+        "password": "Parola",
+        "passwordConfirm": "Şifre (Tekrar)",
+        "accountDelete": "Hesabı Sil",
+        "accountDeleteMessage": "Hesabınız kalıcı olarak silinecektir"
+    },
+    "imageUploader": {
+        "title": "Fotoğrafı Güncelle",
+        "dropFile": "Fotoğraf Yükle"
+    },
+    "error": {
+        "404error": "404: Aradığınız sayfa burada değil",
+        "404errorDetail": "URL'i kontrol edip tekrar deneyin veya menüyü kullanın",
+        "goBackToDashboard": "Genel bakışa geri dön"
+    },
+    "common": {
+        "add": "Ekle",
+        "back": "Geri",
+        "update": "Güncelle",
+        "save": "Kaydet",
+        "delete": "Sil",
+        "clear": "Temizle"
     }
 }
   

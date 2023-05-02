@@ -11,10 +11,13 @@ import {
 } from '@mui/material';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const router = useRouter();
   const state = useAuthContext()
+
+  const {t} = useTranslation()
 
   const [values, setValues] = useState({
     password: '',
@@ -56,8 +59,8 @@ export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbar
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
-          subheader="Account will be deleted permanently"
-          title="Delete Account"
+          subheader={t("account.accountDeleteMessage")}
+          title={t("account.accountDelete")}
         />
         <Divider />
         <CardContent >
@@ -71,7 +74,7 @@ export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbar
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
           <Button variant="contained" color="error" type="submit">
-            Delete
+            {t("common.delete")}
           </Button>
         </CardActions>
       </Card>

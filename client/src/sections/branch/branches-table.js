@@ -22,6 +22,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const BranchesTable = (props) => {
   const {
@@ -45,6 +46,8 @@ export const BranchesTable = (props) => {
 
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
+
+  const {t} = useTranslation()
 
   useEffect(() => {
     console.log("ibrahime", items)
@@ -74,16 +77,16 @@ export const BranchesTable = (props) => {
                   />
                 </TableCell> */}
                 <TableCell>
-                  Name
+                  {t("branches.name")}
                 </TableCell>
                 <TableCell>
-                  Address
+                  {t("branches.address")}
                 </TableCell>
                 <TableCell>
-                  Phone
+                  {t("branches.phone")}
                 </TableCell>
                 <TableCell>
-                  Actions
+                  {t("branches.actions")}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -174,6 +177,8 @@ export const BranchesTable = (props) => {
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         page={page}
+        labelRowsPerPage={t("branches.rowsPerPageLabel")}
+        labelDisplayedRows={({ from, to, count }) => t('branches.displayedRows', { from: from, to: to, count, count })}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />

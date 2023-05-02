@@ -14,6 +14,7 @@ import { BranchAdd } from 'src/sections/branch/branches-add';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { BranchEdit } from 'src/sections/branch/branch-edit';
 import CustomizedSnackbars from 'src/sections/snackbar';
+import { useTranslation } from 'react-i18next';
 
 const now = new Date();
 
@@ -26,6 +27,8 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   const restaurant = useRestaurantContext()
+
+  const {t} = useTranslation()
 
   console.log("restaurr",restaurant)
 
@@ -99,7 +102,7 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Branches
+                  {t("branches.title")}
                 </Typography>
                 <Stack
                   alignItems="center"
@@ -139,7 +142,7 @@ const Page = () => {
                   onClick={() => setOpenAdd(true)}
                   variant="contained"
                 >
-                  Add
+                  {t("common.add")}
                 </Button>
               </div>
               )}
