@@ -15,7 +15,7 @@ const options = {
       translation: en,
     },
   },
-  lng: "tr",
+  lng: "en", 
   fallbackLng: ["en"],
   order: ['cookie', 'localtorage'],
   cache: ['cookie'],

@@ -62,6 +62,30 @@
         "404errorDetail": "URL'i kontrol edip tekrar deneyin veya menüyü kullanın",
         "goBackToDashboard": "Genel bakışa geri dön"
     },
+    "login": {
+        "title": "Giriş Yap",
+        "email": "Email Adresi",
+        "password": "Şifre",
+        "doYouHaveAnAccount": "Hesabınız yok mu? ",
+        "register": "Kayıt Ol",
+        "continue": "Giriş Yap",
+        "mustBeAValidEmail": "Geçerli bir email adresi giriniz",
+        "emailIsRequired": "Email adresi gereklidir",
+        "passwordIsRequired": "Şifre gereklidir"
+    },
+    "register": {
+        "title": "Kayıt Ol",
+        "name": "İsim",
+        "email": "Email Adresi",
+        "password": "Şifre",
+        "alreadyHaveAnAccount": "Hesabınız var mı? ",
+        "login": "Giriş Yap",
+        "continue": "Kayıt Ol",
+        "mustBeAValidEmail": "Geçerli bir email adresi giriniz",
+        "emailIsRequired": "Email adresi gereklidir",
+        "passwordIsRequired": "Şifre gereklidir",
+        "nameIsRequired": "İsim gereklidir"
+    },
     "common": {
         "add": "Ekle",
         "back": "Geri",

@@ -1,12 +1,19 @@
 import PropTypes from 'prop-types';
 import NextLink from 'next/link';
-import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import { Box, Typography, Unstable_Grid2 as Grid, IconButton, Tooltip } from '@mui/material';
 import { Logo } from 'src/components/logo';
+import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
+import { useTranslation } from 'react-i18next';
+import { usePopover } from 'src/hooks/use-popover';
+import { LanguagePopover, languages } from '../dashboard/language-popover';
 
 // TODO: Change subtitle text
 
 export const Layout = (props) => {
   const { children } = props;
+
+  const languagePopover = usePopover();
+  const {t} = useTranslation()
 
   return (
     <Box
@@ -31,13 +38,13 @@ export const Layout = (props) => {
           }}
         >
           <Box
-            component="header"
             sx={{
-              left: 0,
+              display: 'flex',
+              justifyContent: 'space-between',
               p: 3,
               position: 'fixed',
               top: 0,
-              width: '100%'
+              width: '50%'
             }}
           >
             <Box
@@ -51,6 +58,13 @@ export const Layout = (props) => {
             >
               <Logo />
             </Box>
+            <Tooltip title={t("topNav.language")}>
+              <IconButton  
+                onClick={languagePopover.handleOpen}
+                ref={languagePopover.anchorRef}>
+                  <img src={languages.filter(e => e.code === (localStorage.getItem('language') || navigator.language || "en"))[0].flag} width={36} height={24} />
+              </IconButton>
+            </Tooltip>
           </Box>
           {children}
         </Grid>
@@ -102,10 +116,15 @@ export const Layout = (props) => {
           </Box>
         </Grid>
       </Grid>
+      <LanguagePopover
+        anchorEl={languagePopover.anchorRef.current}
+        open={languagePopover.open}
+        onClose={languagePopover.handleClose}
+      />
     </Box>
   );
 };
 
-Layout.prototypes = {
+Layout.propTypes = {
   children: PropTypes.node
 };

@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
+import i18n from 'src/i18n'
+
 export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
@@ -120,6 +122,7 @@ export const AuthProvider = (props) => {
   useEffect(
     () => {
       initialize();
+      i18n.changeLanguage(localStorage.getItem('language') || navigator.language || "en")
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

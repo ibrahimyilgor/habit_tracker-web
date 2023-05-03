@@ -62,6 +62,30 @@
         "404errorDetail": "Please check the URL and try again, or use the navigation menu to find what you are looking for",
         "goBackToDashboard": "Go back to dashboard"
     },
+    "login": {
+        "title": "Login",
+        "email": "Email Address",
+        "password": "Password",
+        "doYouHaveAnAccount": "Don't you have an account? ",
+        "register": "Register",
+        "continue": "Login",
+        "mustBeAValidEmail": "Please enter a valid email address",
+        "emailIsRequired": "Email address is required",
+        "passwordIsRequired": "Password is required"
+    },
+    "register": {
+        "title": "Register",
+        "name": "Name",
+        "email": "Email Address",
+        "password": "Password",
+        "alreadyHaveAnAccount": "Do you have an account? ",
+        "login": "Login",
+        "continue": "Register",
+        "mustBeAValidEmail": "Please enter a valid email address",
+        "emailIsRequired": "Email address is required",
+        "passwordIsRequired": "Password is required",
+        "nameIsRequired": "Name is requierd"
+    },
     "common": {
         "add": "Add",
         "back": "Back",

@@ -8,10 +8,12 @@ import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import CustomizedSnackbars from 'src/sections/snackbar';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
+  const {t} = useTranslation()
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -28,17 +30,17 @@ const Page = () => {
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email('Must be a valid email')
+        .email(t("register.mustBeAValidEmail"))
         .max(255)
-        .required('Email is required'),
+        .required(t("register.emailIsRequired")),
       name: Yup
         .string()
         .max(255)
-        .required('Name is required'),
+        .required(t("register.nameIsRequired")),
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required(t("register.passwordIsRequired"))
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -107,21 +109,20 @@ const Page = () => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                Register
+                {t("register.title")}
               </Typography>
               <Typography
                 color="text.secondary"
                 variant="body2"
               >
-                Already have an account?
-                &nbsp;
+                {t("register.alreadyHaveAnAccount")}
                 <Link
                   component={NextLink}
                   href="/auth/login"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  Log in
+                  {t("register.login")}
                 </Link>
               </Typography>
             </Stack>
@@ -133,7 +134,7 @@ const Page = () => {
                 <TextField
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
-                  label="Name"
+                  label={t("register.name")}
                   name="name"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -142,7 +143,7 @@ const Page = () => {
                 <TextField
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="Email Address"
+                  label={t("register.email")}
                   name="email"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -152,7 +153,7 @@ const Page = () => {
                 <TextField
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
+                  label={t("register.password")}
                   name="password"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -176,7 +177,7 @@ const Page = () => {
                 type="submit"
                 variant="contained"
               >
-                Continue
+                {t("register.continue")}
               </Button>
             </form>
           </div>

@@ -9,17 +9,21 @@ import {
   Box,
   Button,
   FormHelperText,
+  IconButton,
   Link,
   Stack,
   Tab,
   Tabs,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { useTranslation } from 'react-i18next';
 
 const Page = (props) => {
+  const {t} = useTranslation()
   const router = useRouter();
   const auth = useAuth();
   const formik = useFormik({
@@ -31,13 +35,13 @@ const Page = (props) => {
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email('Must be a valid email')
+        .email(t("login.mustBeAValidEmail"))
         .max(255)
-        .required('Email is required'),
+        .required(t("login.emailIsRequired")),
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required(t("login.passwordIsRequired"))
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -80,21 +84,20 @@ const Page = (props) => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                Login
+                {t("login.title")}
               </Typography>
               <Typography
                 color="text.secondary"
                 variant="body2"
               >
-                Don&apos;t have an account?
-                &nbsp;
+                {t("login.doYouHaveAnAccount")}
                 <Link
                   component={NextLink}
                   href="/auth/register"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  Register
+                  {t("login.register")}
                 </Link>
               </Typography>
             </Stack>
@@ -106,7 +109,7 @@ const Page = (props) => {
                   <TextField
                     fullWidth
                     helperText={formik.touched.email && formik.errors.email}
-                    label="Email Address"
+                    label={t("login.email")}
                     name="email"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
@@ -116,7 +119,7 @@ const Page = (props) => {
                   <TextField
                     fullWidth
                     helperText={formik.touched.password && formik.errors.password}
-                    label="Password"
+                    label={t("login.password")}
                     name="password"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
@@ -140,7 +143,7 @@ const Page = (props) => {
                   type="submit"
                   variant="contained"
                 >
-                  Continue
+                  {t("login.continue")}
                 </Button>
               </form>
           </div>
