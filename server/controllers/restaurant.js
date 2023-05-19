@@ -84,3 +84,21 @@ export const updateBranch = async (req, res) => {
       res.status(500).json({ error: err.message });
   }
 }
+
+/*ADD MENU*/
+
+export const saveMenu = async (req, res) => {
+  console.log("ibrahimee", req.body.menu)
+  try {
+    const { branchId } = req.params; // Retrieve the restaurant ID from the request parameters
+    const { menu } = req.body; // Retrieve the menu from the request body
+
+    // Find the restaurant by ID and update the menu
+    const updatedRestaurant = await Restaurant.updateOne({_id: branchId}, {$set: {menu: menu}});
+
+    res.status(200).json(updatedRestaurant); // Send the updated restaurant as a response
+  } catch (error) {
+    console.log("ibrahimeerr", error)
+    res.status(500).json({ error: 'An error occurred while adding the menu.' });
+  }
+}

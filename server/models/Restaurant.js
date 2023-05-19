@@ -20,7 +20,7 @@ const RestaurantSchema = new mongoose.Schema({
   },
   menu: [
     {
-      category_name: {
+      name: {
         type: String,
         required: true,
       },

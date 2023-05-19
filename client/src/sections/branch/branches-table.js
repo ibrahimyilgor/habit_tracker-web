@@ -23,6 +23,8 @@ import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import QRCode from 'react-qr-code';
+import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 
 export const BranchesTable = (props) => {
   const {
@@ -47,11 +49,36 @@ export const BranchesTable = (props) => {
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
 
+  const qrCodeRef = useRef(null);
+
   const {t} = useTranslation()
 
-  useEffect(() => {
-    console.log("ibrahime", items)
-  }, [items]);
+  const getLinkOfMenu = (id) => {
+    const { protocol, hostname, port } = window.location;
+    return `${protocol}//${hostname}${port ? `:${port}` : ''}/branchMenu?id=${id}`;
+  };
+
+  const downloadQRCode = (id, name) => {
+    const svg = qrCodeRef.current.querySelector('svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+
+    const link = document.createElement('a');
+    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+
+    link.href = url;
+    link.download = "QR_" + name + ".svg'";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      downloadQRCode();
+    }
+  });
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -63,19 +90,9 @@ export const BranchesTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
-                </TableCell> */}
+              <TableCell>
+                  {t("branches.qr")}
+                </TableCell>
                 <TableCell>
                   {t("branches.name")}
                 </TableCell>
@@ -100,27 +117,21 @@ export const BranchesTable = (props) => {
                     key={customer.id}
                     selected={isSelected}
                   >
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer._id);
-                          } else {
-                            onDeselectOne?.(customer._id);
-                          }
-                        }}
+                  <TableCell>
+                    <div ref={qrCodeRef}>
+                      <QRCode 
+                        style={{ height: "auto", width: "35%" }}
+                        value={getLinkOfMenu(customer._id)}
+                        size={5}
                       />
-                    </TableCell> */}
+                    </div>
+                  </TableCell>
                     <TableCell>
                       <Stack
                         alignItems="center"
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
-                        </Avatar>
                         <Typography variant="subtitle2">
                         {customer?.name.length > 100 ? (customer?.name.slice(0,100) + "...") : customer?.name}
                         </Typography>
@@ -133,36 +144,46 @@ export const BranchesTable = (props) => {
                       {customer.phone}
                     </TableCell>
                     <TableCell>
-                    <SvgIcon 
-                      htmlColor='gray' 
-                      style={{marginRight: 5, cursor:"pointer"}}
-                      onClick={() => {
-                        setSelectedForEdit(customer)
-                        setOpenEdit(true)
-                      }}>
-                        <PencilIcon />
-                      </SvgIcon>
-                      <SvgIcon 
-                        htmlColor='red' 
-                        style={{cursor:"pointer"}}
+                      <SvgIcon //Edit branch
+                        htmlColor='gray' 
+                        style={{marginRight: 5, cursor:"pointer"}}
                         onClick={() => {
-                          restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
-                            if(res.success === true){
-                              setSnackbarOpen(true);
-                              setSnackbarSeverity('success');
-                              setSnackbarMessage('Branch deleted successfully!');
-                              restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
-                            }
-                            else {
-                              setSnackbarOpen(true);
-                              setSnackbarSeverity('error');
-                              setSnackbarMessage('Branch could not deleted successfully!');
-                            }
-                          }); 
+                          setSelectedForEdit(customer)
+                          setOpenEdit(true)
+                        }}>
+                          <PencilIcon />
+                        </SvgIcon>
 
-                        } }>
-                          <XCircleIcon />
-                      </SvgIcon>
+                        <SvgIcon //Delete branch
+                          htmlColor='red' 
+                          style={{marginRight: 5, cursor:"pointer"}}
+                          onClick={() => {
+                            restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
+                              if(res.success === true){
+                                setSnackbarOpen(true);
+                                setSnackbarSeverity('success');
+                                setSnackbarMessage('Branch deleted successfully!');
+                                restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+                              }
+                              else {
+                                setSnackbarOpen(true);
+                                setSnackbarSeverity('error');
+                                setSnackbarMessage('Branch could not deleted successfully!');
+                              }
+                            }); 
+
+                          } }>
+                            <XCircleIcon />
+                        </SvgIcon>
+
+                        <SvgIcon //Download QR
+                          htmlColor='blue' 
+                          style={{cursor:"pointer"}}
+                          onClick={() => {
+                            downloadQRCode(customer._id, customer.name)
+                          } }>
+                            <ArrowDownOnSquareIcon />
+                        </SvgIcon>
                     </TableCell>
                   </TableRow>
                 );

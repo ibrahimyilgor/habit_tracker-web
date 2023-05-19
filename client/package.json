@@ -19,8 +19,9 @@
     "@emotion/server": "11.10.0",
     "@emotion/styled": "11.10.6",
     "@heroicons/react": "2.0.16",
+    "@mui/icons-material": "^5.11.16",
     "@mui/lab": "5.0.0-alpha.120",
-    "@mui/material": "5.11.10",
+    "@mui/material": "^5.11.10",
     "@mui/system": "5.11.9",
     "@mui/x-date-pickers": "5.0.19",
     "apexcharts": "3.37.0",
@@ -36,6 +37,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-i18next": "^12.2.2",
+    "react-qr-code": "^2.0.11",
     "react-router-dom": "^6.10.0",
     "simplebar-react": "^3.2.1",
     "yup": "1.0.0"

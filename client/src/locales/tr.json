@@ -37,7 +37,8 @@
         "updateBranch": "Şubeyi Güncelle", 
         "nameMinThreeChar": "Şube adı en az üç karakterden oluşmalıdır",
         "rowsPerPageLabel": "Sayfa başına şube sayısı",
-        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası"
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
+        "qr": "QR Kod"
     },
     "account": {
         "title": "Hesap",
@@ -93,6 +94,24 @@
         "save": "Kaydet",
         "delete": "Sil",
         "clear": "Temizle"
+    },
+    "menu": {
+        "title": "Menü",
+        "addCategory": "Yeni Kategori Ekle",
+        "defaultNewCategory": "Yeni Kategori",
+        "defaultNewItem": "Yeni Ürün",
+        "tabListCreateMenu": "Menü Oluştur",
+        "tabListPdf": "Pdf Yükle",
+        "successMessage": "Menü başarıyla güncellendi",
+        "errorMessage": "Menü güncellenemedi"
+    },
+    "branchSelector": {
+        "noBranches": "Bir şube seçin",
+        "branchesSelected": "{{length}} şube seçildi",
+        "allBranchesSelected": "{{length}} şube seçildi (Tümü)"
+    },
+    "pdfUploader": {
+        "dropFile": "Pdf Yükle"
     }
 }
   

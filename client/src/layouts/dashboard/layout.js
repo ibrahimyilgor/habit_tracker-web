@@ -30,6 +30,7 @@ export const Layout = withAuthGuard((props) => {
 
   const handlePathnameChange = useCallback(
     () => {
+      console.log("PATHNAME",pathname)
       if (openNav) {
         setOpenNav(false);
       }
@@ -39,6 +40,7 @@ export const Layout = withAuthGuard((props) => {
 
   useEffect(
     () => {
+
       handlePathnameChange();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,11 +49,16 @@ export const Layout = withAuthGuard((props) => {
 
   return (
     <>
-      <TopNav onNavOpen={() => setOpenNav(true)} />
-      <SideNav
-        onClose={() => setOpenNav(false)}
-        open={openNav}
-      />
+      {!pathname.startsWith("/branchMenu") && 
+      (
+        <>
+          <TopNav onNavOpen={() => setOpenNav(true)} />
+          <SideNav
+            onClose={() => setOpenNav(false)}
+            open={openNav}
+          />
+        </>
+      )}
       <LayoutRoot>
         <LayoutContainer>
           {children}

@@ -1,5 +1,5 @@
 import express from "express";
-import { addBranch, deleteBranch, getBranches, updateBranch } from "../controllers/restaurant.js";
+import { addBranch, deleteBranch, getBranches, saveMenu, updateBranch } from "../controllers/restaurant.js";
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -15,5 +15,8 @@ router.delete("/:id/:userId/deleteBranch", verifyToken, deleteBranch);
 
 /* UPDATE */
 router.put("/updateBranch", verifyToken, updateBranch);
+
+/* ADD MENU */
+router.put("/:branchId/saveMenu", verifyToken, saveMenu);
 
 export default router;

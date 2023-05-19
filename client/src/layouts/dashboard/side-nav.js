@@ -100,7 +100,7 @@ export const SideNav = (props) => {
               </Typography>
             </div>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               alignItems: 'center',
               backgroundColor: 'rgba(255, 255, 255, 0.04)',
@@ -111,7 +111,7 @@ export const SideNav = (props) => {
               mt: 2,
               p: '12px'
             }}
-          >
+          > */}
             {/* <div>
               <Typography
                 color="inherit"
@@ -126,14 +126,14 @@ export const SideNav = (props) => {
                 {restaurant?.branch || "X Branch"}
               </Typography>
             </div> */}
-            <BranchSelector />
+            {/* <BranchSelector /> */}
             {/* <SvgIcon
               fontSize="small"
               sx={{ color: 'neutral.500' }}
             >
               <ChevronUpDownIcon />
             </SvgIcon> */}
-          </Box>
+          {/* </Box> */}
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
