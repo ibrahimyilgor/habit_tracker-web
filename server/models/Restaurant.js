@@ -18,6 +18,10 @@ const RestaurantSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  isPdf: {
+    type: Boolean,
+    default: false
+  },
   menu: [
     {
       name: {

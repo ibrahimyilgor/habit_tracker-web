@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
 import i18n from 'src/i18n'
@@ -64,12 +64,24 @@ export const AuthContext = createContext({ undefined });
 export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [userAvatar, setUserAvatar] = useState()
+  const [userAvatarSrc, setUserAvatarSrc] = useState("")
   const initialized = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
     console.log("state",state)
   }, [state])
+
+  useEffect(() => {
+    if(userAvatar){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUserAvatarSrc(reader.result);
+      };
+      reader.readAsDataURL(userAvatar);
+    }
+  }, [userAvatar]);
 
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
@@ -127,6 +139,39 @@ export const AuthProvider = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useEffect(
+    () => {
+      if(state?.user?.user?._id){
+        fetchUserAvatar(state?.user?.user?._id)
+      }
+    },
+    [state]
+  );
+
+  const fetchUserAvatar = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/userAvatar/${id}`,
+        {
+          method: 'GET'
+        }
+      );
+
+      if (response.ok) {
+        console.log("response", response)
+        const blob = await response.blob();
+        const file = new File([blob], "fileName", { type: 'image/*' });
+        setUserAvatar(file);
+      } else {
+        console.error('Failed to fetch PDF:', response.statusText);
+        setUserAvatar(null);
+      }
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+      setUserAvatar(null);
+    }
+  }
 
   const getUser = async (id) => {
     const userResponse = await fetch(
@@ -235,10 +280,10 @@ export const AuthProvider = (props) => {
 
   const signUp = async (formData) => {
 
-    const password = formData.password;
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    formData.password = hashedPassword
+    // const password = formData.password;
+    // const saltRounds = 10;
+    // const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // formData.password = hashedPassword
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
@@ -270,7 +315,12 @@ export const AuthProvider = (props) => {
         signOut,
         getUser,
         deleteUser,
-        updatePassword
+        updatePassword,
+        userAvatar,
+        setUserAvatar,
+        fetchUserAvatar,
+        userAvatarSrc,
+        setUserAvatarSrc
       }}
     >
       {children}

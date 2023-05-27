@@ -11,6 +11,8 @@ import { fileURLToPath } from "url"
 import authRoutes from "./routes/auth.js"
 import userRoutes from "./routes/user.js"
 import restaurantRoutes from "./routes/restaurant.js"
+import pdfMenuRoutes from "./routes/pdfMenu.js"
+import userAvatarRoutes from "./routes/userAvatar.js"
 import { register } from "./controllers/auth.js"
 import { verifyToken } from "./middleware/auth.js";
 
@@ -34,24 +36,20 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")))
 
 /*FILE STORAGE*/
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb){
-        cb(null, "public/assets")
-    },
-    filename: function (req, file, cb){
-        cb(null, file.originalname)
-    }
-})
-
-const upload = multer({storage}) 
+// Set up Multer storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 /*ROUTES WITH FILES*/
-app.post("/auth/register", upload.single("picture"), register)
+app.use(upload.single('file'));
 
 /*ROUTES*/
 app.use("/auth", authRoutes)
 app.use("/user", userRoutes)
 app.use("/restaurant", restaurantRoutes)
+app.use("/pdfMenu", pdfMenuRoutes)
+app.use("/userAvatar", userAvatarRoutes)
+
 /*MONGOOSE SETUP*/
 
 const PORT = process.env.PORT || 6001

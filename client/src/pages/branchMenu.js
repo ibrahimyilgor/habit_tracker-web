@@ -1,208 +1,96 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { useSelection } from 'src/hooks/use-selection';
+import { Box, Container, Stack } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { BranchesTable } from 'src/sections/branch/branches-table';
-import { BranchesSearch } from 'src/sections/branch/branches-search';
-import { applyPagination } from 'src/utils/apply-pagination';
-import { BranchAdd } from 'src/sections/branch/branches-add';
-import { useRestaurantContext } from 'src/contexts/restaurant-context';
-import { BranchEdit } from 'src/sections/branch/branch-edit';
-import CustomizedSnackbars from 'src/sections/snackbar';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-
-const now = new Date();
+import MenuForCustomers from 'src/components/menu-for-customers';
 
 const BranchMenu = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [openAdd, setOpenAdd] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
-  const [selectedForEdit, setSelectedForEdit] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { id } = router.query;
 
-  const restaurant = useRestaurantContext()
+  const [menu, setMenu] = useState([]);
+  const [isPdf, setIsPdf] = useState(false);
+  const [pdfPreview, setPdfPreview] = useState('');
+  const [file, setFile] = useState();
 
-  const {t} = useTranslation()
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
 
-  console.log("restaurr",restaurant)
+      reader.onloadend = () => {
+        setPdfPreview(reader.result);
+      };
 
-  const handlePageChange = useCallback(
-    (event, value) => {
-      setPage(value);
-    },
-    []
-  );
+      reader.readAsDataURL(file);
+    } else {
+      setPdfPreview('');
+    }
+  }, [file]);
 
-  const useBranches = (page, rowsPerPage) => {
-    return useMemo(
-      () => {
-        return applyPagination(restaurant?.restaurants || [], page, rowsPerPage);
-      },
-      [page, rowsPerPage, restaurant]
-    );
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const menuResponse = await fetch(`http://localhost:3001/restaurant/${id}/getMenuForCustomers`, {
+        method: 'GET',
+      });
+      const tempMenu = await menuResponse.json();
 
-  useEffect(
-      () => {
-       setPage(0) 
-      },
-      [rowsPerPage]
-    );
-  
-  const useBranchIds = (branches) => {
-    return useMemo(
-      () => {
-        return branches.map((branch) => branch._id);
-      },
-      [branches]
-    );
-  };
+      console.log('tempMenu', tempMenu, tempMenu?.[0].menu || []);
 
-  const branches = useBranches(page, rowsPerPage);
-  const branchesIds = useBranchIds(branches);
-  const branchesSelection = useSelection(branchesIds);
+      const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
+        method: 'GET',
+      });
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+      if (response.ok) {
+        console.log('response', response);
+        const blob = await response.blob();
+        const file = new File([blob], 'fileName', { type: 'application/pdf' });
+        setFile(file);
+      } else {
+        console.error('Failed to fetch PDF:', response.statusText);
+        setFile(null);
+      }
 
-  const handleRowsPerPageChange = useCallback(
-    (event) => {
-      setRowsPerPage(event.target.value);
-    },
-    []
-  );
+      setMenu(tempMenu?.[0].menu || []);
+      setIsPdf(tempMenu?.[0]?.isPdf);
+    };
+
+    fetchData().catch(console.error);
+  }, [id]);
+
+  useEffect(() => {
+    menu && menu.length > 0 && menu.map((m) => {
+      console.log('menu,', m.name);
+    });
+  }, [menu]);
 
   return (
     <>
       <Head>
-        <title>
-          Branches | Devias Kit
-        </title>
+        <title>Branches | Devias Kit</title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Stack spacing={1}>
-                <Typography variant="h4">
-                  {t("branches.title")}
-                </Typography>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  {/* <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button> */}
-                </Stack>
-              </Stack>
-              {!openAdd && !openEdit && (
-              <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  onClick={() => setOpenAdd(true)}
-                  variant="contained"
-                >
-                  {t("common.add")}
-                </Button>
-              </div>
-              )}
-            </Stack>
-            {!openAdd && !openEdit && (
-              <>
-                {/* <BranchesSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/> */}
-                <BranchesTable
-                  count={restaurant?.restaurants?.length || 0}
-                  items={branches}
-                  onDeselectAll={branchesSelection.handleDeselectAll}
-                  onDeselectOne={branchesSelection.handleDeselectOne}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  onSelectAll={branchesSelection.handleSelectAll}
-                  onSelectOne={branchesSelection.handleSelectOne}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  setOpenEdit={setOpenEdit}
-                  setSelectedForEdit={setSelectedForEdit}
-                  selected={branchesSelection.selected}
-                  setSnackbarOpen={setSnackbarOpen}
-                  setSnackbarSeverity={setSnackbarSeverity}
-                  setSnackbarMessage={setSnackbarMessage} />
-              </>
-            )}
-            {openAdd && (
-              <BranchAdd 
-                back={() => setOpenAdd(false)}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
-                setSnackbarMessage={setSnackbarMessage}
-              />
-            )}
-            {openEdit && (
-              <BranchEdit 
-                selectedForEdit={selectedForEdit} 
-                setSelectedForEdit={setSelectedForEdit} 
-                back={() => setOpenEdit(false)}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
-                setSnackbarMessage={setSnackbarMessage}
-              />
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        <Stack spacing={3}>
+          <Stack direction="column" justifyContent="space-between" spacing={4}>
+            {!isPdf && <MenuForCustomers menu={menu} />}
+
+            {isPdf && (
+              <iframe
+                src={pdfPreview ? pdfPreview + '#toolbar=0&navpanes=0&view=fitH' : pdfPreview}
+                title="PDF Preview"
+                style={{ width: '100vw', height: "100vh" }}
+                frameborder="0"
+              ></iframe>
             )}
           </Stack>
-        </Container>
+        </Stack>
       </Box>
-      <CustomizedSnackbars
-        open={snackbarOpen}
-        setOpen={setSnackbarOpen}
-        severity={snackbarSeverity}
-        message={snackbarMessage} />
     </>
   );
 };
 
-BranchMenu.getLayout = (branchMenu) => (
-  <DashboardLayout>
-    {branchMenu}
-  </DashboardLayout>
-);
+BranchMenu.getLayout = (branchMenu) => <DashboardLayout>{branchMenu}</DashboardLayout>;
 
 export default BranchMenu;

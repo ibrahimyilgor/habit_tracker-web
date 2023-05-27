@@ -29,6 +29,7 @@ export const SideNav = (props) => {
 
   const {restaurant} = useRestaurantContext()
   const state = useAuthContext()
+  const {userAvatarSrc} = useAuthContext()
 
   const content = (
     <Scrollbar
@@ -76,7 +77,7 @@ export const SideNav = (props) => {
           >
             <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "65px"}}>
               <Avatar
-                src={"/assets/avatars/avatar-anika-visser.png"}
+                src={userAvatarSrc || ""}
                 sx={{
                   height: 40,
                   width: 40

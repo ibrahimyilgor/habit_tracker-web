@@ -50,20 +50,25 @@ export const Layout = withAuthGuard((props) => {
   return (
     <>
       {!pathname.startsWith("/branchMenu") && 
-      (
-        <>
-          <TopNav onNavOpen={() => setOpenNav(true)} />
-          <SideNav
-            onClose={() => setOpenNav(false)}
-            open={openNav}
-          />
+        (
+          <>
+            <TopNav onNavOpen={() => setOpenNav(true)} />
+            <SideNav
+              onClose={() => setOpenNav(false)}
+              open={openNav}
+            />
+          <LayoutRoot>
+          <LayoutContainer>
+              {children}
+            </LayoutContainer>
+          </LayoutRoot>
         </>
-      )}
-      <LayoutRoot>
-        <LayoutContainer>
-          {children}
-        </LayoutContainer>
-      </LayoutRoot>
+        )}
+        {pathname.startsWith("/branchMenu") && 
+          <div style={{margin: 0, maxWidth: "none"}}>
+            {children}
+          </div>
+        }
     </>
   );
 });

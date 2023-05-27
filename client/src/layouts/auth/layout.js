@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import NextLink from 'next/link';
 import { Box, Typography, Unstable_Grid2 as Grid, IconButton, Tooltip } from '@mui/material';
 import { Logo } from 'src/components/logo';
-import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
+import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import { useTranslation } from 'react-i18next';
 import { usePopover } from 'src/hooks/use-popover';
 import { LanguagePopover, languages } from '../dashboard/language-popover';
@@ -111,8 +111,16 @@ export const Layout = (props) => {
             </Typography>
             <img
               alt=""
-              src="/assets/auth-illustration.svg"
+              src="https://assets4.lottiefiles.com/private_files/lf30_UlXgnV.json"
             />
+
+            <Player
+              autoplay
+              loop
+              src="https://assets4.lottiefiles.com/private_files/lf30_UlXgnV.json"
+              style={{ height: '300px', width: '300px' }}
+            >
+            </Player>
           </Box>
         </Grid>
       </Grid>

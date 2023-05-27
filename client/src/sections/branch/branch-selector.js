@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { useTranslation } from 'react-i18next';
 
-export const BranchSelector = ({multiple}) => {
+export const BranchSelector = ({multiple, width}) => {
   const {t} = useTranslation()
   const restaurant = useRestaurantContext()
 
@@ -42,7 +42,7 @@ export const BranchSelector = ({multiple}) => {
   };
 
   return (
-    <div style={{width: 300}}>
+    <div style={{width: width || 300}}>
       <Select
         multiple={multiple}
         native={false}

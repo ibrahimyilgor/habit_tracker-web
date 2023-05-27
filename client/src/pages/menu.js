@@ -9,11 +9,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { PdfDropzone } from 'src/components/pdfDropzone';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { useAuthContext } from 'src/contexts/auth-context';
 import CustomizedSnackbars from 'src/sections/snackbar';
+import EyeIcon from '@heroicons/react/24/solid/EyeIcon';
+import { navigateToLink } from 'src/utils/navigate-to-link';
+import PdfDropzone from 'src/components/pdfDropzone';
 
 const Menu = () => {
   const {t} = useTranslation()
@@ -26,6 +28,10 @@ const Menu = () => {
 
   const [menu, setMenu] = useState([]);
 
+  const [selectedFile, setSelectedFile] = useState();
+  const [numPages, setNumPages] = useState(null);
+  const [file, setFile] = useState();
+  
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -34,36 +40,127 @@ const Menu = () => {
     setTabValue(newValue);
   };
 
-  const saveMenu = async () => { 
-    try {
-      const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": "Bearer " + state?.user?.token
-        },
-        body: JSON.stringify({ menu }),
-      });
-  
-      if (response.ok) {
-        const updatedRestaurant = await response.json();
-        console.log('Menu added successfully:', updatedRestaurant);
-        setSnackbarOpen(true);
-        setSnackbarSeverity('success');
-        setSnackbarMessage(t("menu.successMessage"));
-        restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  useEffect(() => {
+    console.log("selectedFile", file)
+  }, [file])
+
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchData = async () => {
+      if (tabValue === 0) {
+        setFile(null);
       } else {
-        console.error('Failed to add menu:', response.statusText);
+        try {
+          const response = await fetch(
+            `http://localhost:3001/pdfMenu/${restaurant.selectedBranchIds}`,
+            {
+              method: 'GET'
+            }
+          );
+    
+          if (response.ok) {
+            console.log("response", response)
+            const blob = await response.blob();
+            const file = new File([blob], "fileName", { type: 'application/pdf' });
+            setFile(file);
+          } else {
+            console.error('Failed to fetch PDF:', response.statusText);
+            setFile(null);
+          }
+        } catch (error) {
+          console.error('Error fetching PDF:', error);
+          setFile(null);
+        }
+      }
+    }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+  }, [tabValue])
+  
+
+  useEffect(() => {
+    console.log("ibrahimeee", restaurant.selectedBranchIds, restaurant.restaurants)
+    setTabValue((restaurant.selectedBranchIds && restaurant?.restaurants.length > 0 && restaurant?.restaurants.filter(r => r._id === restaurant.selectedBranchIds)?.[0]?.isPdf === false) ? 0 : 1)
+  }, [restaurant])
+
+  const saveMenu = async () => { 
+    if(tabValue === 0){
+      try {
+        const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + state?.user?.token
+          },
+          body: JSON.stringify({ menu: menu, isPdf: tabValue }),
+        });
+    
+        if (response.ok) {
+          const updatedRestaurant = await response.json();
+          console.log('Menu added successfully:', updatedRestaurant);
+          setSnackbarOpen(true);
+          setSnackbarSeverity('success');
+          setSnackbarMessage(t("menu.successMessage"));
+          restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+        } else {
+          console.error('Failed to add menu:', response.statusText);
+          setSnackbarOpen(true);
+          setSnackbarSeverity('error');
+          setSnackbarMessage(t("menu.errorMessage"));
+        }
+      } catch (error) {
+        console.error('An error occurred while adding the menu:', error.message);
         setSnackbarOpen(true);
         setSnackbarSeverity('error');
         setSnackbarMessage(t("menu.errorMessage"));
       }
-    } catch (error) {
-      console.error('An error occurred while adding the menu:', error.message);
-      setSnackbarOpen(true);
-      setSnackbarSeverity('error');
-      setSnackbarMessage(t("menu.errorMessage"));
     }
+    else if(tabValue === 1){
+      if(restaurant.selectedBranchIds){
+        event.preventDefault();
+
+        // Create a FormData object to send the file and other form data
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('restaurant_id', restaurant.selectedBranchIds);
+        formData.append('fileName', file?.name)
+    
+        try {
+          await fetch('http://localhost:3001/pdfMenu/save', {
+            method: 'PUT',
+            body: formData,
+            headers: {"Authorization": "Bearer " + state?.user?.token },
+          });
+    
+          const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              "Authorization": "Bearer " + state?.user?.token
+            },
+            body: JSON.stringify({ isPdf: tabValue }),
+          });
+
+          if (response.ok) {
+            console.log('File uploaded!');
+          }
+        } catch (error) {
+          console.error(error);
+          // Handle error
+        }
+    }
+    else{
+        //restaurant id gitmedi error snackbar
+    }
+    }
+
   };
 
   return (
@@ -88,9 +185,23 @@ const Menu = () => {
                   {t("menu.title")}
                 </Typography>
               </div>
+
+              {restaurant.selectedBranchIds.length > 0 && (
+                <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
+                  <SvgIcon //Navigate to menu for customers
+                    style={{cursor: "pointer"}}
+                    onClick={() => {
+                      navigateToLink(restaurant.selectedBranchIds)
+                    } }>
+                      <EyeIcon />
+                  </SvgIcon>
+                </div>
+              )}
+
               <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <BranchSelector />
+                <BranchSelector width="100%" />
               </div>
+
               <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <Button
                   startIcon={(
@@ -118,7 +229,7 @@ const Menu = () => {
                   <TreeViewCRUDExample menu={menu} setMenu={setMenu}/>
                 </TabPanel>
                 <TabPanel value={1}>
-                  <PdfDropzone />
+                  <PdfDropzone file={file} setFile={setFile} />
                 </TabPanel>
               </TabContext>
             </div>)}

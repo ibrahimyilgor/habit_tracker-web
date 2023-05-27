@@ -11,6 +11,8 @@ import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
 import PaintBrushIcon from '@heroicons/react/24/solid/PaintBrushIcon';
 import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
 import { SvgIcon } from '@mui/material';
+import { QuestionMark } from '@mui/icons-material';
+import BellIcon from '@heroicons/react/24/solid/BellIcon';
 
 export const items = [
   {
@@ -66,6 +68,24 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Faq',
+    path: '/faq',
+    icon: (
+      <SvgIcon fontSize="small">
+        <QuestionMark />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Notifications',
+    path: '/notifications',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BellIcon />
       </SvgIcon>
     )
   },

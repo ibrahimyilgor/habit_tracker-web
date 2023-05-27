@@ -25,15 +25,44 @@ const user = {
 };
 
 export const AccountProfile = () => { 
+  const {t} = useTranslation()
+
+  const { userAvatar, setUserAvatar, fetchUserAvatar, userAvatarSrc} = useAuthContext()
   const state = useAuthContext()
+
   const [uploadImageOpen, setUploadImageOpen] = useState()
-  const [logo, setLogo] = useState(null)
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-  const {t} = useTranslation()
+  const [avatarSrc, setAvatarSrc] = useState('');
+  const [localAvatar, setLocalAvatar] = useState();
+  const [localAvatarSrc, setLocalAvatarSrc] = useState("");
+
+  useEffect(() => {
+    if(userAvatar){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarSrc(reader.result);
+      };
+      reader.readAsDataURL(userAvatar);
+    }
+  }, [userAvatar]);
+
+  useEffect(() => {
+    if(localAvatar){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setLocalAvatarSrc(reader.result);
+      };
+      reader.readAsDataURL(localAvatar);
+    }
+  }, [localAvatar]);
+
+  useEffect(() => {
+    console.log("userAvatar", userAvatar)
+  }, [userAvatar])
 
   useEffect(() => {
     if(state?.user?.user?.id){
@@ -41,23 +70,30 @@ export const AccountProfile = () => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log("ibrahimlogo",logo)
-  }, [logo])
-
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
       try {
-  
+        const formData = new FormData();
+        formData.append('file', localAvatar);
+        formData.append('user_id', state?.user?.user?._id);
+
+        await fetch('http://localhost:3001/userAvatar/save', {
+          method: 'PUT',
+          body: formData,
+          headers: {"Authorization": "Bearer " + state?.user?.token },
+        });
+
+        fetchUserAvatar(state.user?.user?._id)
+
       } catch (error) {
         setSnackbarOpen(true);
         setSnackbarSeverity('error');
-        setSnackbarMessage('Logo could not updated')
+        setSnackbarMessage('User avatar could not updated')
         // handle the error, e.g. show a message to the user
       }
     },
-    []
+    [localAvatar]
   );
   
   
@@ -76,7 +112,8 @@ export const AccountProfile = () => {
           }}
         >
           <Avatar
-            src={user.avatar}
+            src={avatarSrc}
+            alt={userAvatar?.name || "-"}
             sx={{
               height: 80,
               mb: 2,
@@ -111,8 +148,8 @@ export const AccountProfile = () => {
       open={uploadImageOpen}
       onClose={() => setUploadImageOpen(false)}
       handleSubmit={handleSubmit}
-      setSelectedFile={setLogo}
-      selectedFile={logo}
+      setSelectedFile={setLocalAvatar}
+      selectedFile={localAvatar}
     />
       <CustomizedSnackbars
         open={snackbarOpen}

@@ -25,6 +25,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
+import EyeIcon from '@heroicons/react/24/solid/EyeIcon';
+import { Link } from 'react-router-dom';
+import { getLinkOfMenu, navigateToLink } from 'src/utils/navigate-to-link';
 
 export const BranchesTable = (props) => {
   const {
@@ -53,11 +56,6 @@ export const BranchesTable = (props) => {
 
   const {t} = useTranslation()
 
-  const getLinkOfMenu = (id) => {
-    const { protocol, hostname, port } = window.location;
-    return `${protocol}//${hostname}${port ? `:${port}` : ''}/branchMenu?id=${id}`;
-  };
-
   const downloadQRCode = (id, name) => {
     const svg = qrCodeRef.current.querySelector('svg');
     const svgData = new XMLSerializer().serializeToString(svg);
@@ -80,9 +78,6 @@ export const BranchesTable = (props) => {
     }
   });
 
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
-  console.log("itemsss",items)
   return (
     <Card>
       <Scrollbar>
@@ -118,13 +113,14 @@ export const BranchesTable = (props) => {
                     selected={isSelected}
                   >
                   <TableCell>
-                    <div ref={qrCodeRef}>
+                    <Box ref={qrCodeRef}>
                       <QRCode 
-                        style={{ height: "auto", width: "35%" }}
+                        onClick={() => navigateToLink(customer._id)}
+                        style={{ height: "auto", width: "35%", cursor: "pointer" }}
                         value={getLinkOfMenu(customer._id)}
                         size={5}
                       />
-                    </div>
+                    </Box>
                   </TableCell>
                     <TableCell>
                       <Stack
@@ -183,6 +179,15 @@ export const BranchesTable = (props) => {
                             downloadQRCode(customer._id, customer.name)
                           } }>
                             <ArrowDownOnSquareIcon />
+                        </SvgIcon>
+
+                        <SvgIcon //Navigate to menu for customers
+                          htmlColor='blue' 
+                          style={{cursor:"pointer"}}
+                          onClick={() => {
+                            navigateToLink(customer._id)
+                          } }>
+                            <EyeIcon />
                         </SvgIcon>
                     </TableCell>
                   </TableRow>

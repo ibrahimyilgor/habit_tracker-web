@@ -44,7 +44,7 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        console.log("saveduser2",values, helpers)
+
 
         const formData = new FormData()
         for (let value in values){
@@ -76,6 +76,7 @@ const Page = () => {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
+        console.log("saveduser2",err)
       }
     }
   });

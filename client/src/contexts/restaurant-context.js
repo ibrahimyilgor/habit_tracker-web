@@ -13,7 +13,7 @@ export const RestaurantProvider = (props) => {
   const state = useAuthContext()
 
   useEffect(() => {
-    console.log("restaurants",restaurants, state)
+    console.log("restaurantss",restaurants, state)
   }, [restaurants])
 
   useEffect(

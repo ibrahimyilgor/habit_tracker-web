@@ -36,6 +36,9 @@ export const TopNav = (props) => {
 
   const {t} = useTranslation()
 
+  const {userAvatarSrc} = useAuthContext()
+  
+
   const [fullScreen, setFullScreen] = useState(false)
   const [flagInfo, setFlagInfo] = useState()
 
@@ -147,7 +150,7 @@ export const TopNav = (props) => {
                 height: 40,
                 width: 40
               }}
-              src={`data:image/jpeg;base64,${state?.user?.user?.logo}` || ""}
+              src={userAvatarSrc || ""}
             />
           </Stack>
         </Stack>

@@ -25,7 +25,9 @@
         "register": "Sign Up",
         "error": "Error",
         "customers": "Customers",
-        "companies": "Companies"
+        "companies": "Companies",
+        "faq": "FAQ",
+        "notifications": "Notifications"
     },
     "branches": {
         "title": "Branches",
@@ -111,7 +113,17 @@
         "allBranchesSelected": "{{length}} branches selected (All)"
     },
     "pdfUploader": {
-        "dropFile": "Load Pdf"
+        "dropFile": "Load Pdf",
+        "changePdf": "Change Pdf"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions"
+    },
+    "plan": {
+        "title": "Plan"
+    },
+    "theme": {
+        "title": "Theme"
     }
 }
   

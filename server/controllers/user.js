@@ -1,5 +1,6 @@
 import User from "../models/User.js"
 import Restaurant from "../models/Restaurant.js"
+import MenuPdf from "../models/MenuPdf.js"
 
 /*READ USER*/
 
@@ -34,7 +35,9 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const deletedUser = await User.findByIdAndDelete(req.params.id);
-        await Restaurant.deleteMany({ user_id: req.params.id });
+
+        await Restaurant.deleteMany({ user_id: req.params.id });    //Delete all restaurants
+        await MenuPdf.deleteMany({ restaurant_id: { $in: deletedUser.restaurants } }); //Delete all pdfMenus
 
         res.status(200).json({ success: true, message: `Deleted user ${deletedUser.name} and all their branches.` });
         console.log("ssccccssss");
