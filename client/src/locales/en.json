@@ -120,7 +120,9 @@
         "title": "Frequently Asked Questions"
     },
     "plan": {
-        "title": "Plan"
+        "title": "Plan",
+        "changePlan": "Change Plan",
+        "currentPlan": "Current Plan"
     },
     "theme": {
         "title": "Theme"

@@ -4,9 +4,49 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { AccountProfile } from 'src/sections/account/account-profile';
 import { AccountProfileDetails } from 'src/sections/account/account-profile-details';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import i18n from 'src/i18n';
+import { useAuthContext } from 'src/contexts/auth-context';
+import { PlanComponent } from 'src/sections/plan/plan-component';
 
 const Plan = () => {
   const {t} = useTranslation()
+  const state = useAuthContext()
+
+  const lang = i18n.language
+
+  const [plan, setPlan] = useState([])
+
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/plan/list`,
+          {
+            method: 'GET',
+            headers: {"Authorization": "Bearer " + state?.user?.token },
+          }
+        );
+
+        const tempPlanData = await response.json()
+
+        console.log("tempPlanData", tempPlanData)
+  
+        setPlan(tempPlanData)
+  
+        return tempPlanData
+      } catch (error) {
+        console.error('Error fetching plans', error);
+        return null
+      }
+    }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+  }, [])
 
   return(
     <>
@@ -19,17 +59,11 @@ const Plan = () => {
             <div>
               <Typography variant="h4">{t("plan.title")}</Typography>
             </div>
-            <Grid container spacing={3}>
+            {plan.map((p, index) => (
               <Grid item xs={12} md={4} lg={4}>
-                <AccountProfile />
+                <PlanComponent plan={p} />
               </Grid>
-              <Grid item xs={12} md={4} lg={4}>
-                <AccountProfile />
-              </Grid>
-              <Grid item xs={12} md={4} lg={4}>
-                <AccountProfile />
-              </Grid>
-            </Grid>
+            ))}
           </Stack>
         </Container>
       </Box>

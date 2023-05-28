@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const PlanSchema = new mongoose.Schema({
-  name: [{
+const FaqSchema = new mongoose.Schema({
+  question: [{
     language: {
       type: String,
       required: true
@@ -11,7 +11,7 @@ const PlanSchema = new mongoose.Schema({
       required: true
     }
   }],
-  description: [{
+  answer: [{
     language: {
       type: String,
       required: true
@@ -23,5 +23,5 @@ const PlanSchema = new mongoose.Schema({
   }]
 });
 
-const Plan = mongoose.model('Plan', PlanSchema);
-export default Plan
+const Faq = mongoose.model('Faq', FaqSchema);
+export default Faq;

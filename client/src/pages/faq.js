@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { useTranslation } from 'react-i18next';
 import { Box, Container, Stack } from '@mui/system';
 import Head from 'next/head';
+import { useAuthContext } from 'src/contexts/auth-context';
+import i18n from 'src/i18n';
 
 const FAQItem = ({ question, answer }) => {
     return (
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Box sx={{height: "7vh", display: "flex", alignItems: "center"}}>
-                <Typography sx={{fontSize: 18}}>{question}</Typography>
+                <Typography sx={{fontSize: 18}}>{question?.text}</Typography>
             </Box>
         </AccordionSummary>
         <AccordionDetails >
-          <Typography sx={{fontSize: 15}}>{answer}</Typography>
+          <Typography sx={{fontSize: 15}}>{answer?.text}</Typography>
         </AccordionDetails>
       </Accordion>
     );
@@ -23,38 +25,44 @@ const FAQItem = ({ question, answer }) => {
 
 const Faq = () => {
   const {t} = useTranslation()
+  const state = useAuthContext()
 
-  const faqData = [
-    {
-      question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
-      answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-    },
-    {
-      question: 'Sed mollis porta mi sit amet elementum?',
-      answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-    },
-    {
-        question: 'Mauris et nunc in metus molestie aliquam vel vel lorem?',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-      },
-      {
-        question: 'Nam luctus sit amet risus sed facilisis?',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-      },
-      {
-        question: 'Suspendisse gravida feugiat magna, vel tristique lectus congue sed?',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-      },
-      {
-        question: 'Sed mollis porta mi sit amet elementum?',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-      },
-      {
-        question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis porta mi sit amet elementum. Mauris et nunc in metus molestie aliquam vel vel lorem. Morbi et dictum diam. Nullam feugiat turpis quis arcu vulputate, nec euismod erat pellentesque. Suspendisse gravida feugiat magna, vel tristique lectus congue sed. Donec accumsan, ipsum sed fermentum imperdiet, nibh massa interdum lorem, vel elementum felis mauris ac erat. Nam luctus sit amet risus sed facilisis. ',
-      },
-    // Add more FAQ items as needed
-  ];
+  const lang = i18n.language
+
+  const [faqData, setFaqData] = useState([])
+
+  console.log("lang", lang)
+
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/faq/list`,
+          {
+            method: 'GET',
+            headers: {"Authorization": "Bearer " + state?.user?.token },
+          }
+        );
+
+        const tempFaqData = await response.json()
+
+        console.log("tempFaqData", tempFaqData)
+  
+        setFaqData(tempFaqData)
+  
+        return tempFaqData
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+        return null
+      }
+    }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+  }, [])
 
   return (
     <>
@@ -78,7 +86,7 @@ const Faq = () => {
                         </Typography>
                     </div>
                     {faqData.map((faqItem, index) => (
-                        <FAQItem key={index} question={faqItem.question} answer={faqItem.answer} />
+                        <FAQItem key={index} question={faqItem.question.filter(f => f.language === lang)[0]} answer={faqItem.answer.filter(f => f.language === lang)[0]} />
                     ))}
                 </Stack>
             </Container>

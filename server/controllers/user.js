@@ -1,6 +1,7 @@
 import User from "../models/User.js"
 import Restaurant from "../models/Restaurant.js"
 import MenuPdf from "../models/MenuPdf.js"
+import UserAvatar from "../models/UserAvatar.js"
 
 /*READ USER*/
 
@@ -21,8 +22,8 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try{
-        const { _id, name, address, phone } = req.body
-        await User.updateOne({_id: _id}, {$set: {name: name, address: address, phone: phone}})
+        const { _id, name, address, phone, plan_id } = req.body
+        await User.updateOne({_id: _id}, {$set: {name: name, address: address, phone: phone, plan_id: plan_id}})
         res.status(200).json({ message: "Account updated successfully." })
     }
     catch (err){
@@ -38,6 +39,7 @@ export const deleteUser = async (req, res) => {
 
         await Restaurant.deleteMany({ user_id: req.params.id });    //Delete all restaurants
         await MenuPdf.deleteMany({ restaurant_id: { $in: deletedUser.restaurants } }); //Delete all pdfMenus
+        await UserAvatar.deleteMany({ user_id: req.params.id });    //Delete all user avatars
 
         res.status(200).json({ success: true, message: `Deleted user ${deletedUser.name} and all their branches.` });
         console.log("ssccccssss");

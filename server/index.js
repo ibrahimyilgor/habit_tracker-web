@@ -8,11 +8,15 @@ import helmet from "helmet"
 import morgan from "morgan"
 import path from "path"
 import { fileURLToPath } from "url"
+
 import authRoutes from "./routes/auth.js"
 import userRoutes from "./routes/user.js"
 import restaurantRoutes from "./routes/restaurant.js"
 import pdfMenuRoutes from "./routes/pdfMenu.js"
 import userAvatarRoutes from "./routes/userAvatar.js"
+import faqRoutes from "./routes/faq.js"
+import planRoutes from "./routes/plan.js"
+
 import { register } from "./controllers/auth.js"
 import { verifyToken } from "./middleware/auth.js";
 
@@ -49,6 +53,8 @@ app.use("/user", userRoutes)
 app.use("/restaurant", restaurantRoutes)
 app.use("/pdfMenu", pdfMenuRoutes)
 app.use("/userAvatar", userAvatarRoutes)
+app.use("/faq", faqRoutes)
+app.use("/plan", planRoutes)
 
 /*MONGOOSE SETUP*/
 

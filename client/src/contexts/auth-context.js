@@ -110,7 +110,7 @@ export const AuthProvider = (props) => {
           token: tempUser?.token,
           user: {
             _id: tempUser?.user?._id,
-            logo: tempUser?.user?.logo,
+            plan_id: tempUser?.user?.plan_id,
             name: tempUser?.user?.name,
             createdAt: tempUser?.user?.createdAt,
             email: tempUser?.user?.email,
@@ -183,7 +183,7 @@ export const AuthProvider = (props) => {
       )
       const tempUser = await userResponse.json()
 
-      console.log("user", tempUser)
+      console.log("userr", tempUser)
 
       const image = new Image();
 
@@ -197,7 +197,7 @@ export const AuthProvider = (props) => {
           address: tempUser?.address,
           phone: tempUser?.phone,
           restaurants: tempUser?.restaurants,
-          logo: tempUser?.logo
+          plan_id: tempUser?.plan_id
         }
     };
 

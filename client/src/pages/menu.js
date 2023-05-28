@@ -24,7 +24,7 @@ const Menu = () => {
   console.log("ibrahime", restaurant)
   const state = useAuthContext()
 
-  const [tabValue, setTabValue] = useState(0)
+  const [tabValue, setTabValue] = useState()
 
   const [menu, setMenu] = useState([]);
 
@@ -49,11 +49,16 @@ const Menu = () => {
   }, [file])
 
   useEffect(() => {
+    console.log("tabValue", tabValue)
+  }, [tabValue])
+
+  useEffect(() => {
     // declare the data fetching function
     const fetchData = async () => {
       if (tabValue === 0) {
         setFile(null);
-      } else {
+      } 
+      else if (tabValue === 1) {
         try {
           const response = await fetch(
             `http://localhost:3001/pdfMenu/${restaurant.selectedBranchIds}`,
@@ -87,7 +92,7 @@ const Menu = () => {
 
   useEffect(() => {
     console.log("ibrahimeee", restaurant.selectedBranchIds, restaurant.restaurants)
-    setTabValue((restaurant.selectedBranchIds && restaurant?.restaurants.length > 0 && restaurant?.restaurants.filter(r => r._id === restaurant.selectedBranchIds)?.[0]?.isPdf === false) ? 0 : 1)
+    setTabValue((restaurant.selectedBranchIds && restaurant?.restaurants.length > 0 && restaurant?.restaurants.filter(r => r._id === restaurant.selectedBranchIds)?.[0]?.isPdf === false) ? 0 :  restaurant?.restaurants.filter(r => r._id === restaurant.selectedBranchIds)?.[0]?.isPdf === true ? 1 : null)
   }, [restaurant])
 
   const saveMenu = async () => { 

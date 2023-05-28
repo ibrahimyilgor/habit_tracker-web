@@ -120,7 +120,9 @@
         "title": "Sıkça Sorulan Sorular"
     },
     "plan": {
-        "title": "Plan"
+        "title": "Plan",
+        "changePlan": "Planı Değiştir",
+        "currentPlan": "Mevcut Plan"
     },
     "theme": {
         "title": "Tema"
