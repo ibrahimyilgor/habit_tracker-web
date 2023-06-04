@@ -13,6 +13,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -28,6 +29,11 @@ import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIc
 import EyeIcon from '@heroicons/react/24/solid/EyeIcon';
 import { Link } from 'react-router-dom';
 import { getLinkOfMenu, navigateToLink } from 'src/utils/navigate-to-link';
+
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export const BranchesTable = (props) => {
   const {
@@ -140,55 +146,63 @@ export const BranchesTable = (props) => {
                       {customer.phone}
                     </TableCell>
                     <TableCell>
-                      <SvgIcon //Edit branch
-                        htmlColor='gray' 
-                        style={{marginRight: 5, cursor:"pointer"}}
-                        onClick={() => {
-                          setSelectedForEdit(customer)
-                          setOpenEdit(true)
-                        }}>
-                          <PencilIcon />
-                        </SvgIcon>
-
-                        <SvgIcon //Delete branch
-                          htmlColor='red' 
+                      <Tooltip title={t("common.edit")}>
+                        <SvgIcon //Edit branch
+                          htmlColor='#1976d2' 
                           style={{marginRight: 5, cursor:"pointer"}}
                           onClick={() => {
-                            restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
-                              if(res.success === true){
-                                setSnackbarOpen(true);
-                                setSnackbarSeverity('success');
-                                setSnackbarMessage('Branch deleted successfully!');
-                                restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
-                              }
-                              else {
-                                setSnackbarOpen(true);
-                                setSnackbarSeverity('error');
-                                setSnackbarMessage('Branch could not deleted successfully!');
-                              }
-                            }); 
+                            setSelectedForEdit(customer)
+                            setOpenEdit(true)
+                          }}>
+                            < EditIcon/>
+                          </SvgIcon>
+                      </Tooltip>
 
-                          } }>
-                            <XCircleIcon />
-                        </SvgIcon>
+                        <Tooltip title={t("common.delete")}>
+                          <SvgIcon //Delete branch
+                            htmlColor='#f44336' 
+                            style={{marginRight: 5, cursor:"pointer"}}
+                            onClick={() => {
+                              restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
+                                if(res.success === true){
+                                  setSnackbarOpen(true);
+                                  setSnackbarSeverity('success');
+                                  setSnackbarMessage('Branch deleted successfully!');
+                                  restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+                                }
+                                else {
+                                  setSnackbarOpen(true);
+                                  setSnackbarSeverity('error');
+                                  setSnackbarMessage('Branch could not deleted successfully!');
+                                }
+                              }); 
 
-                        <SvgIcon //Download QR
-                          htmlColor='blue' 
-                          style={{cursor:"pointer"}}
-                          onClick={() => {
-                            downloadQRCode(customer._id, customer.name)
-                          } }>
-                            <ArrowDownOnSquareIcon />
-                        </SvgIcon>
+                            } }>
+                              <DeleteIcon />
+                          </SvgIcon>
+                        </Tooltip>
 
-                        <SvgIcon //Navigate to menu for customers
-                          htmlColor='blue' 
-                          style={{cursor:"pointer"}}
-                          onClick={() => {
-                            navigateToLink(customer._id)
-                          } }>
-                            <EyeIcon />
-                        </SvgIcon>
+                        <Tooltip title={t("common.downloadQR")}>
+                          <SvgIcon //Download QR
+                            htmlColor='#4caf50' 
+                            style={{marginRight: 5, cursor:"pointer"}}
+                            onClick={() => {
+                              downloadQRCode(customer._id, customer.name)
+                            } }>
+                              <DownloadIcon />
+                          </SvgIcon>
+                        </Tooltip>
+
+                        <Tooltip title={t("common.viewMenu")}>
+                            <SvgIcon //Navigate to menu for customers
+                              htmlColor='#9e9e9e' 
+                              style={{cursor:"pointer"}}
+                              onClick={() => {
+                                navigateToLink(customer._id)
+                              } }>
+                                <EyeIcon />
+                            </SvgIcon>
+                        </Tooltip>
                     </TableCell>
                   </TableRow>
                 );

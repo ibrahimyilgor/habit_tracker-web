@@ -13,6 +13,11 @@
         "turkish": "Turkish",
         "english": "English"
     },
+    "statuses": {
+        "done": "Done",
+        "cancelled": "Cancelled",
+        "active": "Active"
+    },
     "sideNav": {
         "overview": "Overview",
         "branches": "Branches",
@@ -27,7 +32,8 @@
         "customers": "Customers",
         "companies": "Companies",
         "faq": "FAQ",
-        "notifications": "Notifications"
+        "notifications": "Notifications",
+        "tickets": "Tickets"
     },
     "branches": {
         "title": "Branches",
@@ -95,7 +101,10 @@
         "update": "Update",
         "save": "Save",
         "delete": "Delete",
-        "clear": "Clear"
+        "clear": "Clear",
+        "edit": "Edit",
+        "downloadQR": "Download the QR Code",
+        "viewMenu": "View the Menu"
     },
     "menu": {
         "title": "Menu",
@@ -122,10 +131,23 @@
     "plan": {
         "title": "Plan",
         "changePlan": "Change Plan",
-        "currentPlan": "Current Plan"
+        "currentPlan": "Current Plan",
+        "successMessage": "Plan updated successfully",
+        "errorMessage": "Plan could not be updated"
     },
     "theme": {
         "title": "Theme"
+    },
+    "tickets": {
+        "category": "Category",
+        "name": "Ticket Name",
+        "description": "Ticket Description",
+        "status": "Status",
+        "rowsPerPageLabel": "Rows per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}"
+    },
+    "overview": {
+        "branches": "Branches"
     }
 }
   

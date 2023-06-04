@@ -24,10 +24,10 @@ export const updateUser = async (req, res) => {
     try{
         const { _id, name, address, phone, plan_id } = req.body
         await User.updateOne({_id: _id}, {$set: {name: name, address: address, phone: phone, plan_id: plan_id}})
-        res.status(200).json({ message: "Account updated successfully." })
+        res.status(200).json({ message: "Account updated successfully.", success: true })
     }
     catch (err){
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message, success: false });
     }
 }
 

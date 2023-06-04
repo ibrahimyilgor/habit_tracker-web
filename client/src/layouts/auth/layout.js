@@ -6,11 +6,15 @@ import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import { useTranslation } from 'react-i18next';
 import { usePopover } from 'src/hooks/use-popover';
 import { LanguagePopover, languages } from '../dashboard/language-popover';
-
-// TODO: Change subtitle text
+import { useEffect } from 'react';
+import i18n from 'src/i18n';
 
 export const Layout = (props) => {
   const { children } = props;
+
+  useEffect(() => {
+    console.log("i18nlanguage",i18n.language)
+  },[])
 
   const languagePopover = usePopover();
   const {t} = useTranslation()
@@ -62,7 +66,7 @@ export const Layout = (props) => {
               <IconButton  
                 onClick={languagePopover.handleOpen}
                 ref={languagePopover.anchorRef}>
-                  <img src={languages.filter(e => e.code === (localStorage.getItem('language') || navigator.language || "en"))[0].flag} width={36} height={24} />
+                  <img src={languages.filter(e => e.code === i18n.language)[0].flag} width={36} height={24} />
               </IconButton>
             </Tooltip>
           </Box>

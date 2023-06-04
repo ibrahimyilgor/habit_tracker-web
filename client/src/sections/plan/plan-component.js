@@ -10,10 +10,16 @@ import {
   import { useTranslation } from 'react-i18next';
 import { useAuthContext } from 'src/contexts/auth-context';
 import i18n from 'src/i18n';
+import CustomizedSnackbars from '../snackbar';
+import { useState } from 'react';
   
   export const PlanComponent = ({plan}) => { 
     const {t} = useTranslation()
     const state = useAuthContext()
+      
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   
     const lang = i18n.language
 
@@ -28,15 +34,25 @@ import i18n from 'src/i18n';
           body: JSON.stringify({ _id: state?.user?.user?._id, plan_id: id })
       });
       const data = await response.json();
-      // setSnackbarOpen(true);
-      // setSnackbarSeverity('success');
-      // setSnackbarMessage('Account updated successfully!');
+      console.log("theresponse",data)
+      if(data.success === true){
+        setSnackbarOpen(true);
+        setSnackbarSeverity('success');
+        setSnackbarMessage(t("plan.successMessage"));
+      }
+      else{
+        setSnackbarOpen(true);
+        setSnackbarSeverity('error');
+        setSnackbarMessage(t("plan.errorMessage"));
+      }
       state.getUser(state?.user?.user?._id)
 
       return data;
       } catch (error) {
         console.error("Error updating user:", error);
-        // handle the error, e.g. show a message to the user
+        setSnackbarOpen(true);
+        setSnackbarSeverity('error');
+        setSnackbarMessage(t("plan.errorMessage"));
       }
     }
     
@@ -80,6 +96,12 @@ import i18n from 'src/i18n';
           </Button>
         </CardActions>
       </Card>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage} 
+      />
       </>
   )};
   

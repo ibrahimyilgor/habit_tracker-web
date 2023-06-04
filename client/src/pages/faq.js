@@ -10,7 +10,7 @@ import i18n from 'src/i18n';
 
 const FAQItem = ({ question, answer }) => {
     return (
-      <Accordion>
+      <Accordion sx={{boxShadow: "0px 5px 22px rgba(0, 0, 0, 0.04),0px 0px 0px 0.5px rgba(0, 0, 0, 0.03)"}}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Box sx={{height: "7vh", display: "flex", alignItems: "center"}}>
                 <Typography sx={{fontSize: 18}}>{question?.text}</Typography>

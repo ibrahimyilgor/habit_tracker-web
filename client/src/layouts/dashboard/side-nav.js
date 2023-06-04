@@ -93,12 +93,12 @@ export const SideNav = (props) => {
               >
                 {state?.user?.user?.name || ""}
               </Typography>
-              <Typography
+              {/* <Typography
                 color="neutral.400"
                 variant="body2"
               >
                 {restaurant?.plan || "Basic Plan"}
-              </Typography>
+              </Typography> */}
             </div>
           </Box>
           {/* <Box

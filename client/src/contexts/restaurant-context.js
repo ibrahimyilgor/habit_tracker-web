@@ -18,13 +18,8 @@ export const RestaurantProvider = (props) => {
 
   useEffect(
     () => {
-      let tempUser = window.sessionStorage.getItem('user')
-      if(tempUser){
-        tempUser = JSON.parse(tempUser)
-      }
-      console.log("tempUser", tempUser)
-      if(tempUser?.token){
-        getBranches(tempUser?.user?._id, tempUser?.token, null)
+      if(state?.user?.token){
+        getBranches(state?.user?.user?._id, state?.user?.token, null)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

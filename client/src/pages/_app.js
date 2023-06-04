@@ -11,6 +11,7 @@ import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { RestaurantProvider } from 'src/contexts/restaurant-context';
 import SplashScreen from './splash';
+import dotenv from "dotenv"
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -18,6 +19,8 @@ const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   useNProgress();
+
+  dotenv.config()
 
   const getLayout = Component.getLayout ?? ((page) => page);
 

@@ -13,6 +13,11 @@
         "turkish": "Türkçe",
         "english": "İngilizce"
     },
+    "statuses": {
+        "done": "Tamamlandı",
+        "cancelled": "İptal Edildi",
+        "active": "Aktif"
+    },
     "sideNav": {
         "overview": "Genel Bakış",
         "branches": "Şubeler",
@@ -27,7 +32,8 @@
         "customers": "Müşteriler",
         "companies": "Şirketler",
         "faq": "S.S.S",
-        "notifications": "Bildirimler"
+        "notifications": "Bildirimler",
+        "tickets": "Biletler"
     },
     "branches": {
         "title": "Şubeler",
@@ -95,7 +101,10 @@
         "update": "Güncelle",
         "save": "Kaydet",
         "delete": "Sil",
-        "clear": "Temizle"
+        "clear": "Temizle",
+        "edit": "Düzenle",
+        "downloadQR": "QR Kodu İndir",
+        "viewMenu": "Menüyü Görüntüle"
     },
     "menu": {
         "title": "Menü",
@@ -122,10 +131,23 @@
     "plan": {
         "title": "Plan",
         "changePlan": "Planı Değiştir",
-        "currentPlan": "Mevcut Plan"
+        "currentPlan": "Mevcut Plan",
+        "successMessage": "Plan başarıyla güncellendi",
+        "errorMessage": "Plan güncellenemedi"
     },
     "theme": {
         "title": "Tema"
+    },
+    "tickets": {
+        "category": "Kategori",
+        "name": "Bilet Adı",
+        "description": "Bilet Açıklaması",
+        "status": "Durum",
+        "rowsPerPageLabel":"Sayfa başına bilet sayısı",
+        "displayedRows":"{{count}} satırdan {{from}}-{{to}} arası"
+    },
+    "overview": {
+        "branches": "Şubeler"
     }
 }
   

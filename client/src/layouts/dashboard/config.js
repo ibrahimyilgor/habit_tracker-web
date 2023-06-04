@@ -81,8 +81,8 @@ export const items = [
     )
   },
   {
-    title: 'Notifications',
-    path: '/notifications',
+    title: 'Tickets',
+    path: '/tickets',
     icon: (
       <SvgIcon fontSize="small">
         <BellIcon />

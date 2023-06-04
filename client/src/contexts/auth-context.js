@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
-import i18n from 'src/i18n'
+import jwt from 'jsonwebtoken'
 
 export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -106,24 +106,19 @@ export const AuthProvider = (props) => {
     console.log("tempuser",tempUser)
 
     if (isAuthenticated) {
-        const user = {
-          token: tempUser?.token,
-          user: {
-            _id: tempUser?.user?._id,
-            plan_id: tempUser?.user?.plan_id,
-            name: tempUser?.user?.name,
-            createdAt: tempUser?.user?.createdAt,
-            email: tempUser?.user?.email,
-            address: tempUser?.user?.address,
-            phone: tempUser?.user?.phone,
-            restaurants: tempUser?.user?.restaurants
-          }
-      };
 
-      dispatch({
-        type: HANDLERS.INITIALIZE,
-        payload: user
-      });
+      const decode = jwt.verify(tempUser, 'SSEECCRREETT')
+      console.log("decode",decode)
+
+      if(decode?.id){
+        getUser(decode.id)
+      }
+      else{
+        dispatch({
+          type: HANDLERS.SIGN_OUT
+        });
+      }
+
     } else {
       dispatch({
         type: HANDLERS.INITIALIZE
@@ -134,7 +129,6 @@ export const AuthProvider = (props) => {
   useEffect(
     () => {
       initialize();
-      i18n.changeLanguage(localStorage.getItem('language') || navigator.language || "en")
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -174,42 +168,45 @@ export const AuthProvider = (props) => {
   }
 
   const getUser = async (id) => {
+    console.log("decodeid", id);
+  
     const userResponse = await fetch(
-        "http://localhost:3001/user/" + id,
-        {
-          method: "GET",
-          headers: {"Authorization": "Bearer " + state?.user?.token }
+      "http://localhost:3001/user/" + id,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + (state?.user?.token || JSON.parse(window.sessionStorage.getItem("user")))
         }
-      )
-      const tempUser = await userResponse.json()
-
-      console.log("userr", tempUser)
-
-      const image = new Image();
-
-      const user = {
-        token: state?.user?.token,
-        user: {
-          _id: tempUser?._id,
-          name: tempUser?.name,
-          createdAt: tempUser?.createdAt,
-          email: tempUser?.email,
-          address: tempUser?.address,
-          phone: tempUser?.phone,
-          restaurants: tempUser?.restaurants,
-          plan_id: tempUser?.plan_id
-        }
+      }
+    );
+  
+    const tempUser = await userResponse.json();
+  
+    console.log("userr", tempUser);
+  
+    const user = {
+      token: state?.user?.token || JSON.parse(window.sessionStorage.getItem("user")),
+      user: {
+        _id: tempUser?._id,
+        name: tempUser?.name,
+        createdAt: tempUser?.createdAt,
+        email: tempUser?.email,
+        address: tempUser?.address,
+        phone: tempUser?.phone,
+        restaurants: tempUser?.restaurants,
+        plan_id: tempUser?.plan_id,
+        role: tempUser?.user?.role
+      }
     };
-
-      dispatch({
-        type: HANDLERS.SIGN_IN,
-        payload: user
-      })
-
-      window.sessionStorage.setItem('user', JSON.stringify(user))
-
-      return tempUser
-    };
+  
+    dispatch({
+      type: HANDLERS.INITIALIZE,
+      payload: user
+    });
+  
+    return tempUser;
+  };
+  
 
     const deleteUser = async (id) => {
       try {
@@ -270,7 +267,7 @@ export const AuthProvider = (props) => {
         type: HANDLERS.SIGN_IN,
         payload: loggedIn
       })
-      window.sessionStorage.setItem('user', JSON.stringify(loggedIn))
+      window.sessionStorage.setItem('user', JSON.stringify(loggedIn.token))
       router.push('/');
     }
 

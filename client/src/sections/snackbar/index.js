@@ -20,7 +20,7 @@ export default function CustomizedSnackbars({open, setOpen, severity, message}) 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%', color: "white" }}>
           {message}
         </Alert>
       </Snackbar>

@@ -154,15 +154,21 @@ const Menu = () => {
           });
 
           if (response.ok) {
-            console.log('File uploaded!');
+            setSnackbarOpen(true);
+            setSnackbarSeverity('success');
+            setSnackbarMessage(t("menu.successMessage"));
           }
         } catch (error) {
           console.error(error);
-          // Handle error
+          setSnackbarOpen(true);
+          setSnackbarSeverity('error');
+          setSnackbarMessage(t("menu.errorMessage"));
         }
     }
     else{
-        //restaurant id gitmedi error snackbar
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+      setSnackbarMessage(t("menu.errorMessage"));
     }
     }
 

@@ -43,6 +43,7 @@ export const TopNav = (props) => {
   const [flagInfo, setFlagInfo] = useState()
 
   useEffect(() => {
+    console.log("ibrahimke", i18n.language, languages.filter(x => x.code === i18n.language)[0])
     setFlagInfo(languages.filter(x => x.code === i18n.language)[0])
   },[i18n.language])
 
@@ -117,7 +118,7 @@ export const TopNav = (props) => {
               <IconButton  
                 onClick={languagePopover.handleOpen}
                 ref={languagePopover.anchorRef}>
-                  <img src={flagInfo?.flag} alt={i18n.language || ""} width={36} height={36/flagInfo?.ratio} />
+                  <img src={flagInfo?.flag} alt={i18n.language} width={36} height={36/flagInfo?.ratio} />
               </IconButton>
             </Tooltip>
             <Tooltip title={t("topNav.fullscreen")}>
