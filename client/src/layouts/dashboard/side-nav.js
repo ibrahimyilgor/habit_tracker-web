@@ -21,13 +21,15 @@ import { SideNavItem } from './side-nav-item';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 import { BranchSelector } from 'src/sections/branch/branch-selector';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { useRouter } from 'next/router';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
-  const {restaurant} = useRestaurantContext()
+  const router = useRouter();
+
   const state = useAuthContext()
   const {userAvatarSrc} = useAuthContext()
 
@@ -157,17 +159,22 @@ export const SideNav = (props) => {
             {items.map((item) => {
               const active = item.path ? (pathname === item.path) : false;
 
-              return (
-                <SideNavItem
-                  active={active}
-                  disabled={item.disabled}
-                  external={item.external}
-                  icon={item.icon}
-                  key={item.title}
-                  path={item.path}
-                  title={item.title}
-                />
-              );
+              if(item.permission?.includes(state?.user?.user?.role)){
+                return (
+                  <SideNavItem
+                    active={active}
+                    disabled={item.disabled}
+                    external={item.external}
+                    icon={item.icon}
+                    key={item.title}
+                    path={item.path}
+                    title={item.title}
+                  />
+                );
+              }
+              else{
+                return null
+              }
             })}
           </Stack>
         </Box>

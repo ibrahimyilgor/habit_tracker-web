@@ -3,10 +3,18 @@ import NextLink from 'next/link';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const Page = () => {
   
   const {t} = useTranslation()
+  const state = useAuthContext()
+
+  const links = {
+    user: "/menu",
+    manager: "/",
+    customer: "/branchMenu"
+  }
 
   return (
   <>
@@ -64,7 +72,7 @@ const Page = () => {
           </Typography>
           <Button
             component={NextLink}
-            href="/"
+            href={links?.[state?.user?.user?.role] || "/"}
             startIcon={(
               <SvgIcon fontSize="small">
                 <ArrowLeftIcon />

@@ -11,12 +11,14 @@ import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-cus
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { useAuthContext } from 'src/contexts/auth-context';
+import { useEffect } from 'react';
+import { useRestaurantContext } from 'src/contexts/restaurant-context';
 
 const now = new Date();
 
 const Page = () => {
   
-  const state = useAuthContext()
+  const restaurant = useRestaurantContext()
 
   return(
   <>
@@ -46,7 +48,7 @@ const Page = () => {
               difference={12}
               positive
               sx={{ height: '100%' }}
-              value={state?.user?.user?.restaurants.length || 0}
+              value={restaurant.restaurants.length || 0}
             />
           </Grid>
           <Grid

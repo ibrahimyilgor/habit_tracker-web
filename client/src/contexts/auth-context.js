@@ -195,7 +195,7 @@ export const AuthProvider = (props) => {
         phone: tempUser?.phone,
         restaurants: tempUser?.restaurants,
         plan_id: tempUser?.plan_id,
-        role: tempUser?.user?.role
+        role: tempUser?.role
       }
     };
   

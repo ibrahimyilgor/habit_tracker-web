@@ -29,6 +29,7 @@ import EyeIcon from '@heroicons/react/24/solid/EyeIcon';
 import { Link } from 'react-router-dom';
 import { getLinkOfMenu, navigateToLink } from 'src/utils/navigate-to-link';
 import Tag from 'src/utils/tag';
+import { SeverityPill } from 'src/components/severity-pill';
 
 export const TicketsTable = (props) => {
   const {
@@ -47,6 +48,12 @@ export const TicketsTable = (props) => {
     setSnackbarSeverity,
     setSnackbarMessage
   } = props;
+
+  const statusMap = {
+    ACTIVE: 'warning',
+    DONE: 'success',
+    CANCELLED: 'error'
+  };
 
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
@@ -94,7 +101,10 @@ export const TicketsTable = (props) => {
                       {ticket.description}
                     </TableCell>
                     <TableCell>
-                        <Tag status={ticket.status}/>
+                      {/* <Tag status={ticket.status}/> */}
+                      <SeverityPill color={statusMap[ticket.status]}>
+                        {t("statuses." + ticket.status.toLowerCase())}
+                      </SeverityPill>
                     </TableCell>
                   </TableRow>
                 );

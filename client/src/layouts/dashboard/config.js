@@ -18,6 +18,7 @@ export const items = [
   {
     title: 'Overview',
     path: '/',
+    permission: ["manager"],
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
@@ -27,6 +28,7 @@ export const items = [
   {
     title: 'Branches',
     path: '/branches',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <BuildingStorefrontIcon />
@@ -36,6 +38,7 @@ export const items = [
   {
     title: 'Menu',
     path: '/menu',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <DocumentTextIcon />
@@ -45,17 +48,17 @@ export const items = [
   {
     title: 'Theme',
     path: '/theme',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <PaintBrushIcon />
       </SvgIcon>
     )
   },
-
-
   {
     title: 'Plan',
     path: '/plan',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <CreditCardIcon />
@@ -65,6 +68,7 @@ export const items = [
   {
     title: 'Account',
     path: '/account',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
@@ -74,6 +78,7 @@ export const items = [
   {
     title: 'Faq',
     path: '/faq',
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <QuestionMark />
@@ -82,6 +87,7 @@ export const items = [
   },
   {
     title: 'Tickets',
+    permission: ["manager", "user"],
     path: '/tickets',
     icon: (
       <SvgIcon fontSize="small">
@@ -91,6 +97,7 @@ export const items = [
   },
   {
     title: 'Settings',
+    permission: ["manager", "user"],
     path: '/settings',
     icon: (
       <SvgIcon fontSize="small">
@@ -100,6 +107,7 @@ export const items = [
   },
   {
     title: 'Login',
+    permission: ["manager", "user", "customer"],
     path: '/auth/login',
     icon: (
       <SvgIcon fontSize="small">
@@ -109,6 +117,7 @@ export const items = [
   },
   {
     title: 'Register',
+    permission: ["manager", "user", "customer"],
     path: '/auth/register',
     icon: (
       <SvgIcon fontSize="small">
@@ -118,6 +127,7 @@ export const items = [
   },
   {
     title: 'Error',
+    permission: ["manager", "user", "customer"],
     path: '/404',
     icon: (
       <SvgIcon fontSize="small">
@@ -127,6 +137,7 @@ export const items = [
   },
   {
     title: 'Customers',
+    permission: ["manager", "user"],
     path: '/customers',
     icon: (
       <SvgIcon fontSize="small">
@@ -136,6 +147,7 @@ export const items = [
   },
   {
     title: 'Companies',
+    permission: ["manager", "user"],
     path: '/companies',
     icon: (
       <SvgIcon fontSize="small">
