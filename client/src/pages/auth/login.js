@@ -32,6 +32,8 @@ const Page = (props) => {
       password: '',
       submit: null
     },
+    validateOnBlur: false,
+    validateOnChange: true,
     validationSchema: Yup.object({
       email: Yup
         .string()
@@ -111,7 +113,7 @@ const Page = (props) => {
                     helperText={formik.touched.email && formik.errors.email}
                     label={t("login.email")}
                     name="email"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     type="email"
                     value={formik.values.email}
@@ -121,7 +123,7 @@ const Page = (props) => {
                     helperText={formik.touched.password && formik.errors.password}
                     label={t("login.password")}
                     name="password"
-                    onBlur={formik.handleBlur}
+                    // onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     type="password"
                     value={formik.values.password}
@@ -142,6 +144,7 @@ const Page = (props) => {
                   sx={{ mt: 3 }}
                   type="submit"
                   variant="contained"
+                  disabled={formik.errors.email || formik.errors.password}
                 >
                   {t("login.continue")}
                 </Button>

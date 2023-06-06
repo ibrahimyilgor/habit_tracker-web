@@ -15,17 +15,16 @@ import { BranchEdit } from 'src/sections/branch/branch-edit';
 import CustomizedSnackbars from 'src/sections/snackbar';
 import { TicketsTable } from 'src/sections/tickets/tickets-table';
 import { TicketsAdd } from 'src/sections/tickets/tickets-add';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const Tickets = () => {
   const {t} = useTranslation()
 
+  const state = useAuthContext()
+  
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openAdd, setOpenAdd] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
-  const [selectedForEdit, setSelectedForEdit] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -105,7 +104,7 @@ const Tickets = () => {
                 >
                 </Stack>
               </Stack>
-              {!openAdd && (
+              {!openAdd && state?.user?.user?.role === "user" && (
               <div>
                 <Button
                   startIcon={(

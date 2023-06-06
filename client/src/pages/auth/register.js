@@ -27,6 +27,8 @@ const Page = () => {
       surname: '',
       submit: null
     },
+    validateOnBlur: false,
+    validateOnChange: true,
     validationSchema: Yup.object({
       email: Yup
         .string()
@@ -40,6 +42,8 @@ const Page = () => {
       password: Yup
         .string()
         .max(255)
+        .min(8, t("register.minEightChars"))
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, t("register.passwordContentCriteria"))
         .required(t("register.passwordIsRequired"))
     }),
     onSubmit: async (values, helpers) => {
@@ -177,6 +181,7 @@ const Page = () => {
                 sx={{ mt: 3 }}
                 type="submit"
                 variant="contained"
+                disabled={formik.errors.name || formik.errors.email || formik.errors.password}
               >
                 {t("register.continue")}
               </Button>

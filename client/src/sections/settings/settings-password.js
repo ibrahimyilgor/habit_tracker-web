@@ -24,10 +24,8 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
     confirm: ''
   });
 
-  useEffect(() => {
-    console.log("ibrahimvalues",values)
-  }, [values])
-
+  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  
   const handleChange = useCallback(
     (event) => {
       setValues((prevState) => ({
@@ -41,7 +39,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      if(values.password === values.confirm)
+      if(values.password === values.confirm && regex.test(values.password))
         auth.updatePassword(state?.user?.user?._id, values.password).then(res => {
           console.log("ibrahimres",res)
           if(res.message){
@@ -59,6 +57,8 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
           setSnackbarSeverity('error');
           setSnackbarMessage('Password change error');
         })
+
+        setValues({password: '', confirm: ''})
     },
     [values]
   );
@@ -67,8 +67,8 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
-          subheader={t("account.updatePassword")}
-          title={t("account.password")}
+          subheader={t("account.passwordRequirements")}
+          title={t("account.updatePassword")}
         />
         <Divider />
         <CardContent>
@@ -96,7 +96,11 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained" type="submit" disabled={values.password !== values.confirm}>
+          <Button 
+            variant="contained" 
+            type="submit" 
+            disabled={values.password !== values.confirm || !regex.test(values.password)}
+          >
             {t("common.save")}
           </Button>
         </CardActions>

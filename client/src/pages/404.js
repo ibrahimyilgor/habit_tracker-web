@@ -5,16 +5,17 @@ import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from 'src/contexts/auth-context';
 
+export const links = {
+  user: "/menu",
+  manager: "/",
+  customer: "/branchMenu"
+}
+
 const Page = () => {
   
   const {t} = useTranslation()
   const state = useAuthContext()
 
-  const links = {
-    user: "/menu",
-    manager: "/",
-    customer: "/branchMenu"
-  }
 
   return (
   <>

@@ -13,6 +13,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -30,6 +31,8 @@ import { Link } from 'react-router-dom';
 import { getLinkOfMenu, navigateToLink } from 'src/utils/navigate-to-link';
 import Tag from 'src/utils/tag';
 import { SeverityPill } from 'src/components/severity-pill';
+import ClearIcon from '@mui/icons-material/Clear';
+import DoneIcon from '@mui/icons-material/Done';
 
 export const TicketsTable = (props) => {
   const {
@@ -79,6 +82,9 @@ export const TicketsTable = (props) => {
                 <TableCell>
                   {t("tickets.status")}
                 </TableCell>
+                <TableCell>
+                  {t("tickets.actions")}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,6 +111,27 @@ export const TicketsTable = (props) => {
                       <SeverityPill color={statusMap[ticket.status]}>
                         {t("statuses." + ticket.status.toLowerCase())}
                       </SeverityPill>
+                    </TableCell>
+                    <TableCell>
+                      <Tooltip title={t("common.edit")}>
+                        <SvgIcon //Edit branch
+                          htmlColor='#1976d2' 
+                          style={{marginRight: 5, cursor:"pointer"}}
+                          onClick={() => {
+                          }}>
+                            <ClearIcon />
+                          </SvgIcon>
+                      </Tooltip>
+
+                      <Tooltip title={t("common.edit")}>
+                        <SvgIcon //Edit branch
+                          htmlColor='#1976d2' 
+                          style={{marginRight: 5, cursor:"pointer"}}
+                          onClick={() => {
+                          }}>
+                            <DoneIcon />
+                          </SvgIcon>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 );

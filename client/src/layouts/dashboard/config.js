@@ -10,6 +10,7 @@ import CreditCardIcon from '@heroicons/react/24/solid/CreditCardIcon';
 import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
 import PaintBrushIcon from '@heroicons/react/24/solid/PaintBrushIcon';
 import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
+import ChatBubbleBottomCenterTextIcon from '@heroicons/react/24/solid/ChatBubbleBottomCenterTextIcon';
 import { SvgIcon } from '@mui/material';
 import { QuestionMark } from '@mui/icons-material';
 import BellIcon from '@heroicons/react/24/solid/BellIcon';
@@ -18,7 +19,7 @@ export const items = [
   {
     title: 'Overview',
     path: '/',
-    permission: ["manager"],
+    permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
@@ -66,12 +67,22 @@ export const items = [
     )
   },
   {
-    title: 'Account',
-    path: '/account',
+    title: 'Comments',
+    path: '/comments',
     permission: ["manager", "user"],
     icon: (
       <SvgIcon fontSize="small">
-        <UserIcon />
+        <ChatBubbleBottomCenterTextIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Tickets',
+    permission: ["manager", "user"],
+    path: '/tickets',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BellIcon />
       </SvgIcon>
     )
   },
@@ -86,12 +97,12 @@ export const items = [
     )
   },
   {
-    title: 'Tickets',
+    title: 'Account',
+    path: '/account',
     permission: ["manager", "user"],
-    path: '/tickets',
     icon: (
       <SvgIcon fontSize="small">
-        <BellIcon />
+        <UserIcon />
       </SvgIcon>
     )
   },

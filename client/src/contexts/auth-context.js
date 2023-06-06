@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useRef, useState } fr
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken'
+import { links } from 'src/pages/404';
 
 export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -260,15 +261,13 @@ export const AuthProvider = (props) => {
     )
     const loggedIn = await loggedInResponse.json()
 
-    console.log("saveduser",loggedIn)
-
     if (loggedIn.token){
       dispatch({
         type: HANDLERS.SIGN_IN,
         payload: loggedIn
       })
       window.sessionStorage.setItem('user', JSON.stringify(loggedIn.token))
-      router.push('/');
+      router.push(links[loggedIn?.user?.role]);
     }
 
     return loggedIn

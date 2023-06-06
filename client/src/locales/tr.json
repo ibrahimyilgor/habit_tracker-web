@@ -33,7 +33,8 @@
         "companies": "Şirketler",
         "faq": "S.S.S",
         "notifications": "Bildirimler",
-        "tickets": "Biletler"
+        "tickets": "Biletler",
+        "comments": "Yorumlar"
     },
     "branches": {
         "title": "Şubeler",
@@ -59,6 +60,7 @@
         "updatePassword": "Parolayı değiştir",
         "password": "Parola",
         "passwordConfirm": "Şifre (Tekrar)",
+        "passwordRequirements": "Şifre en az 8 karakterden oluşmalıdır. En az bir küçük, bir büyük harf ve bir sayı içermelidir.",
         "accountDelete": "Hesabı Sil",
         "accountDeleteMessage": "Hesabınız kalıcı olarak silinecektir"
     },
@@ -92,8 +94,10 @@
         "continue": "Kayıt Ol",
         "mustBeAValidEmail": "Geçerli bir email adresi giriniz",
         "emailIsRequired": "Email adresi gereklidir",
-        "passwordIsRequired": "Şifre gereklidir",
-        "nameIsRequired": "İsim gereklidir"
+        "minEightChars": "Şifre en az 8 karakterden oluşmalıdır",
+        "passwordContentCriteria": "Şifre en az bir küçük, bir büyük harf ve bir sayı içermelidir.",
+        "nameIsRequired": "İsim gereklidir",
+        "passwordIsRequired": "Şifre gereklidir"
     },
     "common": {
         "add": "Ekle",
