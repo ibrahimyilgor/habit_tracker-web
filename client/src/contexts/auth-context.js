@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken'
 import { links } from 'src/pages/404';
+import CustomizedSnackbars from 'src/sections/snackbar';
+import { useTranslation } from 'react-i18next';
 
 export const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -67,6 +69,13 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [userAvatar, setUserAvatar] = useState()
   const [userAvatarSrc, setUserAvatarSrc] = useState("")
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const {t} = useTranslation()
+
   const initialized = useRef(false);
   const router = useRouter();
 
@@ -250,34 +259,69 @@ export const AuthProvider = (props) => {
   };
 
   const forgotPassword = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch(
-      "http://localhost:3001/auth/forgotPassword",
-      {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(values)
+    try {
+      const loggedInResponse = await fetch(
+        "http://localhost:3001/auth/forgotPassword",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
+  
+      const loggedIn = await loggedInResponse.json();
+      console.log("loggedin", loggedIn)
+      if(loggedIn?.error === "no user found"){
+        setSnackbarOpen(true);
+        setSnackbarSeverity('error');
+        setSnackbarMessage(t("login.forgotPasswordErrorMessage"));
       }
-    )
-    const loggedIn = await loggedInResponse.json()
-
-    return loggedIn
-
+      else{
+        setSnackbarOpen(true);
+        setSnackbarSeverity('success');
+        setSnackbarMessage(t("login.forgotPasswordSuccessMessage"));
+      }
+      return loggedIn;
+    } catch (error) {
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+      setSnackbarMessage(t("login.forgotPasswordErrorMessage"));
+      throw error;
+    }
   };
 
   const changePassword = async (values, token) => {
-    const loggedInResponse = await fetch(
-      "http://localhost:3001/auth/changePassword",
-      {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({...values, token})
-      }
-    )
-    const loggedIn = await loggedInResponse.json()
+    try {
+      const loggedInResponse = await fetch(
+        "http://localhost:3001/auth/changePassword",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...values, token }),
+        }
+      );
+  
+      const loggedIn = await loggedInResponse.json();
+      setSnackbarOpen(true);
+      setSnackbarSeverity('success');
+      setSnackbarMessage(t("login.changePasswordSuccessMessage"));
 
-    return loggedIn
+      const loginPagePath = "/auth/login";
+      const currentHost = window.location.host;
+      const currentProtocol = window.location.protocol;
+      const loginPageURL = currentProtocol + "//" + currentHost + loginPagePath;
+      
+      window.location.href = loginPageURL;
 
+      return loggedIn;
+    } catch (error) {
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+      setSnackbarMessage(t("login.changePasswordErrorMessage"));
+      throw error;
+    }
   };
+  
 
   const signIn = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
@@ -296,7 +340,17 @@ export const AuthProvider = (props) => {
         payload: loggedIn
       })
       window.sessionStorage.setItem('user', JSON.stringify(loggedIn.token))
+
+      setSnackbarOpen(true);
+      setSnackbarSeverity('success');
+      setSnackbarMessage(t("login.loginSuccessMessage"));
+
       router.push(links[loggedIn?.user?.role]);
+    }
+    else {
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+      setSnackbarMessage(t("login.loginErrorMessage"));
     }
 
     return loggedIn
@@ -304,54 +358,71 @@ export const AuthProvider = (props) => {
   };
 
   const signUp = async (formData) => {
-
-    // const password = formData.password;
-    // const saltRounds = 10;
-    // const hashedPassword = await bcrypt.hash(password, saltRounds);
-    // formData.password = hashedPassword
-
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData
-      }
-    )
-
-    const savedUser = await savedUserResponse.json();
-    console.log("saveduser",savedUser)
-    return savedUser
-
+    try {
+      // const password = formData.password;
+      // const saltRounds = 10;
+      // const hashedPassword = await bcrypt.hash(password, saltRounds);
+      // formData.password = hashedPassword
+  
+      const savedUserResponse = await fetch(
+        "http://localhost:3001/auth/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      const savedUser = await savedUserResponse.json();
+      setSnackbarOpen(true);
+      setSnackbarSeverity('success');
+      setSnackbarMessage(t("register.successMessage"));
+      return savedUser;
+    } catch (error) {
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+      setSnackbarMessage(t("register.errorMessage"));
+      throw error;
+    }
   };
 
   const signOut = () => {
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
+    setUserAvatar()
+    setUserAvatarSrc()
     sessionStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        forgotPassword,
-        changePassword,
-        signIn,
-        signUp,
-        signOut,
-        getUser,
-        deleteUser,
-        updatePassword,
-        userAvatar,
-        setUserAvatar,
-        fetchUserAvatar,
-        userAvatarSrc,
-        setUserAvatarSrc
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider
+        value={{
+          ...state,
+          forgotPassword,
+          changePassword,
+          signIn,
+          signUp,
+          signOut,
+          getUser,
+          deleteUser,
+          updatePassword,
+          userAvatar,
+          setUserAvatar,
+          fetchUserAvatar,
+          userAvatarSrc,
+          setUserAvatarSrc
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage} 
+      />
+    </>
   );
 };
 

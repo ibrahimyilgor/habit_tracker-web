@@ -34,6 +34,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { ConfirmModal } from 'src/components/confirmModal';
 
 export const BranchesTable = (props) => {
   const {
@@ -57,6 +58,9 @@ export const BranchesTable = (props) => {
 
   const state = useAuthContext()
   const restaurant = useRestaurantContext()
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [selectedForDelete, setSelectedForDelete] = useState();
 
   const qrCodeRef = useRef(null);
 
@@ -162,22 +166,7 @@ export const BranchesTable = (props) => {
                           <SvgIcon //Delete branch
                             htmlColor='#f44336' 
                             style={{marginRight: 5, cursor:"pointer"}}
-                            onClick={() => {
-                              restaurant.deleteBranch(customer?._id, state?.user?.user?._id).then(res => {
-                                if(res.success === true){
-                                  setSnackbarOpen(true);
-                                  setSnackbarSeverity('success');
-                                  setSnackbarMessage('Branch deleted successfully!');
-                                  restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
-                                }
-                                else {
-                                  setSnackbarOpen(true);
-                                  setSnackbarSeverity('error');
-                                  setSnackbarMessage('Branch could not deleted successfully!');
-                                }
-                              }); 
-
-                            } }>
+                            onClick={() => {setConfirmModalOpen(true); setSelectedForDelete(customer)} }>
                               <DeleteIcon />
                           </SvgIcon>
                         </Tooltip>
@@ -221,6 +210,31 @@ export const BranchesTable = (props) => {
         labelDisplayedRows={({ from, to, count }) => t('branches.displayedRows', { from: from, to: to, count, count })}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
+      />
+      <ConfirmModal
+        open={confirmModalOpen} 
+        onClose={() => {setConfirmModalOpen(false)}}
+        leftButtonMessage={t("common.back")} 
+        rightButtonMessage={t("common.delete")} 
+        title={t("branches.deleteConfirmModalTitle")} 
+        description={t("branches.deleteConfirmModalDescription", {name: selectedForDelete?.name || ""})} 
+        leftAction={() => {setConfirmModalOpen(false)}} 
+        rightAction={() => {
+          restaurant.deleteBranch(selectedForDelete?._id, state?.user?.user?._id).then(res => {
+            if(res.success === true){
+              setSnackbarOpen(true);
+              setSnackbarSeverity('success');
+              setSnackbarMessage('Branch deleted successfully!');
+              setConfirmModalOpen(false)
+              restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
+            }
+            else {
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('Branch could not deleted successfully!');
+            }
+          }); 
+        }} 
       />
     </Card>
   );

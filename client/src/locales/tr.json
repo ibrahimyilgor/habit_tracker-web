@@ -47,7 +47,9 @@
         "nameMinThreeChar": "Şube adı en az üç karakterden oluşmalıdır",
         "rowsPerPageLabel": "Sayfa başına şube sayısı",
         "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
-        "qr": "QR Kod"
+        "qr": "QR Kod",
+        "deleteConfirmModalTitle": "Şubeyi Sil",
+        "deleteConfirmModalDescription": "{{name}} isimli şubeyi sildiğinizde aynı QR kodu tekrar kullanamazsınız. Şubeyi silmek istediğinize emin misiniz?"
     },
     "account": {
         "title": "Hesap",
@@ -62,7 +64,11 @@
         "passwordConfirm": "Şifre (Tekrar)",
         "passwordRequirements": "Şifre en az 8 karakterden oluşmalıdır. En az bir küçük, bir büyük harf ve bir sayı içermelidir.",
         "accountDelete": "Hesabı Sil",
-        "accountDeleteMessage": "Hesabınız kalıcı olarak silinecektir"
+        "accountDeleteMessage": "Hesabınız kalıcı olarak silinecektir",
+        "avatarUpdateSuccess": "Fotoğraf başarıyla güncellendi",
+        "avatarUpdateError": "Fotoğraf güncellenemedi",
+        "updateSuccessMessage": "Hesap başarıyla güncellendi",
+        "updateErrorMessage": "Hesap güncellenemedi"
     },
     "imageUploader": {
         "title": "Fotoğrafı Güncelle",
@@ -76,6 +82,10 @@
     "login": {
         "sendEmail": "Şifre yenileme maili gönder",
         "forgotPassword": "Şifrenizi mi unuttunuz?",
+        "forgotPasswordSuccessMessage": "Şifre yenileme linki mail adresinize gönderildi",
+        "forgotPasswordErrorMessage": "Şifre yenileme işlemi başarısız",
+        "changePasswordSuccessMessage": "Şifre yenileme işlemi başarılı",
+        "changePasswordErrorMessage": "Şifre yenileme işlemi başarısız",
         "title": "Giriş Yap",
         "email": "Email Adresi",
         "password": "Şifre",
@@ -84,7 +94,9 @@
         "continue": "Giriş Yap",
         "mustBeAValidEmail": "Geçerli bir email adresi giriniz",
         "emailIsRequired": "Email adresi gereklidir",
-        "passwordIsRequired": "Şifre gereklidir"
+        "passwordIsRequired": "Şifre gereklidir",
+        "loginSuccessMessage": "Başarıyla giriş yapıldı",
+        "loginErrorMessage": "Giriş yapılamadı"
     },
     "register": {
         "title": "Kayıt Ol",
@@ -99,7 +111,9 @@
         "minEightChars": "Şifre en az 8 karakterden oluşmalıdır",
         "passwordContentCriteria": "Şifre en az bir küçük, bir büyük harf ve bir sayı içermelidir.",
         "nameIsRequired": "İsim gereklidir",
-        "passwordIsRequired": "Şifre gereklidir"
+        "passwordIsRequired": "Şifre gereklidir",
+        "successMessage": "Başarıyla kayıt olundu",
+        "errorMessage": "Kayıt olma işlemi başarısız"
     },
     "common": {
         "add": "Ekle",

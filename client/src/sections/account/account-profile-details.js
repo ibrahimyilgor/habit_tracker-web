@@ -54,13 +54,15 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
       console.log("submit", data)
       setSnackbarOpen(true);
       setSnackbarSeverity('success');
-      setSnackbarMessage('Account updated successfully!');
+      setSnackbarMessage(t("account.updateSuccessMessage"));
       state.getUser(state?.user?.user?._id)
 
       return data;
       } catch (error) {
         console.error("Error updating user:", error);
-        // handle the error, e.g. show a message to the user
+        setSnackbarOpen(true);
+        setSnackbarSeverity('error');
+        setSnackbarMessage(t("account.updateErrorMessage"));
       }
     },
     [values]

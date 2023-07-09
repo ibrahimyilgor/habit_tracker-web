@@ -12,6 +12,7 @@ import {
 import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useTranslation } from 'react-i18next';
+import { ConfirmModal } from 'src/components/confirmModal';
 
 export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const auth = useAuth();
@@ -19,6 +20,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
 
   const {t} = useTranslation()
 
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [values, setValues] = useState({
     password: '',
     confirm: ''
@@ -39,26 +41,7 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      if(values.password === values.confirm && regex.test(values.password))
-        auth.updatePassword(state?.user?.user?._id, values.password).then(res => {
-          console.log("ibrahimres",res)
-          if(res.message){
-            setSnackbarOpen(true);
-            setSnackbarSeverity('success');
-            setSnackbarMessage('Password updated successfully!');
-          }
-          else if(res.success === false){
-            setSnackbarOpen(true);
-            setSnackbarSeverity('error');
-            setSnackbarMessage('Password change error');
-          }
-        }).catch(err => {
-          setSnackbarOpen(true);
-          setSnackbarSeverity('error');
-          setSnackbarMessage('Password change error');
-        })
-
-        setValues({password: '', confirm: ''})
+      setConfirmModalOpen(true)
     },
     [values]
   );
@@ -105,6 +88,37 @@ export const SettingsPassword = ({setSnackbarOpen, setSnackbarSeverity, setSnack
           </Button>
         </CardActions>
       </Card>
+      <ConfirmModal
+        open={confirmModalOpen} 
+        onClose={() => {setConfirmModalOpen(false)}}
+        leftButtonMessage={t("common.back")} 
+        rightButtonMessage={t("account.updatePassword")} 
+        title={t("account.updatePassword")} 
+        // description={t("account.passwordRequirements")} 
+        leftAction={() => {setConfirmModalOpen(false)}} 
+        rightAction={() => {
+          if(values.password === values.confirm && regex.test(values.password))
+          auth.updatePassword(state?.user?.user?._id, values.password).then(res => {
+            console.log("ibrahimres",res)
+            if(res.message){
+              setSnackbarOpen(true);
+              setSnackbarSeverity('success');
+              setSnackbarMessage('Password updated successfully!');
+            }
+            else if(res.success === false){
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('Password change error');
+            }
+          }).catch(err => {
+            setSnackbarOpen(true);
+            setSnackbarSeverity('error');
+            setSnackbarMessage('Password change error');
+          })
+          setValues({password: '', confirm: ''})
+          setConfirmModalOpen(false)
+        }} 
+      />
     </form>
   );
 };

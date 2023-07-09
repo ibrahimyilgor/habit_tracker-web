@@ -85,11 +85,14 @@ export const AccountProfile = () => {
         });
 
         fetchUserAvatar(state.user?.user?._id)
-
+        setUploadImageOpen(false)
+        setSnackbarOpen(true);
+        setSnackbarSeverity('success');
+        setSnackbarMessage(t("account.avatarUpdateSuccess"))
       } catch (error) {
         setSnackbarOpen(true);
         setSnackbarSeverity('error');
-        setSnackbarMessage('User avatar could not updated')
+        setSnackbarMessage(t("account.avatarUpdateError"))
         // handle the error, e.g. show a message to the user
       }
     },

@@ -166,15 +166,6 @@ const Page = () => {
                   value={formik.values.password}
                 />
               </Stack>
-              {formik.errors.submit && (
-                <Typography
-                  color="error"
-                  sx={{ mt: 3 }}
-                  variant="body2"
-                >
-                  {formik.errors.submit}
-                </Typography>
-              )}
               <Button
                 fullWidth
                 size="large"
@@ -193,7 +184,8 @@ const Page = () => {
         open={snackbarOpen}
         setOpen={setSnackbarOpen}
         severity={snackbarSeverity}
-        message={snackbarMessage} />
+        message={snackbarMessage} 
+      />
     </>
   );
 };

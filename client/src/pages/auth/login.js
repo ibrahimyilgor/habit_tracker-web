@@ -128,16 +128,7 @@ const Page = (props) => {
                     type="password"
                     value={formik.values.password}
                   />
-                </Stack>
-                {formik.errors.submit && (
-                  <Typography
-                    color="error"
-                    sx={{ mt: 3 }}
-                    variant="body2"
-                  >
-                    {formik.errors.submit}
-                  </Typography>
-                )}
+                </Stack>  
                 <Button
                   fullWidth
                   size="large"

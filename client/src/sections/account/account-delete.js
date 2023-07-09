@@ -12,12 +12,15 @@ import {
 import { useAuthContext } from 'src/contexts/auth-context';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { ConfirmModal } from 'src/components/confirmModal';
 
 export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage}) => {
   const router = useRouter();
   const state = useAuthContext()
 
   const {t} = useTranslation()
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const [values, setValues] = useState({
     password: '',
@@ -37,20 +40,8 @@ export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbar
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      state.deleteUser(state?.user?.user?._id).then(res => {
-        console.log("ibrahimres",res)
-        if(res.success === true){
-          setSnackbarOpen(true);
-          setSnackbarSeverity('success');
-          setSnackbarMessage('Branch deleted successfully!');
-          router.push('/auth/login');
-        }
-        else {
-          setSnackbarOpen(true);
-          setSnackbarSeverity('error');
-          setSnackbarMessage('User could not deleted successfully!');
-        }
-      }); 
+      setConfirmModalOpen(true)
+
     },
     []
   );
@@ -78,6 +69,31 @@ export const AccountDelete = ({setSnackbarOpen, setSnackbarSeverity, setSnackbar
           </Button>
         </CardActions>
       </Card>
+      <ConfirmModal
+        open={confirmModalOpen} 
+        onClose={() => {setConfirmModalOpen(false)}}
+        leftButtonMessage={t("common.back")} 
+        rightButtonMessage={t("common.delete")} 
+        title={t("account.accountDelete")} 
+        description={t("account.accountDeleteMessage")} 
+        leftAction={() => {setConfirmModalOpen(false)}} 
+        rightAction={() => {
+          state.deleteUser(state?.user?.user?._id).then(res => {
+            console.log("ibrahimres",res)
+            if(res.success === true){
+              setSnackbarOpen(true);
+              setSnackbarSeverity('success');
+              setSnackbarMessage('Branch deleted successfully!');
+              router.push('/auth/login');
+            }
+            else {
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('User could not deleted successfully!');
+            }
+          }); 
+        }} 
+      />
     </form>
   );
 };

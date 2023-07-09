@@ -47,7 +47,9 @@
         "nameMinThreeChar": "Branch name must be at least three characters",
         "rowsPerPageLabel": "Rows per page",
         "displayedRows": "{{from}}-{{to}} of {{count}}",
-        "qr": "QR Code"
+        "qr": "QR Code",
+        "deleteConfirmModalTitle": "Delete Branch",
+        "deleteConfirmModalDescription": "When you delete branch {{name}}, you cannot use the same QR code again. Are you sure to delete the branch?"
     },
     "account": {
         "title": "Account",
@@ -62,7 +64,11 @@
         "password": "Password",
         "passwordConfirm": "Confirm Password",
         "accountDelete": "Delete Account",
-        "accountDeleteMessage": "Your account will be permanently deleted"
+        "accountDeleteMessage": "Your account will be permanently deleted",
+        "avatarUpdateSuccess": "Avatar updated successfully",
+        "avatarUpdateError": "Avatar could not updated",
+        "updateSuccessMessage": "Account updated successfully",
+        "updateErrorMessage": "Account could not updated"
     },
     "imageUploader": {
         "title": "Update Photo",
@@ -76,6 +82,10 @@
     "login": {
         "sendEmail": "Send password reset link",
         "forgotPassword": "Forgot password?",
+        "forgotPasswordSuccessMessage": "Password reset link is sent to your email",
+        "forgotPasswordErrorMessage": "Password reset process is unsuccessful",
+        "changePasswordSuccessMessage": "Password is changed",
+        "changePasswordErrorMessage": "Password could not changed",
         "title": "Login",
         "email": "Email Address",
         "password": "Password",
@@ -84,7 +94,9 @@
         "continue": "Login",
         "mustBeAValidEmail": "Please enter a valid email address",
         "emailIsRequired": "Email address is required",
-        "passwordIsRequired": "Password is required"
+        "passwordIsRequired": "Password is required",
+        "loginSuccessMessage": "Successful login",
+        "loginErrorMessage": "Unsuccessful login"
     },
     "register": {
         "title": "Register",
@@ -99,7 +111,9 @@
         "minEightChars": "The password must contain at least 8 characters",
         "passwordContentCriteria": "The password must contain at least one lowercase letter, one uppercase letter, and one number.",
         "passwordIsRequired": "Password is required",
-        "nameIsRequired": "Name is requierd"
+        "nameIsRequired": "Name is requierd",
+        "successMessage": "Successful register",
+        "errorMessage": "Unsuccessful register"
     },
     "common": {
         "add": "Add",
