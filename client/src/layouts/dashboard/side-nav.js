@@ -159,7 +159,7 @@ export const SideNav = (props) => {
             {items.map((item) => {
               const active = item.path ? (pathname === item.path) : false;
 
-              if(item.permission?.includes(state?.user?.user?.role)){
+              if(item.permission?.includes(state?.user?.user?.role) && item.visibleOnSideNav !== false){
                 return (
                   <SideNavItem
                     active={active}

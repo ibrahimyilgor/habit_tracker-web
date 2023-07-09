@@ -74,6 +74,8 @@
         "goBackToDashboard": "Genel bakışa geri dön"
     },
     "login": {
+        "sendEmail": "Şifre yenileme maili gönder",
+        "forgotPassword": "Şifrenizi mi unuttunuz?",
         "title": "Giriş Yap",
         "email": "Email Adresi",
         "password": "Şifre",
@@ -152,6 +154,17 @@
     },
     "overview": {
         "branches": "Şubeler"
+    },
+    "rePassword": {
+        "title": "Şifreni Değiştir",
+        "email":"Email Adresi",
+        "password": "Şifre",
+        "RePassword": "Şifre (Tekrar)",
+        "login": "Giriş Yap",
+        "continue": "Şifreyi Değiştir",
+        "rememberedPw": "Şifrenizi hatırladınız mı? ",
+        "rePasswordIsRequired": "Şifre (Tekrar) gereklidir",
+        "passwordsMustMatch": "Şifreler aynı olmalıdır"
     }
 }
   

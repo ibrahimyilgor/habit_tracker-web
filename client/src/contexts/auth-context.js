@@ -207,48 +207,77 @@ export const AuthProvider = (props) => {
   
     return tempUser;
   };
-  
 
-    const deleteUser = async (id) => {
-      try {
-        const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
-          method: 'DELETE',
-          headers: {
-            "Authorization": "Bearer " + state?.user?.token
-          },
-        });
-        const data = await response.json();
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
+        method: 'DELETE',
+        headers: {
+          "Authorization": "Bearer " + state?.user?.token
+        },
+      });
+      const data = await response.json();
 
-        dispatch({
-          type: HANDLERS.SIGN_OUT
-        })
-        sessionStorage.removeItem('user');
-        return {success: true}
-      } catch (error) {
-        console.log("errorr",error)
-        return {success: false}
+      dispatch({
+        type: HANDLERS.SIGN_OUT
+      })
+      sessionStorage.removeItem('user');
+      return {success: true}
+    } catch (error) {
+      console.log("errorr",error)
+      return {success: false}
+    }
+  };
+
+  const updatePassword = async (id, password) => {
+    try {
+      const response = await fetch("http://localhost:3001/auth/updatePassword", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + state?.user?.token
+        },
+        body: JSON.stringify({ _id: id, password: password })
+      });
+      const data = await response.json();
+      console.log("submit", data)
+
+    return data;
+    } catch (error) {
+      console.log("errorr",error)
+      return {success: false}
+    }
+  };
+
+  const forgotPassword = async (values, onSubmitProps) => {
+    const loggedInResponse = await fetch(
+      "http://localhost:3001/auth/forgotPassword",
+      {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(values)
       }
-    };
+    )
+    const loggedIn = await loggedInResponse.json()
 
-    const updatePassword = async (id, password) => {
-      try {
-        const response = await fetch("http://localhost:3001/auth/updatePassword", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + state?.user?.token
-          },
-          body: JSON.stringify({ _id: id, password: password })
-        });
-        const data = await response.json();
-        console.log("submit", data)
+    return loggedIn
 
-      return data;
-      } catch (error) {
-        console.log("errorr",error)
-        return {success: false}
+  };
+
+  const changePassword = async (values, token) => {
+    const loggedInResponse = await fetch(
+      "http://localhost:3001/auth/changePassword",
+      {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({...values, token})
       }
-    };
+    )
+    const loggedIn = await loggedInResponse.json()
+
+    return loggedIn
+
+  };
 
   const signIn = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
@@ -306,6 +335,8 @@ export const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         ...state,
+        forgotPassword,
+        changePassword,
         signIn,
         signUp,
         signOut,

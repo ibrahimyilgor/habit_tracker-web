@@ -21,33 +21,51 @@ import {
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { useTranslation } from 'react-i18next';
+import jwt from "jsonwebtoken"
 
 const Page = (props) => {
   const {t} = useTranslation()
   const router = useRouter();
   const auth = useAuth();
+
+  const [token, setToken] = useState()
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenTemp = urlParams.get('token');
+
+    // Now you have the token, you can perform any necessary actions
+    const decodedToken = jwt.decode(tokenTemp);
+    console.log("decodedToken", decodedToken);
+    setToken(decodedToken)
+    // You can pass the token to an API endpoint or use it as needed for password reset functionality
+    // For example: send an API request to verify the token and display the appropriate UI
+    // resetPassword(token);
+
+  }, []);
+
   const formik = useFormik({
     initialValues: {
-      email: '',
       password: '',
+      rePassword: '',
       submit: null
     },
     validateOnBlur: false,
     validateOnChange: true,
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email(t("login.mustBeAValidEmail"))
-        .max(255)
-        .required(t("login.emailIsRequired")),
-      password: Yup
-        .string()
-        .max(255)
-        .required(t("login.passwordIsRequired"))
+        password: Yup
+            .string()
+            .max(255)
+            .min(8, t("register.minEightChars"))
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, t("register.passwordContentCriteria"))
+            .required(t("register.passwordIsRequired")),
+        rePassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], t("rePassword.passwordsMustMatch"))
+            .required(t("rePassword.rePasswordIsRequired")),
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values, null);
+        await auth.changePassword(values, token);
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -56,11 +74,24 @@ const Page = (props) => {
     }
   });
 
+  const isDisabled = () => {
+    try {
+      if (!token || !token.exp) {
+        return true; // Invalid token or missing expiration time
+      }
+      const currentTime = Math.floor(Date.now() / 1000);
+      console.log("irrrr", currentTime, token)
+      return currentTime > token.exp;
+    } catch (err) {
+      return true; // Invalid token or error occurred
+    }
+  };
+
   return (
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Change Password | Devias Kit
         </title>
       </Head>
       <Box
@@ -86,20 +117,20 @@ const Page = (props) => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                {t("login.title")}
+                {t("rePassword.title")}
               </Typography>
               <Typography
                 color="text.secondary"
                 variant="body2"
               >
-                {t("login.doYouHaveAnAccount")}
+                {t("rePassword.rememberedPw")}
                 <Link
                   component={NextLink}
-                  href="/auth/register"
+                  href="/auth/login"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  {t("login.register")}
+                  {t("register.login")}
                 </Link>
               </Typography>
             </Stack>
@@ -110,23 +141,31 @@ const Page = (props) => {
                 <Stack spacing={3}>
                   <TextField
                     fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
-                    label={t("login.email")}
+                    label={t("rePassword.email")}
                     name="email"
-                    // onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
                     type="email"
-                    value={formik.values.email}
+                    value={token?.name || ""}
+                    disabled={true}
                   />
                   <TextField
                     fullWidth
                     helperText={formik.touched.password && formik.errors.password}
-                    label={t("login.password")}
+                    label={t("rePassword.password")}
                     name="password"
-                    // onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     type="password"
                     value={formik.values.password}
+                  />
+                  <TextField
+                    fullWidth
+                    helperText={formik.touched.rePassword && formik.errors.rePassword}
+                    label={t("rePassword.RePassword")}
+                    name="rePassword"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="password"
+                    value={formik.values.rePassword}
                   />
                 </Stack>
                 {formik.errors.submit && (
@@ -144,27 +183,10 @@ const Page = (props) => {
                   sx={{ mt: 3 }}
                   type="submit"
                   variant="contained"
-                  disabled={formik.errors.email || formik.errors.password}
+                  disabled={(formik.errors.password || formik.errors.rePassword) || isDisabled()}
                 >
-                  {t("login.continue")}
+                  {t("rePassword.continue")}
                 </Button>
-                <Link
-                  component={NextLink}
-                  href="/auth/forgot-password"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  <Button
-                    fullWidth
-                    size="large"
-                    sx={{ mt: 3 }}
-                    type="submit"
-                    variant="text"
-                    disabled={formik.errors.email || formik.errors.password}
-                  >
-                    {t("login.forgotPassword")}
-                  </Button>
-                </Link>
               </form>
           </div>
         </Box>

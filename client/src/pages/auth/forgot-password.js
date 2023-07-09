@@ -29,7 +29,6 @@ const Page = (props) => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
       submit: null
     },
     validateOnBlur: false,
@@ -40,14 +39,10 @@ const Page = (props) => {
         .email(t("login.mustBeAValidEmail"))
         .max(255)
         .required(t("login.emailIsRequired")),
-      password: Yup
-        .string()
-        .max(255)
-        .required(t("login.passwordIsRequired"))
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values, null);
+        await auth.forgotPassword(values, null);
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -60,7 +55,7 @@ const Page = (props) => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Forgot Password | Devias Kit
         </title>
       </Head>
       <Box
@@ -86,22 +81,16 @@ const Page = (props) => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                {t("login.title")}
+                {t("login.forgotPassword")}
               </Typography>
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                {t("login.doYouHaveAnAccount")}
                 <Link
                   component={NextLink}
-                  href="/auth/register"
+                  href="/auth/login"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  {t("login.register")}
+                  {t("login.continue")}
                 </Link>
-              </Typography>
             </Stack>
               <form
                 noValidate
@@ -117,16 +106,6 @@ const Page = (props) => {
                     onChange={formik.handleChange}
                     type="email"
                     value={formik.values.email}
-                  />
-                  <TextField
-                    fullWidth
-                    helperText={formik.touched.password && formik.errors.password}
-                    label={t("login.password")}
-                    name="password"
-                    // onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type="password"
-                    value={formik.values.password}
                   />
                 </Stack>
                 {formik.errors.submit && (
@@ -146,25 +125,8 @@ const Page = (props) => {
                   variant="contained"
                   disabled={formik.errors.email || formik.errors.password}
                 >
-                  {t("login.continue")}
+                  {t("login.sendEmail")}
                 </Button>
-                <Link
-                  component={NextLink}
-                  href="/auth/forgot-password"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  <Button
-                    fullWidth
-                    size="large"
-                    sx={{ mt: 3 }}
-                    type="submit"
-                    variant="text"
-                    disabled={formik.errors.email || formik.errors.password}
-                  >
-                    {t("login.forgotPassword")}
-                  </Button>
-                </Link>
               </form>
           </div>
         </Box>

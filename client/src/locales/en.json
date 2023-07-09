@@ -74,6 +74,8 @@
         "goBackToDashboard": "Go back to dashboard"
     },
     "login": {
+        "sendEmail": "Send password reset link",
+        "forgotPassword": "Forgot password?",
         "title": "Login",
         "email": "Email Address",
         "password": "Password",
@@ -152,6 +154,17 @@
     },
     "overview": {
         "branches": "Branches"
+    },
+    "rePassword": {
+        "title": "Change Password",
+        "email":"Email Address",
+        "password": "Password",
+        "RePassword": "Password (Confirm)",
+        "login": "Login",
+        "continue": "Change Password",
+        "rememberedPw": "Remembered your password? ",
+        "rePasswordIsRequired": "Password (Confirm) is required",
+        "passwordsMustMatch": "Passwords must be matched"
     }
 }
   

@@ -137,6 +137,28 @@ export const items = [
     )
   },
   {
+    title: 'Forgot Password',
+    permission: ["manager", "user", "customer"],
+    path: '/auth/forgot-password',
+    visibleOnSideNav: false,
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Change Password',
+    permission: ["manager", "user", "customer"],
+    path: '/auth/change-password',
+    visibleOnSideNav: false,
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Error',
     permission: ["manager", "user", "customer"],
     path: '/404',
