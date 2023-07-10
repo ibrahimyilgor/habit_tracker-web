@@ -179,6 +179,14 @@
         "rememberedPw": "Şifrenizi hatırladınız mı? ",
         "rePasswordIsRequired": "Şifre (Tekrar) gereklidir",
         "passwordsMustMatch": "Şifreler aynı olmalıdır"
+    },
+    "comments": {
+        "id": "ID",
+        "branch": "Şube Adı",
+        "rate": "Puan",
+        "comment": "Yorum",
+        "rowsPerPageLabel": "Sayfa başına yorum sayısı",
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası"
     }
 }
   

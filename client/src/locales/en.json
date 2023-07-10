@@ -179,6 +179,14 @@
         "rememberedPw": "Remembered your password? ",
         "rePasswordIsRequired": "Password (Confirm) is required",
         "passwordsMustMatch": "Passwords must be matched"
+    },
+    "comments": {
+        "id": "ID",
+        "branch": "Branch Name",
+        "rate": "Rate",
+        "comment": "Comment",
+        "rowsPerPageLabel": "Comments per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}"
     }
 }
   

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
@@ -7,6 +7,8 @@ import { Box, Container, Stack } from '@mui/system';
 import Head from 'next/head';
 import { useAuthContext } from 'src/contexts/auth-context';
 import i18n from 'src/i18n';
+import { BranchesTable } from 'src/sections/branch/branches-table';
+import { CommentsTable } from 'src/sections/comment/comments-table';
 
 
 const Comments = () => {
@@ -14,6 +16,23 @@ const Comments = () => {
   const state = useAuthContext()
 
   const lang = i18n.language
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleRowsPerPageChange = useCallback(
+    (event) => {
+      setRowsPerPage(event.target.value);
+    },
+    []
+  );
+
+  const handlePageChange = useCallback(
+    (event, value) => {
+      setPage(value);
+    },
+    []
+  );
 
   return (
     <>
@@ -36,6 +55,54 @@ const Comments = () => {
                             {t("sideNav.comments")}
                         </Typography>
                     </div>
+                </Stack>
+                <Stack spacing={0}>
+                        <CommentsTable
+                            count={6}
+                            items={[
+                                {
+                                    id: 1,
+                                    branch: "xasd",
+                                    rate: 5,
+                                    comment: "czfdadsfadafssfd"
+                                },
+                                {
+                                    id: 2,
+                                    branch: "asdfx",
+                                    rate: 3,
+                                    comment: "afdsafdsfds"
+                                },
+                                {
+                                    id: 3,
+                                    branch: "xqweq",
+                                    rate: 8,
+                                    comment: "qewrqwerqwf"
+                                },
+                                {
+                                    id: 4,
+                                    branch: "fasdfax",
+                                    rate: 1,
+                                    comment: "fhgjftnbdrt"
+                                },
+                                {
+                                    id: 5,
+                                    branch: "xwerqweqw",
+                                    rate: 9,
+                                    comment: "rttertwer"
+                                },
+                                {
+                                    id: 6,
+                                    branch: "asdasd",
+                                    rate: 10,
+                                    comment: "qwedasd"
+                                }
+                            ]}
+                            onPageChange={handlePageChange}
+                            onRowsPerPageChange={handleRowsPerPageChange}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            // selected={branchesSelection.selected}
+                        />
                 </Stack>
             </Container>
         </Box>
