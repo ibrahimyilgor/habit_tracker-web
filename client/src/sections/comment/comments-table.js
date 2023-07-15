@@ -46,10 +46,20 @@ export const CommentsTable = (props) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
+    getComments = () => {},
+    setSnackbarOpen,
+    setSnackbarSeverity,
+    setSnackbarMessage
   } = props;
 
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [selectedForDelete, setSelectedForDelete] = useState();
+
   const state = useAuthContext()
-  const restaurant = useRestaurantContext()
+
+useEffect(() => {
+  console.log("countt",count)
+},[count])
 
   const {t} = useTranslation()
 
@@ -60,9 +70,6 @@ export const CommentsTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-              <TableCell>
-                  {t("comments.id")}
-                </TableCell>
                 <TableCell>
                   {t("comments.branch")}
                 </TableCell>
@@ -72,10 +79,13 @@ export const CommentsTable = (props) => {
                 <TableCell>
                   {t("comments.comment")}
                 </TableCell>
+                <TableCell>
+                  {t("comments.actions")}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((comment) => {
+              {items && items.map((comment) => {
                 const isSelected = selected.includes(comment.id);
 
                 return (
@@ -85,17 +95,25 @@ export const CommentsTable = (props) => {
                         selected={isSelected}
                     >
                         <TableCell>
-                            {comment.id}
-                        </TableCell>
-                        <TableCell>
-                            {comment.branch}
+                            {comment?.restaurant?.name ?? "-"}
                         </TableCell>
                         <TableCell>
                             <Rating disabled={true} name="customized-10" defaultValue={comment.rate} max={10} />
                         </TableCell>
                         <TableCell>
-                            {comment.comment}
+                            {comment?.comment ?? "-"}
                         </TableCell>
+                        <TableCell>
+
+                            <Tooltip title={t("common.delete")}>
+                              <SvgIcon //Delete branch
+                                htmlColor='#f44336' 
+                                style={{marginRight: 5, cursor:"pointer"}}
+                                onClick={() => {setConfirmModalOpen(true); setSelectedForDelete(comment)} }>
+                                  <DeleteIcon />
+                              </SvgIcon>
+                            </Tooltip>
+                    </TableCell>
                     </TableRow>
                 );
               })}
@@ -114,6 +132,35 @@ export const CommentsTable = (props) => {
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
+      <ConfirmModal
+        open={confirmModalOpen} 
+        onClose={() => {setConfirmModalOpen(false)}}
+        leftButtonMessage={t("common.back")} 
+        rightButtonMessage={t("common.delete")} 
+        title={t("comments.deleteConfirmModalTitle")} 
+        description={t("comments.deleteConfirmModalDescription", {name: selectedForDelete?.name || ""})} 
+        leftAction={() => {setConfirmModalOpen(false)}} 
+        rightAction={ async () => {
+            try {
+              const response = await fetch(`http://localhost:3001/comment/${selectedForDelete?._id}/deleteComment`, {
+                method: 'DELETE',
+                headers: {
+                  "Authorization": "Bearer " + state?.user?.token
+                },
+              });
+              const data = await response.json();
+              setSnackbarOpen(true);
+              setSnackbarSeverity('success');
+              setSnackbarMessage('Comment deleted successfully!');
+              setConfirmModalOpen(false)
+              getComments(state?.user?.user?._id, state?.user?.token, null)
+            } catch (error) {
+              setSnackbarOpen(true);
+              setSnackbarSeverity('error');
+              setSnackbarMessage('Comment could not deleted successfully!');
+            }
+        }} 
+      />
     </Card>
   );
 };
@@ -121,8 +168,13 @@ export const CommentsTable = (props) => {
 CommentsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
+  onDeselectAll: PropTypes.func,
+  onDeselectOne: PropTypes.func,
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
+  onSelectAll: PropTypes.func,
+  onSelectOne: PropTypes.func,
+  getComments: PropTypes.func,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
   selected: PropTypes.array

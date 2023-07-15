@@ -66,7 +66,7 @@ export const Layout = (props) => {
               <IconButton  
                 onClick={languagePopover.handleOpen}
                 ref={languagePopover.anchorRef}>
-                  <img src={languages.filter(e => e.code === i18n.language)[0].flag} width={36} height={24} />
+                  <img src={languages.filter(e => e.code === i18n.language).length > 0 ? languages.filter(e => e.code === i18n.language)[0].flag : languages[0].flag} width={36} height={24} />
               </IconButton>
             </Tooltip>
           </Box>

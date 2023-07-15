@@ -66,6 +66,15 @@ export const BranchesTable = (props) => {
 
   const {t} = useTranslation()
 
+  useEffect(() => {
+    const newQRCodeElement = document.getElementById('qrCode');
+
+    // Update the qrcodeRef variable to point to the new QR code element.
+    if (newQRCodeElement) {
+      qrCodeRef.current = newQRCodeElement;
+    }
+  }, [page])
+
   const downloadQRCode = (id, name) => {
     const svg = qrCodeRef.current.querySelector('svg');
     const svgData = new XMLSerializer().serializeToString(svg);
@@ -123,7 +132,7 @@ export const BranchesTable = (props) => {
                     selected={isSelected}
                   >
                   <TableCell>
-                    <Box ref={qrCodeRef}>
+                    <Box ref={qrCodeRef} id={"qrCode"}>
                       <QRCode 
                         onClick={() => navigateToLink(customer._id)}
                         style={{ height: "auto", width: "35%", cursor: "pointer" }}

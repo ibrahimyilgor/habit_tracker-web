@@ -186,7 +186,11 @@
         "rate": "Puan",
         "comment": "Yorum",
         "rowsPerPageLabel": "Sayfa başına yorum sayısı",
-        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası"
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
+        "actions": "Aksiyonlar",
+        "deleteConfirmModalTitle": "Yorumu Sil",
+        "deleteConfirmModalDescription": "Yorum silinecek. Silmek istediğinize emin misiniz?"
+
     }
 }
   
