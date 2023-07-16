@@ -4,6 +4,10 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import TreeViewCRUDExample from 'src/components/menu-tree-view';
 import { useTranslation } from 'react-i18next';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+import ArrowUturnLeftIcon from '@heroicons/react/24/solid/ArrowUturnLeftIcon';
+import ArrowUturnRightIcon from '@heroicons/react/24/solid/ArrowUturnRightIcon';
+import BookmarkSquareIcon from '@heroicons/react/24/solid/BookmarkSquareIcon';
+
 import { BranchSelector } from 'src/sections/branch/branch-selector';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -16,25 +20,39 @@ import CustomizedSnackbars from 'src/sections/snackbar';
 import EyeIcon from '@heroicons/react/24/solid/EyeIcon';
 import { navigateToLink } from 'src/utils/navigate-to-link';
 import PdfDropzone from 'src/components/pdfDropzone';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import { MenuSettings } from 'src/sections/menu/menu-settings';
 
 const Menu = () => {
   const {t} = useTranslation()
 
   const restaurant = useRestaurantContext()
-  console.log("ibrahime", restaurant)
   const state = useAuthContext()
 
   const [tabValue, setTabValue] = useState()
 
   const [menu, setMenu] = useState([]);
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [settings, setSettings] = useState({
+    showComment: true,
+    showLogo: true
+  });
+
+  const [activeStep, setActiveStep] = useState(0);
   const [numPages, setNumPages] = useState(null);
   const [file, setFile] = useState();
   
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const steps = [
+    t("menu.selectBranch"),
+    t("menu.selectType"),
+    t("menu.setting")
+  ];
 
   const tabHandleChange = (event, newValue) => { 
     setTabValue(newValue);
@@ -45,12 +63,18 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    console.log("selectedFile", file)
-  }, [file])
+    console.log("settings", settings)
+  }, [settings])
 
   useEffect(() => {
-    console.log("tabValue", tabValue)
-  }, [tabValue])
+    console.log("settingsmenu", restaurant)
+  }, [restaurant])
+
+  useEffect(() => {
+    if(restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds).length > 0){
+      setSettings(restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds)[0].settings)
+    }
+  }, [restaurant])
 
   useEffect(() => {
     // declare the data fetching function
@@ -104,7 +128,7 @@ const Menu = () => {
             'Content-Type': 'application/json',
             "Authorization": "Bearer " + state?.user?.token
           },
-          body: JSON.stringify({ menu: menu, isPdf: tabValue }),
+          body: JSON.stringify({ menu: menu, isPdf: tabValue, settings: settings }),
         });
     
         if (response.ok) {
@@ -210,40 +234,79 @@ const Menu = () => {
               )}
 
               <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
-                <BranchSelector width="100%" />
-              </div>
+                <Button
+                  startIcon={(
+                    <SvgIcon fontSize="small">
+                      <ArrowUturnLeftIcon />
+                    </SvgIcon>
+                  )}
+                  onClick={() => {if(activeStep !== 0){
+                    setActiveStep(step => step - 1)
+                  }}}
+                  variant="contained"
+                  disabled={activeStep === 0}
 
+                >
+                  {t("common.back")}
+                </Button>
+              </div>
               <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <Button
                   startIcon={(
                     <SvgIcon fontSize="small">
-                      <PlusIcon />
+                      {activeStep !== steps.length - 1 ? <ArrowUturnRightIcon /> : <BookmarkSquareIcon />}
                     </SvgIcon>
                   )}
-                  disabled={restaurant.selectedBranchIds.length === 0}
-                  onClick={() => saveMenu()}
+                  disabled={(activeStep === 0 && restaurant.selectedBranchIds.length === 0)}
+                  onClick={() => {
+                    if(activeStep === steps.length - 1){
+                      saveMenu()
+                    }
+                    else{
+                      setActiveStep(step => step + 1)
+                    }}
+                    } 
                   variant="contained"
                 >
-                  {t("common.save")}
+                  {activeStep === steps.length - 1 ? t("common.save") : t("common.next")}
                 </Button>
               </div>
             </div>
-           {restaurant.selectedBranchIds.length > 0 && (<div>
-              <TabContext value={tabValue}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <TabList onChange={tabHandleChange} aria-label="lab API tabs example">
-                    <Tab label={t("menu.tabListCreateMenu")} value={0} />
-                    <Tab label={t("menu.tabListPdf")} value={1} />
-                  </TabList>
-                </Box>
-                <TabPanel value={0} >
-                  <TreeViewCRUDExample menu={menu} setMenu={setMenu}/>
-                </TabPanel>
-                <TabPanel value={1}>
-                  <PdfDropzone file={file} setFile={setFile} />
-                </TabPanel>
-              </TabContext>
-            </div>)}
+            <Box sx={{ width: '100%' }}>
+              <Stepper activeStep={activeStep} alternativeLabel sx={{marginTop: 5, marginBottom: 5}}>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+            {activeStep === 0 && 
+              <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <BranchSelector width="100%" />
+              </div>
+            }
+            {activeStep === 1 && restaurant.selectedBranchIds.length > 0 && (
+              <div>
+                <TabContext value={tabValue}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList onChange={tabHandleChange} aria-label="lab API tabs example">
+                      <Tab label={t("menu.tabListCreateMenu")} value={0} />
+                      <Tab label={t("menu.tabListPdf")} value={1} />
+                    </TabList>
+                  </Box>
+                  <TabPanel value={0} >
+                    <TreeViewCRUDExample menu={menu} setMenu={setMenu}/>
+                  </TabPanel>
+                  <TabPanel value={1}>
+                    <PdfDropzone file={file} setFile={setFile} />
+                  </TabPanel>
+                </TabContext>
+              </div>
+            )}
+            {activeStep === 2 && (
+              <MenuSettings settings={settings} setSettings={setSettings}/>
+            )}
           </Stack>
         </Container>
         <CustomizedSnackbars

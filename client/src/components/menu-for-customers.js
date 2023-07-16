@@ -6,12 +6,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import { PriceUnitSelector } from './price-unit-selector';
+import { Box } from '@mui/system';
+import RightTopMenu from 'src/sections/menu-for-customer/right-top-menu';
 
-export default function MenuForCustomers({menu, setMenu}) {
+export default function MenuForCustomers({menu, setMenu, settings}) {
   const {t} = useTranslation()
 
   const [expanded, setExpanded] = React.useState([]);
@@ -43,6 +45,18 @@ export default function MenuForCustomers({menu, setMenu}) {
 
   return (
     <List sx={{ width: '90%', bgcolor: 'background.paper', margin: "5%" }}>
+      <Box sx={{display: "flex", flexDirection: "row", marginBottom: 2, float: settings?.showComment && !settings?.showLogo ? "right" : "center"}}>
+        {settings?.showLogo && (
+          <Box sx={{ width: settings?.showComment ? "80%" : "100%", height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Typography>LOGOOOO</Typography>
+          </Box>
+        )}
+        {settings?.showComment && (
+          <Box sx={{ width: "10%" , height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <RightTopMenu settings={settings}/>
+          </Box>
+        )}
+        </Box>
           {menu.map((value, index) => {
             const labelId = `checkbox-list-secondary-label-${index}`;
             const isExpanded = expanded.includes(index);

@@ -46,6 +46,16 @@ const RestaurantSchema = new mongoose.Schema({
       ],
     },
   ],
+  settings: {
+    showLogo: {
+      type: Boolean,
+      default: true,
+    },
+    showComment: {
+      type: Boolean,
+      default: true,
+    },
+  },
 });
 
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);

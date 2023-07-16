@@ -118,6 +118,7 @@
     "common": {
         "add": "Ekle",
         "back": "Geri",
+        "next": "İleri",
         "update": "Güncelle",
         "save": "Kaydet",
         "delete": "Sil",
@@ -134,7 +135,16 @@
         "tabListCreateMenu": "Menü Oluştur",
         "tabListPdf": "Pdf Yükle",
         "successMessage": "Menü başarıyla güncellendi",
-        "errorMessage": "Menü güncellenemedi"
+        "errorMessage": "Menü güncellenemedi",
+        "selectBranch": "Şube Seç",
+        "selectType": "Menü / PDF",
+        "setting": "Ayarlar",
+        "settings": {
+            "showComment": "Müşteriler yorum yapabilsin",
+            "showLogo": "Logoyu göster",
+            "basicSettings": "Temel Ayarlar",
+            "design": "Dizayn"
+        }
     },
     "branchSelector": {
         "noBranches": "Bir şube seçin",

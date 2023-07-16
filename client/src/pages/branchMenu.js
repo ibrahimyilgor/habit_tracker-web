@@ -13,6 +13,7 @@ const BranchMenu = () => {
 
   const [menu, setMenu] = useState([]);
   const [isPdf, setIsPdf] = useState(false);
+  const [settings, setSettings] = useState({})
   const [pdfPreview, setPdfPreview] = useState('');
   const [file, setFile] = useState();
 
@@ -54,6 +55,7 @@ const BranchMenu = () => {
       }
 
       setMenu(tempMenu?.[0].menu || []);
+      setSettings(tempMenu?.[0].settings || {});
       setIsPdf(tempMenu?.[0]?.isPdf);
     };
 
@@ -74,7 +76,7 @@ const BranchMenu = () => {
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Stack spacing={3}>
           <Stack direction="column" justifyContent="space-between" spacing={4}>
-            {!isPdf && <MenuForCustomers menu={menu} />}
+            {!isPdf && <MenuForCustomers menu={menu} settings={settings} />}
 
             {isPdf && (
               <iframe

@@ -118,6 +118,7 @@
     "common": {
         "add": "Add",
         "back": "Back",
+        "next": "Next",
         "update": "Update",
         "save": "Save",
         "delete": "Delete",
@@ -134,7 +135,16 @@
         "tabListCreateMenu": "Create Menu",
         "tabListPdf": "Load Pdf",
         "successMessage": "Menu updated successfully",
-        "errorMessage": "Menu could not updated"
+        "errorMessage": "Menu could not updated",
+        "selectBranch": "Select Branch",
+        "selectType": "Menu / PDF",
+        "setting": "Settings",
+        "settings": {
+            "showComment": "Let customers comment",
+            "showLogo": "Show logo",
+            "basicSettings": "Basic Settings",
+            "design": "Design"
+        }
     },
     "branchSelector": {
         "noBranches": "Select a branch",
