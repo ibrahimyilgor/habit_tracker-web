@@ -91,10 +91,10 @@ export const saveMenu = async (req, res) => {
   console.log("ibrahimee", req.body.menu)
   try {
     const { branchId } = req.params; // Retrieve the restaurant ID from the request parameters
-    const { menu, isPdf, settings } = req.body; // Retrieve the menu from the request body
+    const { menu, isPdf, settings, colors } = req.body; // Retrieve the menu from the request body
 
     // Find the restaurant by ID and update the menu
-    const updatedRestaurant = await Restaurant.updateOne({_id: branchId}, {$set: {menu: menu, isPdf: isPdf, settings: settings}});
+    const updatedRestaurant = await Restaurant.updateOne({_id: branchId}, {$set: {menu: menu, isPdf: isPdf, settings: settings, colors: colors}});
 
     res.status(200).json(updatedRestaurant); // Send the updated restaurant as a response
   } catch (error) {

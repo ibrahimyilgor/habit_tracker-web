@@ -37,7 +37,12 @@ const Menu = () => {
 
   const [settings, setSettings] = useState({
     showComment: true,
-    showLogo: true
+    showLogo: true,
+    colors: {
+      backgroundColor: "#ffffff",
+      itemColor: "#eeeeee",
+      textColor: "#ffffff"
+    }
   });
 
   const [activeStep, setActiveStep] = useState(0);
@@ -72,7 +77,13 @@ const Menu = () => {
 
   useEffect(() => {
     if(restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds).length > 0){
-      setSettings(restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds)[0].settings)
+      console.log("settingsibo", settings, restaurant )
+
+      setSettings({
+        showComment: restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds)[0].settings?.showComment,
+        showLogo: restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds)[0].settings?.showLogo,
+        colors: restaurant?.restaurants?.filter(rest => rest._id === restaurant.selectedBranchIds)[0]?.colors || settings?.colors
+      })
     }
   }, [restaurant])
 
@@ -121,6 +132,8 @@ const Menu = () => {
 
   const saveMenu = async () => { 
     if(tabValue === 0){
+      console.log("settings2", settings)
+
       try {
         const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
           method: 'PUT',
@@ -128,7 +141,7 @@ const Menu = () => {
             'Content-Type': 'application/json',
             "Authorization": "Bearer " + state?.user?.token
           },
-          body: JSON.stringify({ menu: menu, isPdf: tabValue, settings: settings }),
+          body: JSON.stringify({ menu: menu, isPdf: tabValue, settings: settings, colors: settings?.colors }),
         });
     
         if (response.ok) {

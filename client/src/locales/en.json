@@ -143,7 +143,10 @@
             "showComment": "Let customers comment",
             "showLogo": "Show logo",
             "basicSettings": "Basic Settings",
-            "design": "Design"
+            "design": "Design",
+            "backgroundColor": "Background Color",
+            "itemColor": "Item Color",
+            "textColor": "Text Color"
         }
     },
     "branchSelector": {

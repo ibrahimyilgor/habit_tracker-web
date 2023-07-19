@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -13,10 +13,11 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import {ColorPicker} from 'src/components/color-picker';
 
 export const MenuSettings = ({settings, setSettings}) => {
 
-    const {t} = useTranslation()
+  const {t} = useTranslation()
 
   const handleSubmit = useCallback(
     (event) => {
@@ -24,6 +25,10 @@ export const MenuSettings = ({settings, setSettings}) => {
     },
     []
   );
+
+  useEffect(() => {
+    console.log("ibosettings",settings)
+  }, [settings])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -81,17 +86,50 @@ export const MenuSettings = ({settings, setSettings}) => {
                     {t("menu.settings.design")}
                 </Typography>
                 <Stack>
+                  
                   <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Email"
+                    style={{marginLeft: 0}}
+                    control={
+                      <ColorPicker
+                        style={{paddingRight: 10}} 
+                        color={settings?.colors?.backgroundColor}
+                        onChange={e => {
+                          console.log("eeee",e)
+                          let backgroundCol = {...settings?.colors, backgroundColor: e?.hex}
+                          setSettings({ ...settings, colors: backgroundCol });
+                        }}
+                      />
+                    }
+                    label={t("menu.settings.backgroundColor")}
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
-                    label="Push Notifications"
+                    style={{marginLeft: 0}}
+                    control={
+                      <ColorPicker 
+                        style={{paddingRight: 10}}
+                        color={settings?.colors?.itemColor}
+                        onChange={e => {
+                          let itemCol = {...settings?.colors, itemColor: e?.hex}
+                          setSettings({ ...settings, colors: itemCol });
+                        }}
+                      />
+                    }
+                    label={t("menu.settings.itemColor")}
+                    
                   />
                   <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Phone calls"
+                    style={{marginLeft: 0}}
+                    control={
+                      <ColorPicker 
+                        style={{paddingRight: 10}}
+                        color={settings?.colors?.textColor}
+                        onChange={e => {
+                          let textCol = {...settings?.colors, textColor: e?.hex}
+                          setSettings({ ...settings, colors: textCol });
+                        }}
+                      />
+                    }
+                    label={t("menu.settings.textColor")}
                   />
                 </Stack>
               </Stack>

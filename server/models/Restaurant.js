@@ -56,6 +56,20 @@ const RestaurantSchema = new mongoose.Schema({
       default: true,
     },
   },
+  colors: {
+    backgroundColor: {
+      type: String,
+      default: '#ffffff',
+    },
+    itemColor: {
+      type: String,
+      default: '#eeeeee',
+    },
+    textColor: {
+      type: String,
+      default: '#000000',
+    },
+  }
 });
 
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);

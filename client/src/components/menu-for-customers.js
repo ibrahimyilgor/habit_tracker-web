@@ -13,7 +13,7 @@ import { PriceUnitSelector } from './price-unit-selector';
 import { Box } from '@mui/system';
 import RightTopMenu from 'src/sections/menu-for-customer/right-top-menu';
 
-export default function MenuForCustomers({menu, setMenu, settings}) {
+export default function MenuForCustomers({menu, setMenu, settings, colors}) {
   const {t} = useTranslation()
 
   const [expanded, setExpanded] = React.useState([]);
@@ -44,15 +44,15 @@ export default function MenuForCustomers({menu, setMenu, settings}) {
   };
 
   return (
-    <List sx={{ width: '90%', bgcolor: 'background.paper', margin: "5%" }}>
+    <List sx={{ width: '90%', backgroundColor: colors?.backgroundColor ?? 'background.paper', margin: "5%" }}>
       <Box sx={{display: "flex", flexDirection: "row", marginBottom: 2, float: settings?.showComment && !settings?.showLogo ? "right" : "center"}}>
         {settings?.showLogo && (
-          <Box sx={{ width: settings?.showComment ? "80%" : "100%", height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Typography>LOGOOOO</Typography>
+          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: settings?.showComment ? "80%" : "100%", height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Typography sx={{color: colors?.textColor ?? "#000000"}}>LOGOOOO</Typography>
           </Box>
         )}
         {settings?.showComment && (
-          <Box sx={{ width: "10%" , height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: "10%" , height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <RightTopMenu settings={settings}/>
           </Box>
         )}
@@ -65,10 +65,15 @@ export default function MenuForCustomers({menu, setMenu, settings}) {
                 <ListItem //Category
                   alignItems="flex-start"
                   disablePadding
+                  sx={{
+                    backgroundColor: colors?.itemColor ?? 'background.paper',
+                    borderRadius: 1,
+                    marginBottom: 1
+                  }}
                 > 
                   <ListItemButton onClick={() => handleExpand(index)}>
                     <ListItemAvatar>
-                      <Avatar alt={editIndex === index ? editText : value.name ?? "-"} src="/static/images/avatar/1.jpg" />
+                      <Avatar alt={editIndex === index ? editText : value.name ?? "-"} src="/static/images/avatar/1.jpg" sx={{backgroundColor: colors?.backgroundColor ?? "#eeeeee"}}/>
                     </ListItemAvatar>
                     {editIndex === index ?
                       <TextField id="outlined-basic" variant="outlined" value={editText} onChange={e => setEditText(e.target.value)} /> :
@@ -86,10 +91,10 @@ export default function MenuForCustomers({menu, setMenu, settings}) {
                       <ListItem //Items
                         alignItems="center"
                         disablePadding
-                        sx={{marginLeft: 5, marginBottom: 1, marginTop: 1, width: "auto" }}
+                        sx={{marginLeft: 5, marginBottom: 1, marginTop: 1, padding: 1, borderRadius: 1, width: "auto", backgroundColor: colors?.itemColor ?? 'background.paper' }}
                       >
                         <ListItemAvatar>
-                          <Avatar alt={(editItemIndex && editItemIndex.itemIndex  === itemIndex && editItemIndex.index  === index) ? editItemText : item.name ?? "-"} src="/static/images/avatar/1.jpg" />
+                          <Avatar alt={(editItemIndex && editItemIndex.itemIndex  === itemIndex && editItemIndex.index  === index) ? editItemText : item.name ?? "-"} sx={{backgroundColor: colors?.backgroundColor ?? "#eeeeee"}} src="/static/images/avatar/1.jpg" />
                         </ListItemAvatar>
                         <ListItemText sx={{width: "75%"}} secondary={item.name}/>
                         <ListItemText sx={{width: "25%"}} secondary={item.price + " " + item.priceUnit}  />

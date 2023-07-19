@@ -143,7 +143,10 @@
             "showComment": "Müşteriler yorum yapabilsin",
             "showLogo": "Logoyu göster",
             "basicSettings": "Temel Ayarlar",
-            "design": "Dizayn"
+            "design": "Dizayn",
+            "backgroundColor": "Arkaplan Rengi",
+            "itemColor": "Ürün Rengi",
+            "textColor": "Yazı Rengi"
         }
     },
     "branchSelector": {

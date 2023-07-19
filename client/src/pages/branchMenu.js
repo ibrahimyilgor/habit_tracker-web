@@ -14,6 +14,7 @@ const BranchMenu = () => {
   const [menu, setMenu] = useState([]);
   const [isPdf, setIsPdf] = useState(false);
   const [settings, setSettings] = useState({})
+  const [colors, setColors] = useState({})
   const [pdfPreview, setPdfPreview] = useState('');
   const [file, setFile] = useState();
 
@@ -56,6 +57,7 @@ const BranchMenu = () => {
 
       setMenu(tempMenu?.[0].menu || []);
       setSettings(tempMenu?.[0].settings || {});
+      setColors(tempMenu?.[0].colors || {})
       setIsPdf(tempMenu?.[0]?.isPdf);
     };
 
@@ -69,14 +71,14 @@ const BranchMenu = () => {
   }, [menu]);
 
   return (
-    <>
+    <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", height: "100vh"}}>
       <Head>
         <title>Branches | Devias Kit</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Stack spacing={3}>
           <Stack direction="column" justifyContent="space-between" spacing={4}>
-            {!isPdf && <MenuForCustomers menu={menu} settings={settings} />}
+            {!isPdf && <MenuForCustomers menu={menu} settings={settings} colors={colors} />}
 
             {isPdf && (
               <iframe
@@ -89,7 +91,7 @@ const BranchMenu = () => {
           </Stack>
         </Stack>
       </Box>
-    </>
+    </Box>
   );
 };
 
