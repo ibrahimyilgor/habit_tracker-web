@@ -36,12 +36,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ConfirmModal } from 'src/components/confirmModal';
+import { ParseToDateAndHour } from 'src/utils/date';
 
 export const CommentsTable = (props) => {
   const {
     count = 0,
     items = [],
     onPageChange = () => {},
+    setPage,
     onRowsPerPageChange,
     page = 0,
     rowsPerPage = 0,
@@ -80,6 +82,9 @@ useEffect(() => {
                   {t("comments.comment")}
                 </TableCell>
                 <TableCell>
+                  {t("comments.date")}
+                </TableCell>
+                <TableCell>
                   {t("comments.actions")}
                 </TableCell>
               </TableRow>
@@ -95,13 +100,16 @@ useEffect(() => {
                         selected={isSelected}
                     >
                         <TableCell>
-                            {comment?.restaurant?.name ?? "-"}
+                          {comment?.restaurant?.name ?? "-"}
                         </TableCell>
                         <TableCell>
-                            <Rating disabled={true} name="customized-10" defaultValue={comment.rate} max={10} />
+                          <Rating readOnly name="customized-10" value={comment.rate} max={10} />
                         </TableCell>
                         <TableCell>
-                            {comment?.comment ?? "-"}
+                          {comment?.comment ?? "-"}
+                        </TableCell>
+                        <TableCell>
+                          {comment?.createdAt ? ParseToDateAndHour(comment?.createdAt) : "-"}
                         </TableCell>
                         <TableCell>
 
@@ -154,6 +162,7 @@ useEffect(() => {
               setSnackbarMessage('Comment deleted successfully!');
               setConfirmModalOpen(false)
               getComments(state?.user?.user?._id, state?.user?.token, null)
+              setPage(0)
             } catch (error) {
               setSnackbarOpen(true);
               setSnackbarSeverity('error');

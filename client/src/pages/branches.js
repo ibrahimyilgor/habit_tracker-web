@@ -160,6 +160,7 @@ const Page = () => {
                   onSelectAll={branchesSelection.handleSelectAll}
                   onSelectOne={branchesSelection.handleSelectOne}
                   page={page}
+                  setPage={setPage}
                   rowsPerPage={rowsPerPage}
                   setOpenEdit={setOpenEdit}
                   setSelectedForEdit={setSelectedForEdit}

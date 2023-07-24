@@ -47,6 +47,7 @@ export const BranchesTable = (props) => {
     onSelectAll,
     onSelectOne,
     page = 0,
+    setPage,
     rowsPerPage = 0,
     selected = [],
     setOpenEdit,
@@ -235,6 +236,7 @@ export const BranchesTable = (props) => {
               setSnackbarSeverity('success');
               setSnackbarMessage('Branch deleted successfully!');
               setConfirmModalOpen(false)
+              setPage(0)
               restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null)
             }
             else {

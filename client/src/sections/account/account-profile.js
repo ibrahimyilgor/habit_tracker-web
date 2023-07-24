@@ -15,15 +15,6 @@ import { ParseToDate, ParseToDateAndHour } from 'src/utils/date';
 import CustomizedSnackbars from '../snackbar';
 import { useTranslation } from 'react-i18next';
 
-const user = {
-  avatar: '/assets/avatars/avatar-anika-visser.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Anika Visser',
-  timezone: 'GTM-7'
-};
-
 export const AccountProfile = () => { 
   const {t} = useTranslation()
 

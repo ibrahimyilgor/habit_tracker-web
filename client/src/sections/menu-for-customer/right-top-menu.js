@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 const ITEM_HEIGHT = 48;
 
-export default function RightTopMenu({settings}) {
+export default function RightTopMenu({settings, setSnackbarMessage, setSnackbarOpen, setSnackbarSeverity}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {t} = useTranslation()
     const [openCreateCommentModal, setOpenCreateCommentModal] = useState(false)
@@ -30,6 +30,7 @@ export default function RightTopMenu({settings}) {
                   name: t("rightTopMenu.comment"),
                   action: () => {
                     setOpenCreateCommentModal(true);
+                    handleClose();
                   }
                 }
               ]
@@ -69,7 +70,13 @@ export default function RightTopMenu({settings}) {
           </MenuItem>
         ))}
       </Menu>
-      <CreateCommentModal open={openCreateCommentModal} onClose={() => setOpenCreateCommentModal(false)}/>
+      <CreateCommentModal 
+        open={openCreateCommentModal} 
+        onClose={() => setOpenCreateCommentModal(false)}
+        setSnackbarOpen={setSnackbarOpen}
+        setSnackbarSeverity={setSnackbarSeverity}
+        setSnackbarMessage={setSnackbarMessage}
+      />
     </div>
   );
 }

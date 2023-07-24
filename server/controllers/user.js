@@ -3,6 +3,7 @@ import Restaurant from "../models/Restaurant.js"
 import MenuPdf from "../models/MenuPdf.js"
 import UserAvatar from "../models/UserAvatar.js"
 import ResetPassword from "../models/ResetPassword.js"
+import Comment from "../models/Comment.js"
 
 /*READ USER*/
 
@@ -42,6 +43,7 @@ export const deleteUser = async (req, res) => {
         await MenuPdf.deleteMany({ restaurant_id: { $in: deletedUser.restaurants } }); //Delete all pdfMenus
         await UserAvatar.deleteMany({ user_id: req.params.id });    //Delete all user avatars
         await ResetPassword.deleteMany({ user_id: req.params.id });    //Delete the reset password
+        await Comment.deleteMany({ user_id: req.params.id });    //Delete the comments
 
         res.status(200).json({ success: true, message: `Deleted user ${deletedUser.name} and all their branches.` });
         console.log("ssccccssss");

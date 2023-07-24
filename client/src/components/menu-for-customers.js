@@ -12,9 +12,13 @@ import { useTranslation } from 'react-i18next';
 import { PriceUnitSelector } from './price-unit-selector';
 import { Box } from '@mui/system';
 import RightTopMenu from 'src/sections/menu-for-customer/right-top-menu';
+import { Image } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
-export default function MenuForCustomers({menu, setMenu, settings, colors}) {
+export default function MenuForCustomers({menu, setMenu, settings, colors, setSnackbarMessage, setSnackbarOpen, setSnackbarSeverity}) {
   const {t} = useTranslation()
+  const router = useRouter();
+  const { id } = router.query;
 
   const [expanded, setExpanded] = React.useState([]);
 
@@ -25,7 +29,48 @@ export default function MenuForCustomers({menu, setMenu, settings, colors}) {
   const [editItemText, setEditItemText] = React.useState("");
   const [editItemPrice, setEditItemPrice] = React.useState("");
 
-  const [priceUnit, setPriceUnit] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState()
+  const [userAvatarSrc, setUserAvatarSrc] = React.useState("")
+
+  const fetchLogo = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/userAvatar/getAvatarByRestaurantId/${id}`,
+        {
+          method: 'GET'
+        }
+      );
+
+      if (response.ok) {
+        console.log("response", response)
+        const blob = await response.blob();
+        const file = new File([blob], "fileName", { type: 'image/*' });
+        setUserAvatar(file);
+      } else {
+        console.error('Failed to fetch PDF:', response.statusText);
+        setUserAvatar(null);
+      }
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+      setUserAvatar(null);
+    }
+  }
+
+  React.useEffect(() => {
+    if(settings?.showLogo){
+      fetchLogo(id)
+    }
+  }, [settings]);
+
+  React.useEffect(() => {
+    if(userAvatar){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUserAvatarSrc(reader.result);
+      };
+      reader.readAsDataURL(userAvatar);
+    }
+  }, [userAvatar]);
 
   React.useEffect(() => {
     if(editIndex !== null){
@@ -47,13 +92,25 @@ export default function MenuForCustomers({menu, setMenu, settings, colors}) {
     <List sx={{ width: '90%', backgroundColor: colors?.backgroundColor ?? 'background.paper', margin: "5%" }}>
       <Box sx={{display: "flex", flexDirection: "row", marginBottom: 2, float: settings?.showComment && !settings?.showLogo ? "right" : "center"}}>
         {settings?.showLogo && (
-          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: settings?.showComment ? "80%" : "100%", height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Typography sx={{color: colors?.textColor ?? "#000000"}}>LOGOOOO</Typography>
+          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: settings?.showComment ? "80%" : "100%", height: "10vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img
+                src={userAvatarSrc || ""}
+                alt=""
+                style={{
+                  height: '100%',
+                  width: 'auto',
+                }}
+              />         
           </Box>
         )}
         {settings?.showComment && (
-          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: "10%" , height: "5vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <RightTopMenu settings={settings}/>
+          <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: "10%" , height: "10vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <RightTopMenu 
+              settings={settings}
+              setSnackbarOpen={setSnackbarOpen}
+              setSnackbarSeverity={setSnackbarSeverity}
+              setSnackbarMessage={setSnackbarMessage}
+            />
           </Box>
         )}
         </Box>

@@ -198,12 +198,19 @@
         "branch": "Şube Adı",
         "rate": "Puan",
         "comment": "Yorum",
+        "date": "Tarih",
         "rowsPerPageLabel": "Sayfa başına yorum sayısı",
         "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
         "actions": "Aksiyonlar",
         "deleteConfirmModalTitle": "Yorumu Sil",
-        "deleteConfirmModalDescription": "Yorum silinecek. Silmek istediğinize emin misiniz?"
-
+        "deleteConfirmModalDescription": "Yorum silinecek. Silmek istediğinize emin misiniz?",
+        "successMessage": "Yorum başarıyla gönderildi",
+        "errorMessage": "Yorum gönderilemedi",
+        "makeComment": "Yorum Yap",
+        "makeCommentDetail": "Restoran hakkında yorumunuzu yapabilirsiniz. Yorumunuzu sadece restoran yönetimi görebilecek ve kişisel bilgileriniz paylaşılmayacaktır."
+    },
+    "rightTopMenu": {
+        "comment": "Yorum Yap"
     }
 }
   

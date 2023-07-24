@@ -5,6 +5,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import MenuForCustomers from 'src/components/menu-for-customers';
+import CustomizedSnackbars from 'src/sections/snackbar';
 
 const BranchMenu = () => {
   const { t } = useTranslation();
@@ -17,6 +18,10 @@ const BranchMenu = () => {
   const [colors, setColors] = useState({})
   const [pdfPreview, setPdfPreview] = useState('');
   const [file, setFile] = useState();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   useEffect(() => {
     if (file) {
@@ -34,31 +39,33 @@ const BranchMenu = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const menuResponse = await fetch(`http://localhost:3001/restaurant/${id}/getMenuForCustomers`, {
-        method: 'GET',
-      });
-      const tempMenu = await menuResponse.json();
-
-      console.log('tempMenu', tempMenu, tempMenu?.[0].menu || []);
-
-      const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
-        method: 'GET',
-      });
-
-      if (response.ok) {
-        console.log('response', response);
-        const blob = await response.blob();
-        const file = new File([blob], 'fileName', { type: 'application/pdf' });
-        setFile(file);
-      } else {
-        console.error('Failed to fetch PDF:', response.statusText);
-        setFile(null);
+      if(id){
+        const menuResponse = await fetch(`http://localhost:3001/restaurant/${id}/getMenuForCustomers`, {
+          method: 'GET',
+        });
+        const tempMenu = await menuResponse.json();
+  
+        console.log('tempMenu', tempMenu, tempMenu?.[0].menu || []);
+  
+        const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
+          method: 'GET',
+        });
+  
+        if (response.ok) {
+          console.log('response', response);
+          const blob = await response.blob();
+          const file = new File([blob], 'fileName', { type: 'application/pdf' });
+          setFile(file);
+        } else {
+          console.error('Failed to fetch PDF:', response.statusText);
+          setFile(null);
+        }
+  
+        setMenu(tempMenu?.[0].menu || []);
+        setSettings(tempMenu?.[0].settings || {});
+        setColors(tempMenu?.[0].colors || {})
+        setIsPdf(tempMenu?.[0]?.isPdf);
       }
-
-      setMenu(tempMenu?.[0].menu || []);
-      setSettings(tempMenu?.[0].settings || {});
-      setColors(tempMenu?.[0].colors || {})
-      setIsPdf(tempMenu?.[0]?.isPdf);
     };
 
     fetchData().catch(console.error);
@@ -78,7 +85,16 @@ const BranchMenu = () => {
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Stack spacing={3}>
           <Stack direction="column" justifyContent="space-between" spacing={4}>
-            {!isPdf && <MenuForCustomers menu={menu} settings={settings} colors={colors} />}
+            {!isPdf && 
+              <MenuForCustomers 
+                menu={menu} 
+                settings={settings} 
+                colors={colors} 
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+            }
 
             {isPdf && (
               <iframe
@@ -91,6 +107,12 @@ const BranchMenu = () => {
           </Stack>
         </Stack>
       </Box>
+      <CustomizedSnackbars
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage} 
+      />
     </Box>
   );
 };

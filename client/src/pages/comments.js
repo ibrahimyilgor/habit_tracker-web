@@ -130,6 +130,7 @@ const Comments = () => {
                            onPageChange={handlePageChange}
                            onRowsPerPageChange={handleRowsPerPageChange}
                            page={page}
+                           setPage={setPage}
                            rowsPerPage={rowsPerPage}
                            selected={commentsSelection.selected} 
                            getComments={getComments}

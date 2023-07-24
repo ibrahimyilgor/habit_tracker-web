@@ -198,11 +198,19 @@
         "branch": "Branch Name",
         "rate": "Rate",
         "comment": "Comment",
+        "date": "Date",
         "rowsPerPageLabel": "Comments per page",
         "displayedRows": "{{from}}-{{to}} of {{count}}",
         "actions": "Actions",
         "deleteConfirmModalTitle": "Delete Comment",
-        "deleteConfirmModalDescription": "Are you sure to delete comment?"
+        "deleteConfirmModalDescription": "Are you sure to delete comment?",
+        "successMessage": "Comment sent successfully",
+        "errorMessage": "Comment could not send",
+        "makeComment": "Leave a Comment",
+        "makeCommentDetail": "You can leave your comment about the restaurant. Your comment will be visible only to the restaurant management, and your personal information will not be shared."
+    },
+    "rightTopMenu": {
+        "comment": "Comment"
     }
 }
   
