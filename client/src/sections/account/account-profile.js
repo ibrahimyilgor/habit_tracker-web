@@ -105,13 +105,14 @@ export const AccountProfile = () => {
             height: "100%"
           }}
         >
-          <Avatar
+          <img
             src={avatarSrc}
-            alt={userAvatar?.name || "-"}
-            sx={{
-              height: 80,
-              mb: 2,
-              width: 80
+            alt={userAvatar?.name || ""}
+            style={{
+              width: 250, // Set the width to 250
+              height: 120, // Set the height to 120
+              marginBottom: 2,
+              objectFit: "cover"
             }} />
           <Typography
             gutterBottom

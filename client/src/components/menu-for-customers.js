@@ -6,14 +6,12 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
-import { TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import { PriceUnitSelector } from './price-unit-selector';
 import { Box } from '@mui/system';
 import RightTopMenu from 'src/sections/menu-for-customer/right-top-menu';
-import { Image } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { Grid, Typography } from '@mui/material';
 
 export default function MenuForCustomers({menu, setMenu, settings, colors, setSnackbarMessage, setSnackbarOpen, setSnackbarSeverity}) {
   const {t} = useTranslation()
@@ -21,13 +19,7 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
   const { id } = router.query;
 
   const [expanded, setExpanded] = React.useState([]);
-
-  const [editIndex, setEditIndex] = React.useState(null);
-  const [editText, setEditText] = React.useState("");
-
-  const [editItemIndex, setEditItemIndex] = React.useState(null);
-  const [editItemText, setEditItemText] = React.useState("");
-  const [editItemPrice, setEditItemPrice] = React.useState("");
+  const [expandedItem, setExpandedItem] = React.useState([]);
 
   const [userAvatar, setUserAvatar] = React.useState()
   const [userAvatarSrc, setUserAvatarSrc] = React.useState("")
@@ -63,6 +55,19 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
   }, [settings]);
 
   React.useEffect(() => {
+    console.log("expanded", expanded)
+  }, [expanded]);
+
+  React.useEffect(() => {
+    // Filter out any elements in expandedItem that have an index value not in expanded
+    const filteredExpandedItem = expandedItem.filter(
+      (item) => expanded.some((index) => index === item.index)
+    );
+  
+    setExpandedItem(filteredExpandedItem);
+  }, [expanded]);
+
+  React.useEffect(() => {
     if(userAvatar){
       const reader = new FileReader();
       reader.onload = () => {
@@ -72,12 +77,6 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
     }
   }, [userAvatar]);
 
-  React.useEffect(() => {
-    if(editIndex !== null){
-      setEditText(menu[editIndex].name)
-    }
-  }, [editIndex])
-
   const handleExpand = (index) => {
     const newExpanded = [...expanded];
     if (newExpanded.includes(index)) {
@@ -86,6 +85,22 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
       newExpanded.push(index);
     }
     setExpanded(newExpanded);
+  };
+
+  const handleExpandItem = (index, itemIndex) => {
+    const newExpandedItem = [...expandedItem];
+    const expandedItemObj = { index, itemIndex };
+  
+    const existingIndex = newExpandedItem.findIndex(
+      (item) => item.index === index && item.itemIndex === itemIndex
+    );
+  
+    if (existingIndex !== -1) {
+      newExpandedItem.splice(existingIndex, 1);
+    } else {
+      newExpandedItem.push(expandedItemObj);
+    }
+    setExpandedItem(newExpandedItem);
   };
 
   return (
@@ -107,6 +122,7 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
           <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", width: "10%" , height: "10vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <RightTopMenu 
               settings={settings}
+              colors={colors}
               setSnackbarOpen={setSnackbarOpen}
               setSnackbarSeverity={setSnackbarSeverity}
               setSnackbarMessage={setSnackbarMessage}
@@ -128,38 +144,78 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
                     marginBottom: 1
                   }}
                 > 
-                  <ListItemButton onClick={() => handleExpand(index)}>
+                  <ListItemButton 
+                    onClick={() => handleExpand(index)}
+                  >
                     <ListItemAvatar>
-                      <Avatar alt={editIndex === index ? editText : value.name ?? "-"} src="/static/images/avatar/1.jpg" sx={{backgroundColor: colors?.backgroundColor ?? "#eeeeee"}}/>
+                      <Avatar alt={value.name ?? "-"} src="/static/images/avatar/1.jpg" sx={{backgroundColor: colors?.backgroundColor ?? "#eeeeee", color: colors?.textColor ?? "#ffffff"}}/>
                     </ListItemAvatar>
-                    {editIndex === index ?
-                      <TextField id="outlined-basic" variant="outlined" value={editText} onChange={e => setEditText(e.target.value)} /> :
-                      (<ListItemText
-                        id={labelId}
-                        primary={value.name}
-                        />)
-                    }
+                    <ListItemText
+                      id={labelId}
+                      primary={<Typography variant="body2" style={{ color: colors?.textColor ?? '#FFFFFF' }}>{value.name}</Typography>}
+                    />
                   </ListItemButton>
 
                 </ListItem>
                 <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                   {value.items && value.items.map((item, itemIndex) => {
+                    const isExpandedItem = isExpanded ? expandedItem.some((item) => item.index === index && item.itemIndex === itemIndex) : null;
                     return (
-                      <ListItem //Items
-                        alignItems="center"
-                        disablePadding
-                        sx={{marginLeft: 5, marginBottom: 1, marginTop: 1, padding: 1, borderRadius: 1, width: "auto", backgroundColor: colors?.itemColor ?? 'background.paper' }}
-                      >
-                        <ListItemAvatar>
-                          <Avatar alt={(editItemIndex && editItemIndex.itemIndex  === itemIndex && editItemIndex.index  === index) ? editItemText : item.name ?? "-"} sx={{backgroundColor: colors?.backgroundColor ?? "#eeeeee"}} src="/static/images/avatar/1.jpg" />
-                        </ListItemAvatar>
-                        <ListItemText sx={{width: "75%"}} secondary={item.name}/>
-                        <ListItemText sx={{width: "25%"}} secondary={item.price + " " + item.priceUnit}  />
-                      </ListItem>
-                    )
-                  })}
-                </Collapse>
-              </React.Fragment>
+                      <React.Fragment key={itemIndex}>
+                        <ListItemButton onClick={() => handleExpandItem(index, itemIndex)} //Items
+                          alignItems="center"
+                          disablePadding
+                          sx={{
+                            marginLeft: 5,
+                            marginBottom: isExpandedItem && item.explanation ? 0 : 1,
+                            marginTop: 1,
+                            padding: 1,
+                            borderRadius: isExpandedItem && item.explanation ? "5px 5px 0 0" : "5px",
+                            width: "auto",
+                            backgroundColor: colors?.itemColor ?? 'background.paper',
+                            "&:hover": {
+                              backgroundColor: colors?.itemColor ?? 'background.paper'
+                            }
+                          }}
+                        >
+                          <Grid container>
+                            <Grid item xs={9} sx={{ display: "flex", alignItems: "center" }}>
+                              <Avatar alt={item.name ?? "-"} sx={{ backgroundColor: colors?.backgroundColor ?? "#eeeeee", color: colors?.textColor ?? "#ffffff", marginRight: 1 }} src="/static/images/avatar/1.jpg" />
+                              <ListItemText primary={<Typography variant="body2" style={{ color: colors?.textColor ?? '#FFFFFF' }}>{item.name}</Typography>} />
+                            </Grid>
+                            <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
+                              <ListItemText primary={<Typography variant="body2" style={{ color: colors?.textColor ?? '#FFFFFF' }}>{item.price + " " + item.priceUnit}</Typography>} />
+                            </Grid>
+                          </Grid>
+                        </ListItemButton>
+                        <Collapse in={isExpandedItem && item.explanation} timeout="auto" unmountOnExit>
+                          <ListItemButton 
+                            alignItems="center" 
+                            disablePadding 
+                            sx={{ 
+                              marginLeft: 5,
+                              marginBottom: 1,
+                              padding: 1, 
+                              borderRadius: "0 0 5px 5px", 
+                              width: "auto", 
+                              backgroundColor: colors?.itemColor ?? 'background.paper',
+                              "&:hover": {
+                                backgroundColor: colors?.itemColor ?? 'background.paper'
+                              }
+                            }}
+                          >
+                            <Grid container>
+                              <Grid item xs={12}>
+                                <ListItemText primary={<Typography variant="body2" style={{ color: colors?.textColor ?? '#FFFFFF' }}>{item.explanation}</Typography>} />
+                              </Grid>
+                            </Grid>
+                          </ListItemButton>
+                        </Collapse>
+                      </React.Fragment>
+                      )
+                    })}
+                  </Collapse>
+                </React.Fragment>
             );
           })}
     </List>

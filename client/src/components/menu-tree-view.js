@@ -7,7 +7,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Checkbox from '@mui/material/Checkbox';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
-import { Divider, IconButton, ListItemIcon, TextField } from '@mui/material';
+import { Box, Divider, IconButton, ListItemIcon, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,13 +33,9 @@ export default function CheckboxListSecondary({menu, setMenu}) {
   const [editItemIndex, setEditItemIndex] = React.useState(null);
   const [editItemText, setEditItemText] = React.useState("");
   const [editItemPrice, setEditItemPrice] = React.useState("");
+  const [editItemExplanation, setEditItemExplanation] = React.useState("");
 
   const [priceUnit, setPriceUnit] = React.useState("");
-
-
-  React.useEffect(() => {
-    console.log("test",checked,expanded,editIndex,editText, editItemIndex,editItemText, restaurant.restaurants.filter(r => r._id === restaurant.selectedBranchIds))
-  }, [checked,expanded,editIndex,editText, editItemIndex,editItemText, restaurant])
 
   React.useEffect(() => {
     if(restaurant?.restaurants && restaurant.restaurants.length > 0){
@@ -55,10 +51,11 @@ export default function CheckboxListSecondary({menu, setMenu}) {
 
   React.useEffect(() => {
     console.log("indexes", editItemIndex)
-    if(editItemIndex !== null && editItemIndex.index && editItemIndex.itemIndex){
-      setEditItemText(menu[editItemIndex.index].items[editItemIndex.itemIndex].name)
+    if(editItemIndex !== null && editItemIndex.index >= 0 && editItemIndex.itemIndex >= 0){
+      setEditItemText(menu?.[editItemIndex.index]?.items[editItemIndex.itemIndex]?.name || "")
       setEditItemPrice(menu[editItemIndex.index].items[editItemIndex.itemIndex].price)
-      setPriceUnit(menu[editItemIndex.index].items[editItemIndex.itemIndex].priceUnit)
+      setEditItemExplanation(menu[editItemIndex.index].items[editItemIndex.itemIndex].explanation || "")
+      setPriceUnit(menu?.[editItemIndex.index]?.items[editItemIndex.itemIndex]?.priceUnit)
     }
   }, [editItemIndex])
 
@@ -71,6 +68,7 @@ export default function CheckboxListSecondary({menu, setMenu}) {
     console.log("done", newMenu, index)
     newMenu[index].items[itemIndex].name = editItemText
     newMenu[index].items[itemIndex].price = editItemPrice
+    newMenu[index].items[itemIndex].explanation = editItemExplanation
     newMenu[index].items[itemIndex].priceUnit = priceUnit
     setMenu(newMenu);
     setEditItemIndex(null)
@@ -306,16 +304,29 @@ export default function CheckboxListSecondary({menu, setMenu}) {
                           <Avatar alt={(editItemIndex && editItemIndex.itemIndex  === itemIndex && editItemIndex.index  === index) ? editItemText : item.name ?? "-"} src="/static/images/avatar/1.jpg" />
                         </ListItemAvatar>
                         {(editItemIndex && editItemIndex.itemIndex  === itemIndex && editItemIndex.index  === index) ?
-                          (<>
-                          <TextField id="outlined-basic" variant="outlined" value={editItemText} onChange={e => setEditItemText(e.target.value)} style={{marginRight: 5}} />
-                          <TextField id="outlined-basic" variant="outlined" value={editItemPrice} onChange={e => setEditItemPrice(e.target.value)} style={{marginRight: 5}}/>
-                          <PriceUnitSelector priceUnit={priceUnit} setPriceUnit={setPriceUnit} />
-                          </>)
+                          (
+                          <Box>
+                            <Box sx={{display: "flex", flexDirection: "row"}}>
+                              <TextField id="outlined-basic" variant="outlined" value={editItemText} onChange={e => setEditItemText(e.target.value)} style={{marginRight: 5}} />
+                              <TextField id="outlined-basic2" variant="outlined" value={editItemPrice} onChange={e => setEditItemPrice(e.target.value)} style={{marginRight: 5}}/>
+                              <PriceUnitSelector priceUnit={priceUnit} setPriceUnit={setPriceUnit} />
+                            </Box>
+                            <Box sx={{display: "flex", flexDirection: "row"}}>
+                              <TextField id="outlined-basic3" variant="outlined" value={editItemExplanation} onChange={e => setEditItemExplanation(e.target.value)} style={{width: "100%"}}/>
+                            </Box>
+                          </Box>
+                          )
                           :
-                          (<>
-                            <ListItemText secondary={item.name}/>
-                            <ListItemText secondary={item.price + " " + item.priceUnit}  />
-                          </>)
+                          (
+                            <Box>
+                              <Box sx={{display: "flex", flexDirection: "row"}}>
+                                <ListItemText secondary={item.name + " " + item.price + " " + item.priceUnit}/>
+                              </Box>
+                              <Box sx={{display: "flex", flexDirection: "row", width: "60%"}}>
+                                <ListItemText secondary={item.explanation}  />
+                              </Box>
+                          </Box>
+                          )
                         }
                       </ListItem>
                     )

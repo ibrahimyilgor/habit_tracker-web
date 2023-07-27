@@ -41,6 +41,10 @@ const RestaurantSchema = new mongoose.Schema({
           priceUnit: {
             type: String,
             required: true
+          },
+          explanation: {
+            type: String,
+            required: false
           }
         },
       ],

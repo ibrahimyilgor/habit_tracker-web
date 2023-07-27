@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 const ITEM_HEIGHT = 48;
 
-export default function RightTopMenu({settings, setSnackbarMessage, setSnackbarOpen, setSnackbarSeverity}) {
+export default function RightTopMenu({settings, setSnackbarMessage, setSnackbarOpen, setSnackbarSeverity, colors}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {t} = useTranslation()
     const [openCreateCommentModal, setOpenCreateCommentModal] = useState(false)
@@ -46,6 +46,7 @@ export default function RightTopMenu({settings, setSnackbarMessage, setSnackbarO
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        sx={{color: colors?.textColor ?? "primary"}}
       >
         <MoreVertIcon />
       </IconButton>

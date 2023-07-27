@@ -3,10 +3,13 @@ import { Avatar, Button, Card, CardActions, CardContent, Divider, Stack, SvgIcon
 import { useTranslation } from 'react-i18next';
 import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
+import { useRouter } from 'next/router';
 
 export const OverviewBudget = (props) => {
   const { sx, value } = props;
   const { t } = useTranslation();
+  const router = useRouter();
+
   return (
     <Card sx={sx}>
       <CardContent>
@@ -30,7 +33,9 @@ export const OverviewBudget = (props) => {
         color="inherit"
         endIcon={<SvgIcon fontSize="small"><ArrowRightIcon /></SvgIcon>}
         size="small"
-        onClick={() => {}}
+        onClick={() => {
+          router.push('/branches');
+        }}
       >
         {t('overview.branches')}
       </Button>

@@ -78,15 +78,15 @@ export const SideNav = (props) => {
             }}
           >
             <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "65px"}}>
-              <Avatar
+              <img
                 src={userAvatarSrc || ""}
-                sx={{
-                  height: 40,
-                  width: 40
+                style={{
+                  height: "auto",
+                  width: "100%"
                 }}
               />
             </div>
-            <div style={{display: "flex", flexDirection: "column", flex: 1}}>
+            <div style={{display: "flex", flexDirection: "column", flex: 1, marginLeft: 5}}>
 
               <Typography
                 color="inherit"
