@@ -44,7 +44,7 @@ const Page = () => {
       () => {
         return applyPagination(restaurant?.restaurants || [], page, rowsPerPage);
       },
-      [page, rowsPerPage, restaurant]
+      [page, rowsPerPage, restaurant, searchQuery]
     );
   };
 

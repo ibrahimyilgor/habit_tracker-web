@@ -65,6 +65,10 @@ const BranchMenu = () => {
         setSettings(tempMenu?.[0].settings || {});
         setColors(tempMenu?.[0].colors || {})
         setIsPdf(tempMenu?.[0]?.isPdf);
+
+        const htmlElement = document.querySelector('html'); // Get the <html> element
+
+        htmlElement.style.backgroundColor = tempMenu?.[0]?.colors?.backgroundColor ?? "#ffffff";
       }
     };
 

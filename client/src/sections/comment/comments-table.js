@@ -37,6 +37,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ConfirmModal } from 'src/components/confirmModal';
 import { ParseToDateAndHour } from 'src/utils/date';
+import { Search } from 'src/components/search';
 
 export const CommentsTable = (props) => {
   const {
@@ -69,6 +70,9 @@ useEffect(() => {
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
+          <Search 
+            placeholder={t("common.search")}
+          />
           <Table>
             <TableHead>
               <TableRow>

@@ -101,13 +101,13 @@ export const TopNav = (props) => {
                 </SvgIcon>
               </IconButton>
             )}
-            <Tooltip title={t("topNav.search")}>
+            {/* <Tooltip title={t("topNav.search")}>
               <IconButton>
                 <SvgIcon fontSize="small">
                   <MagnifyingGlassIcon />
                 </SvgIcon>
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </Stack>
           <Stack
             alignItems="center"

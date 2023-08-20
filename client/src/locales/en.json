@@ -116,6 +116,7 @@
         "errorMessage": "Unsuccessful register"
     },
     "common": {
+        "search": "Search",
         "add": "Add",
         "back": "Back",
         "next": "Next",
@@ -180,7 +181,10 @@
         "displayedRows": "{{from}}-{{to}} of {{count}}"
     },
     "overview": {
-        "branches": "Branches"
+        "branches": "Branches",
+        "rateInLast30": "Rates in last 30 days",
+        "rateInLast60": "Previous 30-day rates",
+        "comments": "Comments"
     },
     "rePassword": {
         "title": "Change Password",

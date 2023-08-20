@@ -116,6 +116,7 @@
         "errorMessage": "Kayıt olma işlemi başarısız"
     },
     "common": {
+        "search": "Ara",
         "add": "Ekle",
         "back": "Geri",
         "next": "İleri",
@@ -180,7 +181,10 @@
         "displayedRows":"{{count}} satırdan {{from}}-{{to}} arası"
     },
     "overview": {
-        "branches": "Şubeler"
+        "branches": "Şubeler",
+        "rateInLast30": "30 Günlük Yorumlar",
+        "rateInLast60": "Bir önceki 30 günlük yorumlar",
+        "comments": "Yorumlar"
     },
     "rePassword": {
         "title": "Şifreni Değiştir",

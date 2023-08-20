@@ -35,6 +35,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ConfirmModal } from 'src/components/confirmModal';
+import { Search } from 'src/components/search';
 
 export const BranchesTable = (props) => {
   const {
@@ -102,6 +103,9 @@ export const BranchesTable = (props) => {
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
+          <Search 
+            placeholder={t("common.search")}
+          />
           <Table>
             <TableHead>
               <TableRow>

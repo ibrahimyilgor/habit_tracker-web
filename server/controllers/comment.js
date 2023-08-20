@@ -78,3 +78,48 @@ export const addComment = async (req, res) => {
   }
 }
 
+//GET AVERAGE RATE OF COMMENTS
+
+export const getAverageRateOfCommentsInLast30Days = async (req, res) => {
+  try {
+    const today = new Date(); // Get the current date
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30); // Subtract 30 days
+
+    const sixtyDaysAgo = new Date(today);
+    sixtyDaysAgo.setDate(today.getDate() - 60); // Subtract 60 days
+
+    let comments30 = await Comment.find({
+        user_id: req.params.id,
+        createdAt: { $gte: thirtyDaysAgo }, // Filter by createdAt date within the last 30 days
+    });
+
+    let average30 = 0
+
+    if (comments30.length !== 0){
+      const numbers = comments30.map(comment => comment.rate)
+      const sum = numbers.reduce((total, num) => total + num, 0); // Calculate the sum
+      average30 = sum / numbers.length; // Calculate the average
+    }
+
+    let comments60 = await Comment.find({
+      user_id: req.params.id,
+      createdAt: { $lte: thirtyDaysAgo },
+      createdAt: { $gte: sixtyDaysAgo }, 
+    });
+
+    let average60 = 0
+
+    if (comments60.length !== 0){
+      const numbers = comments60.map(comment => comment.rate)
+      const sum = numbers.reduce((total, num) => total + num, 0); // Calculate the sum
+      average60 = sum / numbers.length; // Calculate the average
+    }   
+
+      res.status(200).json({average30, average60});
+  } catch (error) {
+      console.log(error);
+      throw new Error('Error while getting average rate of comments');
+  }
+};
+

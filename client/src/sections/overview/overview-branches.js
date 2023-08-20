@@ -5,14 +5,14 @@ import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
 import { useRouter } from 'next/router';
 
-export const OverviewBudget = (props) => {
+export const OverviewBranches = (props) => {
   const { sx, value } = props;
   const { t } = useTranslation();
   const router = useRouter();
 
   return (
     <Card sx={sx}>
-      <CardContent>
+      <CardContent sx={{minHeight: 180}}>
         <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={3}>
           <Stack spacing={1}>
             <Typography color="text.secondary" variant="overline">
@@ -44,7 +44,7 @@ export const OverviewBudget = (props) => {
   );
 };
 
-OverviewBudget.propTypes = {
+OverviewBranches.propTypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
   sx: PropTypes.object,

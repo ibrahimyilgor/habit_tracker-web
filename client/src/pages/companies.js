@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CompanyCard } from 'src/sections/companies/company-card';
-import { CompaniesSearch } from 'src/sections/companies/companies-search';
+import { CompaniesSearch, Search } from 'src/components/search';
 
 const companies = [
   {
@@ -132,7 +132,7 @@ const Page = () => (
               </Button>
             </div>
           </Stack>
-          <CompaniesSearch />
+          <Search />
           <Grid
             container
             spacing={3}

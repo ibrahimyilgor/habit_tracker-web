@@ -16,7 +16,7 @@ export const OverviewTasksProgress = (props) => {
 
   return (
     <Card sx={sx}>
-      <CardContent>
+      <CardContent sx={{minHeight: 180}}>
         <Stack
           alignItems="flex-start"
           direction="row"

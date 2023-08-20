@@ -2,16 +2,16 @@ import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { OverviewBudget } from 'src/sections/overview/overview-budget';
+import { OverviewBranches, OverviewBudget } from 'src/sections/overview/overview-branches';
 import { OverviewLatestOrders } from 'src/sections/overview/overview-latest-orders';
 import { OverviewLatestProducts } from 'src/sections/overview/overview-latest-products';
 import { OverviewSales } from 'src/sections/overview/overview-sales';
 import { OverviewTasksProgress } from 'src/sections/overview/overview-tasks-progress';
-import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-customers';
+import { OverviewAverageRates, OverviewTotalCustomers } from 'src/sections/overview/overview-average-rates';
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { useAuthContext } from 'src/contexts/auth-context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRestaurantContext } from 'src/contexts/restaurant-context';
 
 const now = new Date();
@@ -19,6 +19,31 @@ const now = new Date();
 const Page = () => {
   
   const restaurant = useRestaurantContext()
+  const state = useAuthContext()
+
+  const [averageRate, setAverageRate] = useState({average30: 0, average60: 0})
+
+  const getAverageRateOfCommentsInLast30Days = async (id, token, name=null) => {
+    const commentsResponse = await fetch(`http://localhost:3001/comment/average/${id}`,
+        {
+        method: "GET",
+        headers: {"Authorization": "Bearer " + token },
+        }
+    )
+    const tempComments = await commentsResponse.json()
+
+    console.log("tempComments", tempComments)
+
+    setAverageRate(tempComments)
+
+    return tempComments
+  };
+
+  useEffect(() => {
+    if(state){
+      getAverageRateOfCommentsInLast30Days(state?.user?.user?._id, state?.user?.token, null)
+    }
+}, [])
 
   return(
   <>
@@ -44,7 +69,7 @@ const Page = () => {
             sm={6}
             lg={3}
           >
-            <OverviewBudget
+            <OverviewBranches
               difference={12}
               positive
               sx={{ height: '100%' }}
@@ -56,11 +81,11 @@ const Page = () => {
             sm={6}
             lg={3}
           >
-            <OverviewTotalCustomers
-              difference={16}
-              positive={false}
-              sx={{ height: '100%' }}
-              value="1.6k"
+            <OverviewAverageRates
+              difference={averageRate?.average60?.toFixed?.(2)}
+              positive={averageRate?.average60 <= averageRate?.average30}
+              // sx={{ height: '100%' }}
+              value={averageRate?.average30?.toFixed?.(2) + " / 10"}
             />
           </Grid>
           <Grid
