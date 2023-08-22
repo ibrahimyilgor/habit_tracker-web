@@ -27,7 +27,7 @@ export default function MenuForCustomers({menu, setMenu, settings, colors, setSn
   const fetchLogo = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/userAvatar/getAvatarByRestaurantId/${id}`,
+        `https://qr-meny.onrender.com/userAvatar/getAvatarByRestaurantId/${id}`,
         {
           method: 'GET'
         }

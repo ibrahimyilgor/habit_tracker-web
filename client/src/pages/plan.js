@@ -22,7 +22,7 @@ const Plan = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/plan/list`,
+          `https://qr-meny.onrender.com/plan/list`,
           {
             method: 'GET',
             headers: {"Authorization": "Bearer " + state?.user?.token },

@@ -55,7 +55,9 @@ export const BranchesTable = (props) => {
     setSelectedForEdit,
     setSnackbarOpen,
     setSnackbarSeverity,
-    setSnackbarMessage
+    setSnackbarMessage,
+    searchQuery,
+    setSearchQuery
   } = props;
 
   const state = useAuthContext()
@@ -105,6 +107,8 @@ export const BranchesTable = (props) => {
         <Box sx={{ minWidth: 800 }}>
           <Search 
             placeholder={t("common.search")}
+            value={searchQuery}
+            setValue={setSearchQuery}
           />
           <Table>
             <TableHead>

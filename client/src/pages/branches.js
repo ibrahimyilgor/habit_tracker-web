@@ -42,7 +42,7 @@ const Page = () => {
   const useBranches = (page, rowsPerPage) => {
     return useMemo(
       () => {
-        return applyPagination(restaurant?.restaurants || [], page, rowsPerPage);
+        return applyPagination(restaurant?.restaurants.filter(res => res?.name?.toLowerCase().includes(searchQuery.toLowerCase())) || [], page, rowsPerPage);
       },
       [page, rowsPerPage, restaurant, searchQuery]
     );
@@ -167,7 +167,10 @@ const Page = () => {
                   selected={branchesSelection.selected}
                   setSnackbarOpen={setSnackbarOpen}
                   setSnackbarSeverity={setSnackbarSeverity}
-                  setSnackbarMessage={setSnackbarMessage} />
+                  setSnackbarMessage={setSnackbarMessage}
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
+                />
               </>
             )}
             {openAdd && (

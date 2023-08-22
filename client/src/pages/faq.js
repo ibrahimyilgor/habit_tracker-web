@@ -38,7 +38,7 @@ const Faq = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/faq/list`,
+          `https://qr-meny.onrender.com/faq/list`,
           {
             method: 'GET',
             headers: {"Authorization": "Bearer " + state?.user?.token },

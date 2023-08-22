@@ -52,7 +52,9 @@ export const CommentsTable = (props) => {
     getComments = () => {},
     setSnackbarOpen,
     setSnackbarSeverity,
-    setSnackbarMessage
+    setSnackbarMessage,
+    searchQuery,
+    setSearchQuery
   } = props;
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -72,6 +74,8 @@ useEffect(() => {
         <Box sx={{ minWidth: 800 }}>
           <Search 
             placeholder={t("common.search")}
+            value={searchQuery}
+            setValue={setSearchQuery}
           />
           <Table>
             <TableHead>
@@ -154,7 +158,7 @@ useEffect(() => {
         leftAction={() => {setConfirmModalOpen(false)}} 
         rightAction={ async () => {
             try {
-              const response = await fetch(`http://localhost:3001/comment/${selectedForDelete?._id}/deleteComment`, {
+              const response = await fetch(`https://qr-meny.onrender.com/comment/${selectedForDelete?._id}/deleteComment`, {
                 method: 'DELETE',
                 headers: {
                   "Authorization": "Bearer " + state?.user?.token

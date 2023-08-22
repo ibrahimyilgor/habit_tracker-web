@@ -23,9 +23,10 @@ const Comments = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const [searchQuery, setSearchQuery] = useState("")
 
     const getComments = async (id, token, name=null) => {
-        const commentsResponse = await fetch(`http://localhost:3001/comment/${id}`,
+        const commentsResponse = await fetch(`https://qr-meny.onrender.com/comment/${id}`,
             {
             method: "GET",
             headers: {"Authorization": "Bearer " + token },
@@ -73,9 +74,9 @@ const Comments = () => {
     const useComments = (page, rowsPerPage) => {
         return useMemo(
           () => {
-            return applyPagination(comments || [], page, rowsPerPage);
+            return applyPagination(comments.filter(c => c?.comment?.toLowerCase().includes(searchQuery.toLowerCase())) || [], page, rowsPerPage);
           },
-          [page, rowsPerPage, comments]
+          [page, rowsPerPage, comments, searchQuery]
         );
       };
 
@@ -137,6 +138,8 @@ const Comments = () => {
                            setSnackbarOpen={setSnackbarOpen}
                            setSnackbarSeverity={setSnackbarSeverity}
                            setSnackbarMessage={setSnackbarMessage}
+                           searchQuery={searchQuery}
+                           setSearchQuery={setSearchQuery}
                         />
                 </Stack>
             </Container>

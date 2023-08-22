@@ -25,7 +25,7 @@ import { useState } from 'react';
 
     const changePlan = async (id) => {
       try {
-        const response = await fetch("http://localhost:3001/user/updateUser", {
+        const response = await fetch("https://qr-meny.onrender.com/user/updateUser", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
