@@ -19,7 +19,7 @@ export const items = [
   {
     title: 'Overview',
     path: '/',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
@@ -29,7 +29,7 @@ export const items = [
   {
     title: 'Branches',
     path: '/branches',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <BuildingStorefrontIcon />
@@ -39,27 +39,27 @@ export const items = [
   {
     title: 'Menu',
     path: '/menu',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <DocumentTextIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Theme',
-    path: '/theme',
-    permission: ["manager", "user"],
-    icon: (
-      <SvgIcon fontSize="small">
-        <PaintBrushIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Theme',
+  //   path: '/theme',
+  //   permission: ["admin", "user"],
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <PaintBrushIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Plan',
     path: '/plan',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <CreditCardIcon />
@@ -69,27 +69,27 @@ export const items = [
   {
     title: 'Comments',
     path: '/comments',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <ChatBubbleBottomCenterTextIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Tickets',
-    permission: ["manager", "user"],
-    path: '/tickets',
-    icon: (
-      <SvgIcon fontSize="small">
-        <BellIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Tickets',
+  //   permission: ["admin", "user"],
+  //   path: '/tickets',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <BellIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Faq',
     path: '/faq',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <QuestionMark />
@@ -99,46 +99,46 @@ export const items = [
   {
     title: 'Account',
     path: '/account',
-    permission: ["manager", "user"],
+    permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Settings',
-    permission: ["manager", "user"],
-    path: '/settings',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Login',
-    permission: ["manager", "user", "customer"],
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Register',
-    permission: ["manager", "user", "customer"],
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Settings',
+  //   permission: ["admin", "user"],
+  //   path: '/settings',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CogIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Login',
+  //   permission: ["admin", "user", "customer"],
+  //   path: '/auth/login',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <LockClosedIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Register',
+  //   permission: ["admin", "user", "customer"],
+  //   path: '/auth/register',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserPlusIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Forgot Password',
-    permission: ["manager", "user", "customer"],
+    permission: ["admin", "user", "customer"],
     path: '/auth/forgot-password',
     visibleOnSideNav: false,
     icon: (
@@ -149,7 +149,7 @@ export const items = [
   },
   {
     title: 'Change Password',
-    permission: ["manager", "user", "customer"],
+    permission: ["admin", "user", "customer"],
     path: '/auth/change-password',
     visibleOnSideNav: false,
     icon: (
@@ -160,7 +160,8 @@ export const items = [
   },
   {
     title: 'Error',
-    permission: ["manager", "user", "customer"],
+    permission: ["admin", "user", "customer"],
+    visibleOnSideNav: false,
     path: '/404',
     icon: (
       <SvgIcon fontSize="small">
@@ -168,24 +169,24 @@ export const items = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Customers',
-    permission: ["manager", "user"],
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Companies',
-    permission: ["manager", "user"],
-    path: '/companies',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Customers',
+  //   permission: ["admin", "user"],
+  //   path: '/customers',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UsersIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Companies',
+  //   permission: ["admin", "user"],
+  //   path: '/companies',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ShoppingBagIcon />
+  //     </SvgIcon>
+  //   )
+  // },
 ];

@@ -156,7 +156,7 @@ export const AuthProvider = (props) => {
   const fetchUserAvatar = async (id) => {
     try {
       const response = await fetch(
-        `https://qr-meny.onrender.com/userAvatar/${id}`,
+        `http://localhost:3001/userAvatar/${id}`,
         {
           method: 'GET'
         }
@@ -181,7 +181,7 @@ export const AuthProvider = (props) => {
     console.log("decodeid", id);
   
     const userResponse = await fetch(
-      "https://qr-meny.onrender.com/user/" + id,
+      "http://localhost:3001/user/" + id,
       {
         method: "GET",
         headers: {
@@ -219,7 +219,7 @@ export const AuthProvider = (props) => {
 
   const deleteUser = async (id) => {
     try {
-      const response = await fetch(`https://qr-meny.onrender.com/user/${id}/deleteUser`, {
+      const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
         method: 'DELETE',
         headers: {
           "Authorization": "Bearer " + state?.user?.token
@@ -240,7 +240,7 @@ export const AuthProvider = (props) => {
 
   const updatePassword = async (id, password) => {
     try {
-      const response = await fetch("https://qr-meny.onrender.com/auth/updatePassword", {
+      const response = await fetch("http://localhost:3001/auth/updatePassword", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -261,7 +261,7 @@ export const AuthProvider = (props) => {
   const forgotPassword = async (values, onSubmitProps) => {
     try {
       const loggedInResponse = await fetch(
-        "https://qr-meny.onrender.com/auth/forgotPassword",
+        "http://localhost:3001/auth/forgotPassword",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -293,7 +293,7 @@ export const AuthProvider = (props) => {
   const changePassword = async (values, token) => {
     try {
       const loggedInResponse = await fetch(
-        "https://qr-meny.onrender.com/auth/changePassword",
+        "http://localhost:3001/auth/changePassword",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -325,7 +325,7 @@ export const AuthProvider = (props) => {
 
   const signIn = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "https://qr-meny.onrender.com/auth/login",
+      "http://localhost:3001/auth/login",
       {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -365,7 +365,7 @@ export const AuthProvider = (props) => {
       // formData.password = hashedPassword
   
       const savedUserResponse = await fetch(
-        "https://qr-meny.onrender.com/auth/register",
+        "http://localhost:3001/auth/register",
         {
           method: "POST",
           body: formData,

@@ -41,7 +41,7 @@ export const CreateCommentModal = ({ open, onClose, setSnackbarMessage, setSnack
   const addComment = async (e) => { 
     e.preventDefault();
     try {
-      const response = await fetch(`https://qr-meny.onrender.com/comment/${id}/addComment`, {
+      const response = await fetch(`http://localhost:3001/comment/${id}/addComment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -45,7 +45,7 @@ export const BranchEdit = ({back, selectedForEdit, setSelectedForEdit, setSnackb
     async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch("https://qr-meny.onrender.com/restaurant/updateBranch", {
+        const response = await fetch("http://localhost:3001/restaurant/updateBranch", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

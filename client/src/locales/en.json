@@ -167,7 +167,8 @@
         "changePlan": "Change Plan",
         "currentPlan": "Current Plan",
         "successMessage": "Plan updated successfully",
-        "errorMessage": "Plan could not be updated"
+        "errorMessage": "Plan could not be updated",
+        "enterCode": "Enter Code"
     },
     "theme": {
         "title": "Theme"

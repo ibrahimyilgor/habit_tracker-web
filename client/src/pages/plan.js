@@ -22,7 +22,7 @@ const Plan = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://qr-meny.onrender.com/plan/list`,
+          `http://localhost:3001/plan/list`,
           {
             method: 'GET',
             headers: {"Authorization": "Bearer " + state?.user?.token },
@@ -59,11 +59,13 @@ const Plan = () => {
             <div>
               <Typography variant="h4">{t("plan.title")}</Typography>
             </div>
-            {plan.map((p, index) => (
-              <Grid item xs={12} md={4} lg={4}>
-                <PlanComponent plan={p} />
-              </Grid>
-            ))}
+            <Grid container spacing={3}> {/* Add a Grid container */}
+              {plan.map((p, index) => (
+                <Grid item xs={12} md={4} lg={4} key={index}>
+                  <PlanComponent plan={p} />
+                </Grid>
+              ))}
+            </Grid>
           </Stack>
         </Container>
       </Box>

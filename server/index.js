@@ -16,6 +16,7 @@ import pdfMenuRoutes from "./routes/pdfMenu.js"
 import userAvatarRoutes from "./routes/userAvatar.js"
 import faqRoutes from "./routes/faq.js"
 import planRoutes from "./routes/plan.js"
+import planCodeRoutes from "./routes/planCode.js"
 import commentRoutes from "./routes/comment.js"
 
 import { register } from "./controllers/auth.js"
@@ -57,6 +58,7 @@ app.use("/userAvatar", userAvatarRoutes)
 app.use("/faq", faqRoutes)
 app.use("/plan", planRoutes)
 app.use("/comment", commentRoutes)
+app.use("/planCode", planCodeRoutes)
 
 /*MONGOOSE SETUP*/
 

@@ -158,7 +158,7 @@ useEffect(() => {
         leftAction={() => {setConfirmModalOpen(false)}} 
         rightAction={ async () => {
             try {
-              const response = await fetch(`https://qr-meny.onrender.com/comment/${selectedForDelete?._id}/deleteComment`, {
+              const response = await fetch(`http://localhost:3001/comment/${selectedForDelete?._id}/deleteComment`, {
                 method: 'DELETE',
                 headers: {
                   "Authorization": "Bearer " + state?.user?.token

@@ -7,7 +7,7 @@ import { useAuthContext } from 'src/contexts/auth-context';
 
 export const links = {
   user: "/menu",
-  manager: "/",
+  admin: "/",
   customer: "/branchMenu"
 }
 

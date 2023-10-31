@@ -42,7 +42,7 @@ export const AccountProfileDetails = ({setSnackbarOpen, setSnackbarSeverity, set
     async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch("https://qr-meny.onrender.com/user/updateUser", {
+        const response = await fetch("http://localhost:3001/user/updateUser", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

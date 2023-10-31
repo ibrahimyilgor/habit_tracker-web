@@ -96,7 +96,7 @@ const Menu = () => {
       else if (tabValue === 1) {
         try {
           const response = await fetch(
-            `https://qr-meny.onrender.com/pdfMenu/${restaurant.selectedBranchIds}`,
+            `http://localhost:3001/pdfMenu/${restaurant.selectedBranchIds}`,
             {
               method: 'GET'
             }
@@ -135,7 +135,7 @@ const Menu = () => {
       console.log("settings2", settings)
 
       try {
-        const response = await fetch(`https://qr-meny.onrender.com/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
+        const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -175,13 +175,13 @@ const Menu = () => {
         formData.append('fileName', file?.name)
     
         try {
-          await fetch('https://qr-meny.onrender.com/pdfMenu/save', {
+          await fetch('http://localhost:3001/pdfMenu/save', {
             method: 'PUT',
             body: formData,
             headers: {"Authorization": "Bearer " + state?.user?.token },
           });
     
-          const response = await fetch(`https://qr-meny.onrender.com/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
+          const response = await fetch(`http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

@@ -167,7 +167,8 @@
         "changePlan": "Planı Değiştir",
         "currentPlan": "Mevcut Plan",
         "successMessage": "Plan başarıyla güncellendi",
-        "errorMessage": "Plan güncellenemedi"
+        "errorMessage": "Plan güncellenemedi",
+        "enterCode": "Kodu Gir"
     },
     "theme": {
         "title": "Tema"

@@ -69,7 +69,7 @@ export const AccountProfile = () => {
         formData.append('file', localAvatar);
         formData.append('user_id', state?.user?.user?._id);
 
-        await fetch('https://qr-meny.onrender.com/userAvatar/save', {
+        await fetch('http://localhost:3001/userAvatar/save', {
           method: 'PUT',
           body: formData,
           headers: {"Authorization": "Bearer " + state?.user?.token },

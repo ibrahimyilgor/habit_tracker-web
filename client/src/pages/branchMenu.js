@@ -40,14 +40,14 @@ const BranchMenu = () => {
   useEffect(() => {
     const fetchData = async () => {
       if(id){
-        const menuResponse = await fetch(`https://qr-meny.onrender.com/restaurant/${id}/getMenuForCustomers`, {
+        const menuResponse = await fetch(`http://localhost:3001/restaurant/${id}/getMenuForCustomers`, {
           method: 'GET',
         });
         const tempMenu = await menuResponse.json();
   
         console.log('tempMenu', tempMenu, tempMenu?.[0].menu || []);
   
-        const response = await fetch(`https://qr-meny.onrender.com/pdfMenu/${id}`, {
+        const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
           method: 'GET',
         });
   

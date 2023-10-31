@@ -17,10 +17,14 @@ const PlanSchema = new mongoose.Schema({
       required: true
     },
     text: {
-      type: String,
+      type: Array,
       required: true
     }
-  }]
+  }],
+  price: {
+    type: Number,
+    required: true
+},
 });
 
 const Plan = mongoose.model('Plan', PlanSchema);

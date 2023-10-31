@@ -26,7 +26,7 @@ const Comments = () => {
     const [searchQuery, setSearchQuery] = useState("")
 
     const getComments = async (id, token, name=null) => {
-        const commentsResponse = await fetch(`https://qr-meny.onrender.com/comment/${id}`,
+        const commentsResponse = await fetch(`http://localhost:3001/comment/${id}`,
             {
             method: "GET",
             headers: {"Authorization": "Bearer " + token },
