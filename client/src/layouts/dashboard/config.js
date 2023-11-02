@@ -1,50 +1,50 @@
-import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
-import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
-import UserIcon from '@heroicons/react/24/solid/UserIcon';
-import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
-import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
-import CreditCardIcon from '@heroicons/react/24/solid/CreditCardIcon';
-import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
-import PaintBrushIcon from '@heroicons/react/24/solid/PaintBrushIcon';
-import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
-import ChatBubbleBottomCenterTextIcon from '@heroicons/react/24/solid/ChatBubbleBottomCenterTextIcon';
-import { SvgIcon } from '@mui/material';
-import { QuestionMark } from '@mui/icons-material';
-import BellIcon from '@heroicons/react/24/solid/BellIcon';
+import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
+import CogIcon from "@heroicons/react/24/solid/CogIcon";
+import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
+import ShoppingBagIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
+import UserIcon from "@heroicons/react/24/solid/UserIcon";
+import UserPlusIcon from "@heroicons/react/24/solid/UserPlusIcon";
+import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+import XCircleIcon from "@heroicons/react/24/solid/XCircleIcon";
+import CreditCardIcon from "@heroicons/react/24/solid/CreditCardIcon";
+import DocumentTextIcon from "@heroicons/react/24/solid/DocumentTextIcon";
+import PaintBrushIcon from "@heroicons/react/24/solid/PaintBrushIcon";
+import BuildingStorefrontIcon from "@heroicons/react/24/solid/BuildingStorefrontIcon";
+import ChatBubbleBottomCenterTextIcon from "@heroicons/react/24/solid/ChatBubbleBottomCenterTextIcon";
+import { SvgIcon } from "@mui/material";
+import { QuestionMark } from "@mui/icons-material";
+import BellIcon from "@heroicons/react/24/solid/BellIcon";
 
 export const items = [
   {
-    title: 'Overview',
-    path: '/',
+    title: "Overview",
+    path: "/",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Branches',
-    path: '/branches',
+    title: "Branches",
+    path: "/branches",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <BuildingStorefrontIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Menu',
-    path: '/menu',
+    title: "Menu",
+    path: "/menu",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <DocumentTextIcon />
       </SvgIcon>
-    )
+    ),
   },
   // {
   //   title: 'Theme',
@@ -57,24 +57,24 @@ export const items = [
   //   )
   // },
   {
-    title: 'Plan',
-    path: '/plan',
+    title: "Plan",
+    path: "/plan",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <CreditCardIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Comments',
-    path: '/comments',
+    title: "Comments",
+    path: "/comments",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <ChatBubbleBottomCenterTextIcon />
       </SvgIcon>
-    )
+    ),
   },
   // {
   //   title: 'Tickets',
@@ -87,24 +87,24 @@ export const items = [
   //   )
   // },
   {
-    title: 'Faq',
-    path: '/faq',
+    title: "Faq",
+    path: "/faq",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <QuestionMark />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Account',
-    path: '/account',
+    title: "Account",
+    path: "/account",
     permission: ["admin", "user"],
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
       </SvgIcon>
-    )
+    ),
   },
   // {
   //   title: 'Settings',
@@ -137,37 +137,37 @@ export const items = [
   //   )
   // },
   {
-    title: 'Forgot Password',
+    title: "Forgot Password",
     permission: ["admin", "user", "customer"],
-    path: '/auth/forgot-password',
+    path: "/auth/forgot-password",
     visibleOnSideNav: false,
     icon: (
       <SvgIcon fontSize="small">
         <UserPlusIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Change Password',
+    title: "Change Password",
     permission: ["admin", "user", "customer"],
-    path: '/auth/change-password',
+    path: "/auth/change-password",
     visibleOnSideNav: false,
     icon: (
       <SvgIcon fontSize="small">
         <UserPlusIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Error',
+    title: "Error",
     permission: ["admin", "user", "customer"],
     visibleOnSideNav: false,
-    path: '/404',
+    path: "/404",
     icon: (
       <SvgIcon fontSize="small">
         <XCircleIcon />
       </SvgIcon>
-    )
+    ),
   },
   // {
   //   title: 'Customers',

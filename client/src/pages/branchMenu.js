@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { Box, Container, Stack } from '@mui/material';
-import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
-import MenuForCustomers from 'src/components/menu-for-customers';
-import CustomizedSnackbars from 'src/sections/snackbar';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import { Box, Container, Stack } from "@mui/material";
+import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import MenuForCustomers from "src/components/menu-for-customers";
+import CustomizedSnackbars from "src/sections/snackbar";
 
 const BranchMenu = () => {
   const { t } = useTranslation();
@@ -14,14 +14,14 @@ const BranchMenu = () => {
 
   const [menu, setMenu] = useState([]);
   const [isPdf, setIsPdf] = useState(false);
-  const [settings, setSettings] = useState({})
-  const [colors, setColors] = useState({})
-  const [pdfPreview, setPdfPreview] = useState('');
+  const [settings, setSettings] = useState({});
+  const [colors, setColors] = useState({});
+  const [pdfPreview, setPdfPreview] = useState("");
   const [file, setFile] = useState();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   useEffect(() => {
     if (file) {
@@ -33,40 +33,43 @@ const BranchMenu = () => {
 
       reader.readAsDataURL(file);
     } else {
-      setPdfPreview('');
+      setPdfPreview("");
     }
   }, [file]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if(id){
-        const menuResponse = await fetch(`http://localhost:3001/restaurant/${id}/getMenuForCustomers`, {
-          method: 'GET',
-        });
+      if (id) {
+        const menuResponse = await fetch(
+          `http://localhost:3001/restaurant/${id}/getMenuForCustomers`,
+          {
+            method: "GET",
+          },
+        );
         const tempMenu = await menuResponse.json();
-  
-        console.log('tempMenu', tempMenu, tempMenu?.[0].menu || []);
-  
+
+        console.log("tempMenu", tempMenu, tempMenu?.[0].menu || []);
+
         const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
-          method: 'GET',
+          method: "GET",
         });
-  
+
         if (response.ok) {
-          console.log('response', response);
+          console.log("response", response);
           const blob = await response.blob();
-          const file = new File([blob], 'fileName', { type: 'application/pdf' });
+          const file = new File([blob], "fileName", { type: "application/pdf" });
           setFile(file);
         } else {
-          console.error('Failed to fetch PDF:', response.statusText);
+          console.error("Failed to fetch PDF:", response.statusText);
           setFile(null);
         }
-  
+
         setMenu(tempMenu?.[0].menu || []);
         setSettings(tempMenu?.[0].settings || {});
-        setColors(tempMenu?.[0].colors || {})
+        setColors(tempMenu?.[0].colors || {});
         setIsPdf(tempMenu?.[0]?.isPdf);
 
-        const htmlElement = document.querySelector('html'); // Get the <html> element
+        const htmlElement = document.querySelector("html"); // Get the <html> element
 
         htmlElement.style.backgroundColor = tempMenu?.[0]?.colors?.backgroundColor ?? "#ffffff";
       }
@@ -76,35 +79,37 @@ const BranchMenu = () => {
   }, [id]);
 
   useEffect(() => {
-    menu && menu.length > 0 && menu.map((m) => {
-      console.log('menu,', m.name);
-    });
+    menu &&
+      menu.length > 0 &&
+      menu.map((m) => {
+        console.log("menu,", m.name);
+      });
   }, [menu]);
 
   return (
-    <Box sx={{backgroundColor: colors?.backgroundColor ?? "#ffffff", height: "100vh"}}>
+    <Box sx={{ backgroundColor: colors?.backgroundColor ?? "#ffffff", height: "100vh" }}>
       <Head>
         <title>Branches | Devias Kit</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Stack spacing={3}>
           <Stack direction="column" justifyContent="space-between" spacing={4}>
-            {!isPdf && 
-              <MenuForCustomers 
-                menu={menu} 
-                settings={settings} 
-                colors={colors} 
+            {!isPdf && (
+              <MenuForCustomers
+                menu={menu}
+                settings={settings}
+                colors={colors}
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarSeverity={setSnackbarSeverity}
                 setSnackbarMessage={setSnackbarMessage}
               />
-            }
+            )}
 
             {isPdf && (
               <iframe
-                src={pdfPreview ? pdfPreview + '#toolbar=0&navpanes=0&view=fitH' : pdfPreview}
+                src={pdfPreview ? pdfPreview + "#toolbar=0&navpanes=0&view=fitH" : pdfPreview}
                 title="PDF Preview"
-                style={{ width: '100vw', height: "100vh" }}
+                style={{ width: "100vw", height: "100vh" }}
                 frameborder="0"
               ></iframe>
             )}
@@ -115,7 +120,7 @@ const BranchMenu = () => {
         open={snackbarOpen}
         setOpen={setSnackbarOpen}
         severity={snackbarSeverity}
-        message={snackbarMessage} 
+        message={snackbarMessage}
       />
     </Box>
   );

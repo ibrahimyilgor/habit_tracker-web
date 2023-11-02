@@ -3,9 +3,17 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 
-export const ConfirmModal = ({ open, onClose, leftButtonMessage, rightButtonMessage, title, description, leftAction, rightAction }) => {
+export const ConfirmModal = ({
+  open,
+  onClose,
+  leftButtonMessage,
+  rightButtonMessage,
+  title,
+  description,
+  leftAction,
+  rightAction,
+}) => {
   const { t } = useTranslation();
-
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -34,28 +42,27 @@ export const ConfirmModal = ({ open, onClose, leftButtonMessage, rightButtonMess
           {description || ""}
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button 
-                variant="contained" 
-                onClick={() => {
-                    leftAction ? leftAction() : {} 
-                }}
-                sx={{ mr: 2 }}
-            >
-                {leftButtonMessage || ""}
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                    rightAction ? rightAction() : {} 
-                }}
-                // disabled={!selectedFile}
-            >
-                {rightButtonMessage || ""}
-            </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              leftAction ? leftAction() : {};
+            }}
+            sx={{ mr: 2 }}
+          >
+            {leftButtonMessage || ""}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              rightAction ? rightAction() : {};
+            }}
+            // disabled={!selectedFile}
+          >
+            {rightButtonMessage || ""}
+          </Button>
         </Box>
       </Box>
     </Modal>
   );
 };
-

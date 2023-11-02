@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const RestaurantSchema = new mongoose.Schema({
-  user_id: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'User' 
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
   name: {
     type: String,
@@ -20,7 +20,7 @@ const RestaurantSchema = new mongoose.Schema({
   },
   isPdf: {
     type: Boolean,
-    default: false
+    default: false,
   },
   menu: [
     {
@@ -40,12 +40,12 @@ const RestaurantSchema = new mongoose.Schema({
           },
           priceUnit: {
             type: String,
-            required: true
+            required: true,
           },
           explanation: {
             type: String,
-            required: false
-          }
+            required: false,
+          },
         },
       ],
     },
@@ -63,18 +63,18 @@ const RestaurantSchema = new mongoose.Schema({
   colors: {
     backgroundColor: {
       type: String,
-      default: '#ffffff',
+      default: "#ffffff",
     },
     itemColor: {
       type: String,
-      default: '#eeeeee',
+      default: "#eeeeee",
     },
     textColor: {
       type: String,
-      default: '#000000',
+      default: "#000000",
     },
-  }
+  },
 });
 
-const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
-export default Restaurant
+const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
+export default Restaurant;

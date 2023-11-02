@@ -1,6 +1,11 @@
 import express from "express";
 import { verifyToken } from "../middleware/auth.js";
-import { getComments, deleteComment, addComment, getAverageRateOfCommentsInLast30Days } from "../controllers/comment.js";
+import {
+  getComments,
+  deleteComment,
+  addComment,
+  getAverageRateOfCommentsInLast30Days,
+} from "../controllers/comment.js";
 
 const router = express.Router();
 

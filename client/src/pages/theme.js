@@ -1,14 +1,14 @@
-import Head from 'next/head';
-import { Box, Container, Grid, Stack, Typography } from '@mui/material';
-import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { AccountProfile } from 'src/sections/account/account-profile';
-import { AccountProfileDetails } from 'src/sections/account/account-profile-details';
-import { useTranslation } from 'react-i18next';
+import Head from "next/head";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
+import { AccountProfile } from "src/sections/account/account-profile";
+import { AccountProfileDetails } from "src/sections/account/account-profile-details";
+import { useTranslation } from "react-i18next";
 
-const Theme = () =>  {
-  const {t} = useTranslation()
+const Theme = () => {
+  const { t } = useTranslation();
 
-  return(
+  return (
     <>
       <Head>
         <title>Theme | Devias Kit</title>
@@ -34,7 +34,8 @@ const Theme = () =>  {
         </Container>
       </Box>
     </>
-  )};
+  );
+};
 
 Theme.getLayout = (theme) => <DashboardLayout>{theme}</DashboardLayout>;
 

@@ -1,5 +1,12 @@
 import express from "express";
-import { addBranch, deleteBranch, getBranches, getMenuForCustomers, saveMenu, updateBranch } from "../controllers/restaurant.js";
+import {
+  addBranch,
+  deleteBranch,
+  getBranches,
+  getMenuForCustomers,
+  saveMenu,
+  updateBranch,
+} from "../controllers/restaurant.js";
 import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();

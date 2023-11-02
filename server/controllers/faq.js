@@ -7,7 +7,7 @@ export const getFaq = async (req, res) => {
     const faqs = await Faq.find();
 
     if (!faqs || faqs.length === 0) {
-      return res.status(404).json({ message: 'FAQ not found.' });
+      return res.status(404).json({ message: "FAQ not found." });
     }
 
     // You mentioned sending the FAQ data as a PDF response,
@@ -15,6 +15,6 @@ export const getFaq = async (req, res) => {
     res.json(faqs);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Failed to retrieve FAQs.' });
+    res.status(500).json({ message: "Failed to retrieve FAQs." });
   }
 };

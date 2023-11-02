@@ -1,21 +1,21 @@
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useRouter } from 'next/navigation';
-import jwt from 'jsonwebtoken'
-import { links } from 'src/pages/404';
-import CustomizedSnackbars from 'src/sections/snackbar';
-import { useTranslation } from 'react-i18next';
+import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
+import PropTypes from "prop-types";
+import { useRouter } from "next/navigation";
+import jwt from "jsonwebtoken";
+import { links } from "src/pages/404";
+import CustomizedSnackbars from "src/sections/snackbar";
+import { useTranslation } from "react-i18next";
 
 export const HANDLERS = {
-  INITIALIZE: 'INITIALIZE',
-  SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT'
+  INITIALIZE: "INITIALIZE",
+  SIGN_IN: "SIGN_IN",
+  SIGN_OUT: "SIGN_OUT",
 };
 
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
-  user: null
+  user: null,
 };
 
 const handlers = {
@@ -24,18 +24,16 @@ const handlers = {
 
     return {
       ...state,
-      ...(
-        // if payload (user) is provided, then is authenticated
-        user
-          ? ({
+      ...// if payload (user) is provided, then is authenticated
+      (user
+        ? {
             isAuthenticated: true,
             isLoading: false,
-            user
-          })
-          : ({
-            isLoading: false
-          })
-      )
+            user,
+          }
+        : {
+            isLoading: false,
+          }),
     };
   },
   [HANDLERS.SIGN_IN]: (state, action) => {
@@ -44,21 +42,20 @@ const handlers = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
   },
   [HANDLERS.SIGN_OUT]: (state) => {
     return {
       ...state,
       isAuthenticated: false,
-      user: null
+      user: null,
     };
-  }
+  },
 };
 
-const reducer = (state, action) => (
-  handlers[action.type] ? handlers[action.type](state, action) : state
-);
+const reducer = (state, action) =>
+  handlers[action.type] ? handlers[action.type](state, action) : state;
 
 // The role of this context is to propagate authentication state through the App tree.
 
@@ -67,24 +64,24 @@ export const AuthContext = createContext({ undefined });
 export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [userAvatar, setUserAvatar] = useState()
-  const [userAvatarSrc, setUserAvatarSrc] = useState("")
+  const [userAvatar, setUserAvatar] = useState();
+  const [userAvatarSrc, setUserAvatarSrc] = useState("");
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const initialized = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
-    console.log("state",state)
-  }, [state])
+    console.log("state", state);
+  }, [state]);
 
   useEffect(() => {
-    if(userAvatar){
+    if (userAvatar) {
       const reader = new FileReader();
       reader.onload = () => {
         setUserAvatarSrc(reader.result);
@@ -104,34 +101,31 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      isAuthenticated = window.sessionStorage.getItem('user') !== null;
+      isAuthenticated = window.sessionStorage.getItem("user") !== null;
     } catch (err) {
       console.error(err);
     }
 
-    let tempUser = window.sessionStorage.getItem('user')
-    if(tempUser){
-      tempUser = JSON.parse(tempUser)
+    let tempUser = window.sessionStorage.getItem("user");
+    if (tempUser) {
+      tempUser = JSON.parse(tempUser);
     }
-    console.log("tempuser",tempUser)
+    console.log("tempuser", tempUser);
 
     if (isAuthenticated) {
+      const decode = jwt.verify(tempUser, "SSEECCRREETT");
+      console.log("decode", decode);
 
-      const decode = jwt.verify(tempUser, 'SSEECCRREETT')
-      console.log("decode",decode)
-
-      if(decode?.id){
-        getUser(decode.id)
-      }
-      else{
+      if (decode?.id) {
+        getUser(decode.id);
+      } else {
         dispatch({
-          type: HANDLERS.SIGN_OUT
+          type: HANDLERS.SIGN_OUT,
         });
       }
-
     } else {
       dispatch({
-        type: HANDLERS.INITIALIZE
+        type: HANDLERS.INITIALIZE,
       });
     }
   };
@@ -141,59 +135,51 @@ export const AuthProvider = (props) => {
       initialize();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
-  useEffect(
-    () => {
-      if(state?.user?.user?._id){
-        fetchUserAvatar(state?.user?.user?._id)
-      }
-    },
-    [state]
-  );
+  useEffect(() => {
+    if (state?.user?.user?._id) {
+      fetchUserAvatar(state?.user?.user?._id);
+    }
+  }, [state]);
 
   const fetchUserAvatar = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/userAvatar/${id}`,
-        {
-          method: 'GET'
-        }
-      );
+      const response = await fetch(`http://localhost:3001/userAvatar/${id}`, {
+        method: "GET",
+      });
 
       if (response.ok) {
-        console.log("response", response)
+        console.log("response", response);
         const blob = await response.blob();
-        const file = new File([blob], "fileName", { type: 'image/*' });
+        const file = new File([blob], "fileName", { type: "image/*" });
         setUserAvatar(file);
       } else {
-        console.error('Failed to fetch PDF:', response.statusText);
+        console.error("Failed to fetch PDF:", response.statusText);
         setUserAvatar(null);
       }
     } catch (error) {
-      console.error('Error fetching PDF:', error);
+      console.error("Error fetching PDF:", error);
       setUserAvatar(null);
     }
-  }
+  };
 
   const getUser = async (id) => {
     console.log("decodeid", id);
-  
-    const userResponse = await fetch(
-      "http://localhost:3001/user/" + id,
-      {
-        method: "GET",
-        headers: {
-          "Authorization": "Bearer " + (state?.user?.token || JSON.parse(window.sessionStorage.getItem("user")))
-        }
-      }
-    );
-  
+
+    const userResponse = await fetch("http://localhost:3001/user/" + id, {
+      method: "GET",
+      headers: {
+        Authorization:
+          "Bearer " + (state?.user?.token || JSON.parse(window.sessionStorage.getItem("user"))),
+      },
+    });
+
     const tempUser = await userResponse.json();
-  
+
     console.log("userr", tempUser);
-  
+
     const user = {
       token: state?.user?.token || JSON.parse(window.sessionStorage.getItem("user")),
       user: {
@@ -205,36 +191,36 @@ export const AuthProvider = (props) => {
         phone: tempUser?.phone,
         restaurants: tempUser?.restaurants,
         plan_id: tempUser?.plan_id,
-        role: tempUser?.role
-      }
+        role: tempUser?.role,
+      },
     };
-  
+
     dispatch({
       type: HANDLERS.INITIALIZE,
-      payload: user
+      payload: user,
     });
-  
+
     return tempUser;
   };
 
   const deleteUser = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          "Authorization": "Bearer " + state?.user?.token
+          Authorization: "Bearer " + state?.user?.token,
         },
       });
       const data = await response.json();
 
       dispatch({
-        type: HANDLERS.SIGN_OUT
-      })
-      sessionStorage.removeItem('user');
-      return {success: true}
+        type: HANDLERS.SIGN_OUT,
+      });
+      sessionStorage.removeItem("user");
+      return { success: true };
     } catch (error) {
-      console.log("errorr",error)
-      return {success: false}
+      console.log("errorr", error);
+      return { success: false };
     }
   };
 
@@ -244,47 +230,43 @@ export const AuthProvider = (props) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + state?.user?.token
+          Authorization: "Bearer " + state?.user?.token,
         },
-        body: JSON.stringify({ _id: id, password: password })
+        body: JSON.stringify({ _id: id, password: password }),
       });
       const data = await response.json();
-      console.log("submit", data)
+      console.log("submit", data);
 
-    return data;
+      return data;
     } catch (error) {
-      console.log("errorr",error)
-      return {success: false}
+      console.log("errorr", error);
+      return { success: false };
     }
   };
 
   const forgotPassword = async (values, onSubmitProps) => {
     try {
-      const loggedInResponse = await fetch(
-        "http://localhost:3001/auth/forgotPassword",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        }
-      );
-  
+      const loggedInResponse = await fetch("http://localhost:3001/auth/forgotPassword", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
       const loggedIn = await loggedInResponse.json();
-      console.log("loggedin", loggedIn)
-      if(loggedIn?.error === "no user found"){
+      console.log("loggedin", loggedIn);
+      if (loggedIn?.error === "no user found") {
         setSnackbarOpen(true);
-        setSnackbarSeverity('error');
+        setSnackbarSeverity("error");
         setSnackbarMessage(t("login.forgotPasswordErrorMessage"));
-      }
-      else{
+      } else {
         setSnackbarOpen(true);
-        setSnackbarSeverity('success');
+        setSnackbarSeverity("success");
         setSnackbarMessage(t("login.forgotPasswordSuccessMessage"));
       }
       return loggedIn;
     } catch (error) {
       setSnackbarOpen(true);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarMessage(t("login.forgotPasswordErrorMessage"));
       throw error;
     }
@@ -292,69 +274,60 @@ export const AuthProvider = (props) => {
 
   const changePassword = async (values, token) => {
     try {
-      const loggedInResponse = await fetch(
-        "http://localhost:3001/auth/changePassword",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...values, token }),
-        }
-      );
-  
+      const loggedInResponse = await fetch("http://localhost:3001/auth/changePassword", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, token }),
+      });
+
       const loggedIn = await loggedInResponse.json();
       setSnackbarOpen(true);
-      setSnackbarSeverity('success');
+      setSnackbarSeverity("success");
       setSnackbarMessage(t("login.changePasswordSuccessMessage"));
 
       const loginPagePath = "/auth/login";
       const currentHost = window.location.host;
       const currentProtocol = window.location.protocol;
       const loginPageURL = currentProtocol + "//" + currentHost + loginPagePath;
-      
+
       window.location.href = loginPageURL;
 
       return loggedIn;
     } catch (error) {
       setSnackbarOpen(true);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarMessage(t("login.changePasswordErrorMessage"));
       throw error;
     }
   };
-  
 
   const signIn = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch(
-      "http://localhost:3001/auth/login",
-      {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(values)
-      }
-    )
-    const loggedIn = await loggedInResponse.json()
+    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
 
-    if (loggedIn.token){
+    if (loggedIn.token) {
       dispatch({
         type: HANDLERS.SIGN_IN,
-        payload: loggedIn
-      })
-      window.sessionStorage.setItem('user', JSON.stringify(loggedIn.token))
+        payload: loggedIn,
+      });
+      window.sessionStorage.setItem("user", JSON.stringify(loggedIn.token));
 
       setSnackbarOpen(true);
-      setSnackbarSeverity('success');
+      setSnackbarSeverity("success");
       setSnackbarMessage(t("login.loginSuccessMessage"));
 
       router.push(links[loggedIn?.user?.role]);
-    }
-    else {
+    } else {
       setSnackbarOpen(true);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarMessage(t("login.loginErrorMessage"));
     }
 
-    return loggedIn
-
+    return loggedIn;
   };
 
   const signUp = async (formData) => {
@@ -363,23 +336,20 @@ export const AuthProvider = (props) => {
       // const saltRounds = 10;
       // const hashedPassword = await bcrypt.hash(password, saltRounds);
       // formData.password = hashedPassword
-  
-      const savedUserResponse = await fetch(
-        "http://localhost:3001/auth/register",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-  
+
+      const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        body: formData,
+      });
+
       const savedUser = await savedUserResponse.json();
       setSnackbarOpen(true);
-      setSnackbarSeverity('success');
+      setSnackbarSeverity("success");
       setSnackbarMessage(t("register.successMessage"));
       return savedUser;
     } catch (error) {
       setSnackbarOpen(true);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarMessage(t("register.errorMessage"));
       throw error;
     }
@@ -387,11 +357,11 @@ export const AuthProvider = (props) => {
 
   const signOut = () => {
     dispatch({
-      type: HANDLERS.SIGN_OUT
+      type: HANDLERS.SIGN_OUT,
     });
-    setUserAvatar()
-    setUserAvatarSrc()
-    sessionStorage.removeItem('user');
+    setUserAvatar();
+    setUserAvatarSrc();
+    sessionStorage.removeItem("user");
   };
 
   return (
@@ -411,7 +381,7 @@ export const AuthProvider = (props) => {
           setUserAvatar,
           fetchUserAvatar,
           userAvatarSrc,
-          setUserAvatarSrc
+          setUserAvatarSrc,
         }}
       >
         {children}
@@ -420,14 +390,14 @@ export const AuthProvider = (props) => {
         open={snackbarOpen}
         setOpen={setSnackbarOpen}
         severity={snackbarSeverity}
-        message={snackbarMessage} 
+        message={snackbarMessage}
       />
     </>
   );
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const AuthConsumer = AuthContext.Consumer;
