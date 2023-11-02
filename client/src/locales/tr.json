@@ -185,7 +185,8 @@
         "branches": "Şubeler",
         "rateInLast30": "30 Günlük Yorumlar",
         "rateInLast60": "Bir önceki 30 günlük yorumlar",
-        "comments": "Yorumlar"
+        "comments": "Yorumlar",
+        "plan": "Plan"
     },
     "rePassword": {
         "title": "Şifreni Değiştir",

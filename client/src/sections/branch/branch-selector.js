@@ -28,7 +28,7 @@ export const BranchSelector = ({ multiple, width }) => {
       } else {
         selectedBranch = restaurant.restaurants.find((branch) => branch._id === selected);
       }
-      return selectedBranch.name;
+      return selectedBranch?.name ?? null;
     } else if (multiple && selected.length === restaurant.restaurants.length) {
       return t("branches.allBranchesSelected", { length: selected.length });
     } else {

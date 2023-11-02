@@ -18,6 +18,7 @@ export const register = async (req, res) => {
       name,
       email,
       password: passwordHash,
+      plan_id: "6473cb15528f4f031fcdd690", //BASIC PLAN
     });
 
     const savedUser = await newUser.save();

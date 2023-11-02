@@ -3,16 +3,24 @@ import ListBulletIcon from "@heroicons/react/24/solid/ListBulletIcon";
 import {
   Avatar,
   Box,
+  Button,
   Card,
+  CardActions,
   CardContent,
   LinearProgress,
   Stack,
   SvgIcon,
   Typography,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
+import { useRouter } from "next/router";
 
-export const OverviewTasksProgress = (props) => {
-  const { value, sx } = props;
+export const OverviewPlan = (props) => {
+  const { planName, date, sx } = props;
+  const router = useRouter();
+
+  const { t } = useTranslation();
 
   return (
     <Card sx={sx}>
@@ -20,9 +28,9 @@ export const OverviewTasksProgress = (props) => {
         <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={3}>
           <Stack spacing={1}>
             <Typography color="text.secondary" gutterBottom variant="overline">
-              Task Progress
+              {t("overview.plan")}
             </Typography>
-            <Typography variant="h4">{value}%</Typography>
+            <Typography variant="h4">{planName}</Typography>
           </Stack>
           <Avatar
             sx={{
@@ -37,14 +45,30 @@ export const OverviewTasksProgress = (props) => {
           </Avatar>
         </Stack>
         <Box sx={{ mt: 3 }}>
-          <LinearProgress value={value} variant="determinate" />
+          <LinearProgress value={date} variant="determinate" />
         </Box>
       </CardContent>
+      <CardActions sx={{ justifyContent: "flex-end" }}>
+        <Button
+          color="inherit"
+          endIcon={
+            <SvgIcon fontSize="small">
+              <ArrowRightIcon />
+            </SvgIcon>
+          }
+          size="small"
+          onClick={() => {
+            router.push("/plan");
+          }}
+        >
+          {t("overview.plan")}
+        </Button>
+      </CardActions>
     </Card>
   );
 };
 
-OverviewTasksProgress.propTypes = {
+OverviewPlan.propTypes = {
   value: PropTypes.number.isRequired,
   sx: PropTypes.object,
 };

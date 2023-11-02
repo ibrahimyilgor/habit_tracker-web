@@ -185,7 +185,8 @@
         "branches": "Branches",
         "rateInLast30": "Rates in last 30 days",
         "rateInLast60": "Previous 30-day rates",
-        "comments": "Comments"
+        "comments": "Comments",
+        "plan": "Plan"
     },
     "rePassword": {
         "title": "Change Password",

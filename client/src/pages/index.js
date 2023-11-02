@@ -6,7 +6,7 @@ import { OverviewBranches, OverviewBudget } from "src/sections/overview/overview
 import { OverviewLatestOrders } from "src/sections/overview/overview-latest-orders";
 import { OverviewLatestProducts } from "src/sections/overview/overview-latest-products";
 import { OverviewSales } from "src/sections/overview/overview-sales";
-import { OverviewTasksProgress } from "src/sections/overview/overview-tasks-progress";
+import { OverviewPlan } from "src/sections/overview/overview-plan";
 import {
   OverviewAverageRates,
   OverviewTotalCustomers,
@@ -16,6 +16,7 @@ import { OverviewTraffic } from "src/sections/overview/overview-traffic";
 import { useAuthContext } from "src/contexts/auth-context";
 import { useEffect, useState } from "react";
 import { useRestaurantContext } from "src/contexts/restaurant-context";
+import i18n from "src/i18n";
 
 const now = new Date();
 
@@ -76,7 +77,14 @@ const Page = () => {
               />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewTasksProgress sx={{ height: "100%" }} value={75.5} />
+              <OverviewPlan
+                sx={{ height: "100%" }}
+                planName={
+                  state?.user?.user?.plan_id?.name?.filter((x) => x.language === i18n.language)?.[0]
+                    ?.text || ""
+                }
+                date={new Date("2024")}
+              />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />

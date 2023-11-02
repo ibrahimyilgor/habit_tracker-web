@@ -4,6 +4,7 @@ import MenuPdf from "../models/MenuPdf.js";
 import UserAvatar from "../models/UserAvatar.js";
 import ResetPassword from "../models/ResetPassword.js";
 import Comment from "../models/Comment.js";
+import Plan from "../models/Plan.js";
 
 /*READ USER*/
 
@@ -11,7 +12,7 @@ export const getUser = async (req, res) => {
   console.log("idd", req.params);
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("plan_id");
     res.status(200).json(user);
     console.log("idd2", user, id);
   } catch (err) {
@@ -50,12 +51,10 @@ export const deleteUser = async (req, res) => {
     await ResetPassword.deleteMany({ user_id: req.params.id }); //Delete the reset password
     await Comment.deleteMany({ user_id: req.params.id }); //Delete the comments
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: `Deleted user ${deletedUser.name} and all their branches.`,
-      });
+    res.status(200).json({
+      success: true,
+      message: `Deleted user ${deletedUser.name} and all their branches.`,
+    });
     console.log("ssccccssss");
   } catch (error) {
     console.error(error);
