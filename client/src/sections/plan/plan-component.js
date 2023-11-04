@@ -15,6 +15,7 @@ import i18n from "src/i18n";
 import CustomizedSnackbars from "../snackbar";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 
 export const PlanComponent = ({ plan }) => {
   const { t } = useTranslation();
@@ -101,7 +102,7 @@ export const PlanComponent = ({ plan }) => {
             </Box>
             {plan?.description
               .filter((p) => p.language === lang)[0]
-              ?.text.map((d) => {
+              ?.text.map((d, index) => {
                 return (
                   <Box
                     sx={{
@@ -110,8 +111,12 @@ export const PlanComponent = ({ plan }) => {
                       flexDirection: "row",
                     }}
                   >
-                    <SvgIcon htmlColor="#f44336" style={{ width: "15%" }}>
-                      <CloseIcon />
+                    <SvgIcon htmlColor="#6366F1" style={{ width: "15%" }}>
+                      {plan?.description_yes_no[index] ? (
+                        <RadioButtonChecked />
+                      ) : (
+                        <RadioButtonUnchecked />
+                      )}
                     </SvgIcon>
                     <Typography color="text.secondary" variant="body2" width="85%">
                       {d}
@@ -122,8 +127,10 @@ export const PlanComponent = ({ plan }) => {
           </Box>
         </CardContent>
         <Divider />
-        <CardActions>
-          {state?.user?.user?.plan_id === plan?._id ? (
+        <CardActions
+          sx={{ padding: state?.user?.user?.plan_id?._id === plan?._id ? "16px" : "8px" }}
+        >
+          {state?.user?.user?.plan_id?._id === plan?._id ? (
             <Button
               variant="text"
               fullWidth

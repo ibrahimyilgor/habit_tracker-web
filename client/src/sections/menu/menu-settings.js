@@ -14,9 +14,12 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ColorPicker } from "src/components/color-picker";
+import { PLAN_IDS } from "src/utils/constants";
+import { useAuthContext } from "src/contexts/auth-context";
 
 export const MenuSettings = ({ settings, setSettings }) => {
   const { t } = useTranslation();
+  const state = useAuthContext();
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
@@ -39,6 +42,7 @@ export const MenuSettings = ({ settings, setSettings }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} // DISABLE IF BASIC PLAN
                         checked={settings?.showLogo}
                         onChange={(e) => {
                           setSettings({ ...settings, showLogo: e.target.checked });
@@ -50,6 +54,7 @@ export const MenuSettings = ({ settings, setSettings }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} // DISABLE IF BASIC PLAN
                         checked={settings?.showComment}
                         onChange={(e) => {
                           setSettings({ ...settings, showComment: e.target.checked });
@@ -69,6 +74,7 @@ export const MenuSettings = ({ settings, setSettings }) => {
                     style={{ marginLeft: 0 }}
                     control={
                       <ColorPicker
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} // DISABLE IF BASIC PLAN
                         style={{ paddingRight: 10 }}
                         color={settings?.colors?.backgroundColor}
                         onChange={(e) => {
@@ -84,6 +90,7 @@ export const MenuSettings = ({ settings, setSettings }) => {
                     style={{ marginLeft: 0 }}
                     control={
                       <ColorPicker
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} // DISABLE IF BASIC PLAN
                         style={{ paddingRight: 10 }}
                         color={settings?.colors?.itemColor}
                         onChange={(e) => {
@@ -98,6 +105,7 @@ export const MenuSettings = ({ settings, setSettings }) => {
                     style={{ marginLeft: 0 }}
                     control={
                       <ColorPicker
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} // DISABLE IF BASIC PLAN
                         style={{ paddingRight: 10 }}
                         color={settings?.colors?.textColor}
                         onChange={(e) => {

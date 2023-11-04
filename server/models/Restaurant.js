@@ -53,11 +53,11 @@ const RestaurantSchema = new mongoose.Schema({
   settings: {
     showLogo: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     showComment: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   colors: {

@@ -16,6 +16,7 @@ import CustomizedSnackbars from "src/sections/snackbar";
 import { TicketsTable } from "src/sections/tickets/tickets-table";
 import { TicketsAdd } from "src/sections/tickets/tickets-add";
 import { useAuthContext } from "src/contexts/auth-context";
+import { PLAN_IDS, ROLES, USER_ROLES } from "src/utils/constants";
 
 const Tickets = () => {
   const { t } = useTranslation();
@@ -76,7 +77,7 @@ const Tickets = () => {
                 <Typography variant="h4">{t("sideNav.tickets")}</Typography>
                 <Stack alignItems="center" direction="row" spacing={1}></Stack>
               </Stack>
-              {!openAdd && state?.user?.user?.role === "user" && (
+              {!openAdd && state?.user?.user?.plan_id?._id.includes[PLAN_IDS] && (
                 <div>
                   <Button
                     startIcon={

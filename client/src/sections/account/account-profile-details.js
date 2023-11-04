@@ -75,7 +75,12 @@ export const AccountProfileDetails = ({
   );
 
   return (
-    <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+    <form
+      autoComplete="off"
+      noValidate
+      onSubmit={handleSubmit}
+      style={{ display: "flex", height: "100%" }}
+    >
       <Card>
         <CardHeader subheader={t("account.basicInformation")} title={t("account.profile")} />
         <CardContent sx={{ pt: 0 }}>
@@ -94,16 +99,6 @@ export const AccountProfileDetails = ({
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label={t("account.address")}
-                  name="address"
-                  onChange={handleChange}
-                  required
-                  value={values.address}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
                   label={t("account.phone")}
                   name="phone"
                   onChange={handleChange}
@@ -111,11 +106,21 @@ export const AccountProfileDetails = ({
                   value={values.phone}
                 />
               </Grid>
+              <Grid xs={12} md={12}>
+                <TextField
+                  fullWidth
+                  label={t("account.address")}
+                  name="address"
+                  onChange={handleChange}
+                  required
+                  value={values.address}
+                />
+              </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: "flex-end" }}>
+        <CardActions sx={{ justifyContent: "flex-end", padding: "13px" }}>
           <Button variant="contained" type="submit">
             {t("common.save")}
           </Button>

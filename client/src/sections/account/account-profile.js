@@ -121,7 +121,12 @@ export const AccountProfile = () => {
               {state?.user?.user?.name}
             </Typography>
             <Typography color="text.secondary" variant="body2">
-              {state?.user?.user?.createdAt ? ParseToDate(state?.user?.user?.createdAt) : ""}
+              {state?.user?.user?.createdAt
+                ? t("account.createDate") + " " + ParseToDate(state?.user?.user?.createdAt)
+                : ""}
+            </Typography>
+            <Typography color="text.secondary" variant="body2">
+              {"ID: " + state?.user?.user?._id}
             </Typography>
           </Box>
         </CardContent>

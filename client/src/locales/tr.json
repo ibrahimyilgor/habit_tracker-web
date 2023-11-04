@@ -68,7 +68,8 @@
         "avatarUpdateSuccess": "Fotoğraf başarıyla güncellendi",
         "avatarUpdateError": "Fotoğraf güncellenemedi",
         "updateSuccessMessage": "Hesap başarıyla güncellendi",
-        "updateErrorMessage": "Hesap güncellenemedi"
+        "updateErrorMessage": "Hesap güncellenemedi",
+        "createDate": "Katılma Tarihi"
     },
     "imageUploader": {
         "title": "Fotoğrafı Güncelle",

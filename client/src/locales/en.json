@@ -68,7 +68,8 @@
         "avatarUpdateSuccess": "Avatar updated successfully",
         "avatarUpdateError": "Avatar could not updated",
         "updateSuccessMessage": "Account updated successfully",
-        "updateErrorMessage": "Account could not updated"
+        "updateErrorMessage": "Account could not updated",
+        "createDate": "Create Date"
     },
     "imageUploader": {
         "title": "Update Photo",

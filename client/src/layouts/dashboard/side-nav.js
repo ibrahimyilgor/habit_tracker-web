@@ -163,6 +163,7 @@ export const SideNav = (props) => {
 
               if (
                 item.permission?.includes(state?.user?.user?.role) &&
+                !item.not_permitted_plan_ids?.includes(state?.user?.user?.plan_id?._id) &&
                 item.visibleOnSideNav !== false
               ) {
                 return (

@@ -15,8 +15,8 @@ import { useRestaurantContext } from "src/contexts/restaurant-context";
 import { BranchEdit } from "src/sections/branch/branch-edit";
 import CustomizedSnackbars from "src/sections/snackbar";
 import { useTranslation } from "react-i18next";
-
-const now = new Date();
+import { PLAN_IDS } from "src/utils/constants";
+import { useAuthContext } from "src/contexts/auth-context";
 
 const Page = () => {
   const [page, setPage] = useState(0);
@@ -27,6 +27,7 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const restaurant = useRestaurantContext();
+  const state = useAuthContext();
 
   const { t } = useTranslation();
 
@@ -113,6 +114,10 @@ const Page = () => {
               {!openAdd && !openEdit && (
                 <div>
                   <Button
+                    disabled={
+                      PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0 &&
+                      state?.user?.user?.restaurants.length > 0
+                    }
                     startIcon={
                       <SvgIcon fontSize="small">
                         <PlusIcon />

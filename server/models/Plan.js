@@ -25,6 +25,12 @@ const PlanSchema = new mongoose.Schema({
       },
     },
   ],
+  description_yes_no: [
+    {
+      type: Boolean,
+      required: true,
+    },
+  ],
   price: {
     type: Number,
     required: true,

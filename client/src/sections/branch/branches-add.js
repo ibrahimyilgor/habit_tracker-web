@@ -55,6 +55,7 @@ export const BranchAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnack
             setSnackbarOpen(true);
             setSnackbarSeverity("success");
             setSnackbarMessage("Branch added successfully!");
+            state.getUser(state?.user?.user?._id);
             back();
           } else {
             setSnackbarSeverity("error");

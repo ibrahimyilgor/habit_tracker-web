@@ -30,7 +30,7 @@ export const OverviewPlan = (props) => {
             <Typography color="text.secondary" gutterBottom variant="overline">
               {t("overview.plan")}
             </Typography>
-            <Typography variant="h4">{planName}</Typography>
+            <Typography variant="h4">{planName.split(" ")[0]}</Typography>
           </Stack>
           <Avatar
             sx={{

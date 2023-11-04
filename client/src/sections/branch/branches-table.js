@@ -237,6 +237,7 @@ export const BranchesTable = (props) => {
               setConfirmModalOpen(false);
               setPage(0);
               restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+              state.getUser(state?.user?.user?._id);
             } else {
               setSnackbarOpen(true);
               setSnackbarSeverity("error");

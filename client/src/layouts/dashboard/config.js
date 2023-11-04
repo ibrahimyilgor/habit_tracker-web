@@ -14,12 +14,14 @@ import ChatBubbleBottomCenterTextIcon from "@heroicons/react/24/solid/ChatBubble
 import { SvgIcon } from "@mui/material";
 import { QuestionMark } from "@mui/icons-material";
 import BellIcon from "@heroicons/react/24/solid/BellIcon";
+import { PLAN_IDS } from "src/utils/constants";
 
 export const items = [
   {
     title: "Overview",
     path: "/",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
@@ -30,6 +32,7 @@ export const items = [
     title: "Branches",
     path: "/branches",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <BuildingStorefrontIcon />
@@ -40,6 +43,7 @@ export const items = [
     title: "Menu",
     path: "/menu",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <DocumentTextIcon />
@@ -60,6 +64,7 @@ export const items = [
     title: "Plan",
     path: "/plan",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <CreditCardIcon />
@@ -70,6 +75,7 @@ export const items = [
     title: "Comments",
     path: "/comments",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [PLAN_IDS[0]],
     icon: (
       <SvgIcon fontSize="small">
         <ChatBubbleBottomCenterTextIcon />
@@ -90,6 +96,7 @@ export const items = [
     title: "Faq",
     path: "/faq",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <QuestionMark />
@@ -100,6 +107,7 @@ export const items = [
     title: "Account",
     path: "/account",
     permission: ["admin", "user"],
+    not_permitted_plan_ids: [],
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
@@ -139,6 +147,7 @@ export const items = [
   {
     title: "Forgot Password",
     permission: ["admin", "user", "customer"],
+    not_permitted_plan_ids: [],
     path: "/auth/forgot-password",
     visibleOnSideNav: false,
     icon: (
@@ -150,6 +159,7 @@ export const items = [
   {
     title: "Change Password",
     permission: ["admin", "user", "customer"],
+    not_permitted_plan_ids: [],
     path: "/auth/change-password",
     visibleOnSideNav: false,
     icon: (
@@ -161,6 +171,7 @@ export const items = [
   {
     title: "Error",
     permission: ["admin", "user", "customer"],
+    not_permitted_plan_ids: [],
     visibleOnSideNav: false,
     path: "/404",
     icon: (

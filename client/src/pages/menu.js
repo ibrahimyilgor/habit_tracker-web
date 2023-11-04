@@ -32,6 +32,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { MenuSettings } from "src/sections/menu/menu-settings";
+import { PLAN_IDS } from "src/utils/constants";
 
 const Menu = () => {
   const { t } = useTranslation();
@@ -44,8 +45,8 @@ const Menu = () => {
   const [menu, setMenu] = useState([]);
 
   const [settings, setSettings] = useState({
-    showComment: true,
-    showLogo: true,
+    showComment: false,
+    showLogo: false,
     colors: {
       backgroundColor: "#ffffff",
       itemColor: "#eeeeee",
@@ -352,13 +353,18 @@ const Menu = () => {
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <TabList onChange={tabHandleChange} aria-label="lab API tabs example">
                       <Tab label={t("menu.tabListCreateMenu")} value={0} />
-                      <Tab label={t("menu.tabListPdf")} value={1} />
+                      <Tab
+                        label={t("menu.tabListPdf")}
+                        value={1}
+                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} //Disable if BASIC PLAN
+                      />
                     </TabList>
                   </Box>
                   <TabPanel value={0}>
                     <TreeViewCRUDExample menu={menu} setMenu={setMenu} />
                   </TabPanel>
                   <TabPanel value={1}>
+                    {" "}
                     <PdfDropzone file={file} setFile={setFile} />
                   </TabPanel>
                 </TabContext>
