@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthContext } from "src/contexts/auth-context";
 
 export const links = {
-  user: "/menu",
+  user: "/",
   admin: "/",
   customer: "/branchMenu",
 };

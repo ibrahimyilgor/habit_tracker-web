@@ -5,6 +5,7 @@ import tr from "src/locales/tr.json";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 const options = {
+  load: "languageOnly",
   defaultLanguage: "en",
   otherLanguages: ["tr"],
   debug: false,

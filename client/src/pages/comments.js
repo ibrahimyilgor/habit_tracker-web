@@ -44,8 +44,6 @@ const Comments = () => {
     }
   }, []);
 
-  const lang = i18n.language;
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 

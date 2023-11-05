@@ -240,6 +240,19 @@ const Menu = () => {
         setSnackbarMessage(t("menu.errorMessage"));
       }
     }
+    setActiveStep(0);
+    setMenu([]);
+    setSettings({
+      showComment: false,
+      showLogo: false,
+      colors: {
+        backgroundColor: "#ffffff",
+        itemColor: "#eeeeee",
+        textColor: "#ffffff",
+      },
+    });
+    setFile();
+    restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null); //REFETCH DATA AFTER UPDATE
   };
 
   return (
@@ -357,7 +370,9 @@ const Menu = () => {
                       <Tab
                         label={t("menu.tabListPdf")}
                         value={1}
-                        disabled={PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id) === 0} //Disable if BASIC PLAN
+                        disabled={
+                          ![1, 2].includes(PLAN_IDS.indexOf(state?.user?.user?.plan_id?._id))
+                        } //Disable if BASIC PLAN
                       />
                     </TabList>
                   </Box>

@@ -26,7 +26,7 @@ export const PlanComponent = ({ plan }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const lang = i18n.language;
+  const lang = i18n.languages[0];
 
   console.log("plann", plan);
 

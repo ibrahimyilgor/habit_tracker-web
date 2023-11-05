@@ -1,3 +1,4 @@
+import MenuPdf from "../models/MenuPdf.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
@@ -117,11 +118,50 @@ export const saveMenu = async (req, res) => {
       settings = { showComment: false, showLogo: false };
     }
 
-    // Find the restaurant by ID and update the menu
-    const updatedRestaurant = await Restaurant.updateOne(
-      { _id: branchId },
-      { $set: { menu: menu, isPdf: isPdf, settings: settings, colors: colors } }
-    );
+    let deletedMenuPdf;
+    let updatedRestaurant;
+    let deletedRestaurant;
+
+    if (!isPdf) {
+      deletedMenuPdf = await MenuPdf.findOneAndDelete({
+        restaurant_id: branchId,
+      });
+
+      if (!deletedMenuPdf) {
+        console.log("No associated MenuPdf found for deletion.");
+      }
+
+      updatedRestaurant = await Restaurant.updateOne(
+        { _id: branchId },
+        { $set: { menu, isPdf, settings, colors } }
+      );
+
+      if (!updatedRestaurant) {
+        return res.status(404).json({ error: "Restaurant not found." });
+      }
+    } else {
+      updatedRestaurant = await Restaurant.updateOne(
+        { _id: branchId },
+        {
+          $set: {
+            menu: [],
+            isPdf,
+            settings: { showLogo: false, showComment: false },
+            colors: {
+              backgroundColor: "#ffffff",
+              itemColor: "#eeeeee",
+              textColor: "#000000",
+            },
+          },
+        }
+      );
+
+      if (!updatedRestaurant) {
+        return res
+          .status(404)
+          .json({ error: "Menu could not deleted when PDF is selected." });
+      }
+    }
 
     res.status(200).json(updatedRestaurant); // Send the updated restaurant as a response
   } catch (error) {

@@ -13,7 +13,7 @@ export const Layout = (props) => {
   const { children } = props;
 
   useEffect(() => {
-    console.log("i18nlanguage", i18n.language);
+    console.log("i18nlanguage", i18n.languages[0]);
   }, []);
 
   const languagePopover = usePopover();
@@ -63,8 +63,8 @@ export const Layout = (props) => {
               <IconButton onClick={languagePopover.handleOpen} ref={languagePopover.anchorRef}>
                 <img
                   src={
-                    languages.filter((e) => e.code === i18n.language).length > 0
-                      ? languages.filter((e) => e.code === i18n.language)[0].flag
+                    languages.filter((e) => e.code === i18n.languages[0]).length > 0
+                      ? languages.filter((e) => e.code === i18n.languages[0])[0].flag
                       : languages[0].flag
                   }
                   width={36}

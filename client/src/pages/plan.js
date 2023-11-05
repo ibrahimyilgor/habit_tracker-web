@@ -13,8 +13,6 @@ const Plan = () => {
   const { t } = useTranslation();
   const state = useAuthContext();
 
-  const lang = i18n.language;
-
   const [plan, setPlan] = useState([]);
 
   useEffect(() => {

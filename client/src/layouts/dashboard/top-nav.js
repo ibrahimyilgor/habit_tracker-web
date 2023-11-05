@@ -42,9 +42,13 @@ export const TopNav = (props) => {
   const [flagInfo, setFlagInfo] = useState();
 
   useEffect(() => {
-    console.log("ibrahimke", i18n.language, languages.filter((x) => x.code === i18n.language)[0]);
-    setFlagInfo(languages.filter((x) => x.code === i18n.language)[0]);
-  }, [i18n.language]);
+    console.log(
+      "ibrahimke",
+      i18n.languages[0],
+      languages.filter((x) => x.code === i18n.languages[0])[0],
+    );
+    setFlagInfo(languages.filter((x) => x.code === i18n.languages[0])[0]);
+  }, [i18n.languages[0]]);
 
   const state = useAuthContext();
 
@@ -109,7 +113,7 @@ export const TopNav = (props) => {
               <IconButton onClick={languagePopover.handleOpen} ref={languagePopover.anchorRef}>
                 <img
                   src={flagInfo?.flag}
-                  alt={i18n.language}
+                  alt={i18n.languages[0]}
                   width={36}
                   height={36 / flagInfo?.ratio}
                 />

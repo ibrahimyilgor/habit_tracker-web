@@ -80,8 +80,9 @@ const Page = () => {
               <OverviewPlan
                 sx={{ height: "100%" }}
                 planName={
-                  state?.user?.user?.plan_id?.name?.filter((x) => x.language === i18n.language)?.[0]
-                    ?.text || ""
+                  state?.user?.user?.plan_id?.name?.filter(
+                    (x) => x.language === i18n.languages[0],
+                  )?.[0]?.text || ""
                 }
                 date={new Date("2024")}
               />

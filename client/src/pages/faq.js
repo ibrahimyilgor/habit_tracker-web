@@ -29,7 +29,7 @@ const Faq = () => {
   const { t } = useTranslation();
   const state = useAuthContext();
 
-  const lang = i18n.language;
+  const lang = i18n.languages[0];
 
   const [faqData, setFaqData] = useState([]);
 

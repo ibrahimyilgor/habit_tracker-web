@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import reactCSS from "reactcss";
 import { SketchPicker } from "react-color";
 
-export const ColorPicker = ({ color, onChange, style }) => {
+export const ColorPicker = ({ color, onChange, style, disabled }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const ColorPicker = ({ color, onChange, style }) => {
         borderRadius: "1px",
         boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
         display: "inline-block",
-        cursor: "pointer",
+        cursor: !disabled && "pointer",
       },
       popover: {
         position: "absolute",
@@ -58,7 +58,14 @@ export const ColorPicker = ({ color, onChange, style }) => {
 
   return (
     <div style={styles.root}>
-      <div style={styles.swatch} onClick={() => handleClick()}>
+      <div
+        style={styles.swatch}
+        onClick={() => {
+          if (!disabled) {
+            handleClick();
+          }
+        }}
+      >
         <div style={styles.color} />
       </div>
       {open ? (
