@@ -1,5 +1,6 @@
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
+import { PLAN_IDS } from "../utils/constants.js";
 
 /*READ BRANCHES*/
 
@@ -24,6 +25,10 @@ export const addBranch = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    if (req?.body?.planId === PLAN_IDS[0] && req?.body?.restaurantsLength) {
+      res.status(500).json({ error: "This plan exceeded branch limit" });
     }
 
     const newRestaurant = new Restaurant({
@@ -97,7 +102,20 @@ export const saveMenu = async (req, res) => {
   console.log("ibrahimee", req.body.menu);
   try {
     const { branchId } = req.params; // Retrieve the restaurant ID from the request parameters
-    const { menu, isPdf, settings, colors } = req.body; // Retrieve the menu from the request body
+    let { menu, isPdf, settings, colors, planId } = req.body; // Retrieve the menu from the request body
+
+    if (planId === PLAN_IDS[0] && isPdf) {
+      res.status(500).json({ error: "This plan cannot use PDF" });
+    }
+
+    if (planId === PLAN_IDS[0]) {
+      colors = {
+        backgroundColor: "#ffffff",
+        itemColor: "#eeeeee",
+        textColor: "#ffffff",
+      };
+      settings = { showComment: false, showLogo: false };
+    }
 
     // Find the restaurant by ID and update the menu
     const updatedRestaurant = await Restaurant.updateOne(

@@ -47,6 +47,8 @@ export const BranchAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnack
           name: values?.name,
           phone: values?.phone,
           address: values?.address,
+          restaurantsLength: restaurant?.restaurants?.length || 0,
+          planId: state?.user?.user?.plan_id?._id,
         })
         .then((res) => {
           console.log("return", res);

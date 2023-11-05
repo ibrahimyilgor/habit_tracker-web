@@ -170,6 +170,7 @@ const Menu = () => {
               isPdf: tabValue,
               settings: settings,
               colors: settings?.colors,
+              planId: state?.user?.user?.plan_id?._id,
             }),
           },
         );
