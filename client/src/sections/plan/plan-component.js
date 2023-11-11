@@ -16,10 +16,13 @@ import CustomizedSnackbars from "../snackbar";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
+import { useRestaurantContext } from "src/contexts/restaurant-context";
 
 export const PlanComponent = ({ plan }) => {
   const { t } = useTranslation();
+
   const state = useAuthContext();
+  const restaurant = useRestaurantContext();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [code, setCode] = useState("");
@@ -53,7 +56,9 @@ export const PlanComponent = ({ plan }) => {
         setSnackbarMessage(t("plan.errorMessage"));
       }
       state.getUser(state?.user?.user?._id);
-
+      if (state?.user?.token) {
+        restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+      }
       return data;
     } catch (error) {
       console.error("Error updating user:", error);
