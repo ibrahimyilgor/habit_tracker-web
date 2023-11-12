@@ -187,7 +187,8 @@
         "rateInLast30": "Rates in last 30 days",
         "rateInLast60": "Previous 30-day rates",
         "comments": "Comments",
-        "plan": "Plan"
+        "plan": "Plan",
+        "planRemainingDays": "Last {{duration}} days to end of your plan"
     },
     "rePassword": {
         "title": "Change Password",

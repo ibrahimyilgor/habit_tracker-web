@@ -15,7 +15,6 @@ export const useCode = async (req, res) => {
     const planCode = await PlanCode.findOne({
       plan_id: plan_id,
       code: code,
-      valid_date: { $gte: new Date() }, // Check for validity
     });
 
     if (planCode) {
@@ -23,9 +22,17 @@ export const useCode = async (req, res) => {
       await PlanCode.findByIdAndDelete(planCode._id);
 
       // Update the user's plan_id
+
+      let date = new Date();
+      if (plan_id === PLAN_IDS[0]) {
+        date = new Date("9999-12-12");
+      } else {
+        date.setDate(date.getDate() + planCode.duration_in_days);
+      }
+
       const updateUserResult = await User.updateOne(
         { _id: user_id },
-        { $set: { plan_id: plan_id } }
+        { $set: { plan_id: plan_id, plan_expiration_date: date } }
       );
 
       if (updateUserResult.nModified === 0) {

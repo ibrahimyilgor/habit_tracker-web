@@ -19,6 +19,7 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       plan_id: "6473cb15528f4f031fcdd690", //BASIC PLAN
+      plan_expiration_date: new Date("9999-12-12"),
     });
 
     const savedUser = await newUser.save();

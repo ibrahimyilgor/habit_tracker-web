@@ -84,7 +84,7 @@ const Page = () => {
                     (x) => x.language === i18n.languages[0],
                   )?.[0]?.text || ""
                 }
-                date={new Date("2024")}
+                date={state?.user?.user?.planExpirationDate}
               />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>

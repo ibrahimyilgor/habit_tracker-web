@@ -40,6 +40,11 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
     },
+    plan_expiration_date: {
+      type: Date,
+      required: true,
+      default: new Date("9999-12-12"),
+    },
   },
   { timestamps: true }
 );

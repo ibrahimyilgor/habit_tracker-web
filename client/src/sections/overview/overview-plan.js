@@ -15,6 +15,8 @@ import {
 import { useTranslation } from "react-i18next";
 import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
 import { useRouter } from "next/router";
+import { ParseToDate } from "src/utils/date";
+import { differenceInDays } from "date-fns";
 
 export const OverviewPlan = (props) => {
   const { planName, date, sx } = props;
@@ -45,7 +47,13 @@ export const OverviewPlan = (props) => {
           </Avatar>
         </Stack>
         <Box sx={{ mt: 3 }}>
-          <LinearProgress value={date} variant="determinate" />
+          <Stack alignItems="center" direction="row" spacing={2} sx={{ mt: 2 }}>
+            <Typography color="text.secondary" variant="caption">
+              {t("overview.planRemainingDays", {
+                duration: differenceInDays(new Date(date), new Date()),
+              })}
+            </Typography>
+          </Stack>{" "}
         </Box>
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>

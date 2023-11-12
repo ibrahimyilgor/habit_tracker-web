@@ -187,7 +187,8 @@
         "rateInLast30": "30 Günlük Yorumlar",
         "rateInLast60": "Bir önceki 30 günlük yorumlar",
         "comments": "Yorumlar",
-        "plan": "Plan"
+        "plan": "Plan",
+        "planRemainingDays": "Planınızın bitmesine son {{duration}} gün"
     },
     "rePassword": {
         "title": "Şifreni Değiştir",

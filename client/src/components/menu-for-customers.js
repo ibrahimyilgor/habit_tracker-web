@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Box } from "@mui/system";
 import RightTopMenu from "src/sections/menu-for-customer/right-top-menu";
 import { useRouter } from "next/router";
-import { Grid, Typography } from "@mui/material";
+import { Grid, ImageList, ImageListItem, Typography } from "@mui/material";
+import MenuImages from "./menuImages";
 
 export default function MenuForCustomers({
   menu,
@@ -233,15 +234,7 @@ export default function MenuForCustomers({
                       >
                         <Grid container>
                           <Grid item xs={9} sx={{ display: "flex", alignItems: "center" }}>
-                            <Avatar
-                              alt={item.name ?? "-"}
-                              sx={{
-                                backgroundColor: colors?.backgroundColor ?? "#eeeeee",
-                                color: colors?.textColor ?? "#ffffff",
-                                marginRight: 1,
-                              }}
-                              src="/static/images/avatar/1.jpg"
-                            />
+                            <MenuImages />
                             <ListItemText
                               primary={
                                 <Typography
@@ -265,6 +258,16 @@ export default function MenuForCustomers({
                               }
                             />
                           </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginTop: 1,
+                              overflow: "auto",
+                            }}
+                          ></Grid>
                         </Grid>
                       </ListItemButton>
                       <Collapse

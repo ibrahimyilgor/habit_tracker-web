@@ -6,9 +6,10 @@ const PlanCodeSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "Plan",
     },
-    valid_date: {
-      type: Date,
+    duration_in_days: {
+      type: Number,
       required: true,
+      default: 30,
     },
     code: {
       type: String,

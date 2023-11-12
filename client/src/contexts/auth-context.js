@@ -192,6 +192,7 @@ export const AuthProvider = (props) => {
         restaurants: tempUser?.restaurants,
         plan_id: tempUser?.plan_id,
         role: tempUser?.role,
+        planExpirationDate: tempUser?.plan_expiration_date,
       },
     };
 
