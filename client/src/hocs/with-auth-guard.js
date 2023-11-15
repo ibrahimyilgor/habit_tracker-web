@@ -27,9 +27,10 @@ export const withAuthGuard = (Component) => (props) => {
       items
         .filter((item) => item.path === router.pathname)?.[0]
         .permission.includes(state?.user?.user?.role) &&
-      !items
-        .filter((item) => item.path === router.pathname)?.[0]
-        .not_permitted_plan_ids.includes(state?.user?.user?.plan_id?._id))
+      (state?.user?.user?.role === "admin" ||
+        !items
+          .filter((item) => item.path === router.pathname)?.[0]
+          .not_permitted_plan_ids.includes(state?.user?.user?.plan_id?._id)))
   ) {
     return (
       <AuthGuard>

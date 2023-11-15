@@ -34,7 +34,8 @@
         "faq": "S.S.S",
         "notifications": "Bildirimler",
         "tickets": "Biletler",
-        "comments": "Yorumlar"
+        "comments": "Yorumlar",
+        "codes": "Kodlar"
     },
     "branches": {
         "title": "Şubeler",
@@ -169,7 +170,13 @@
         "currentPlan": "Mevcut Plan",
         "successMessage": "Plan başarıyla güncellendi",
         "errorMessage": "Plan güncellenemedi",
-        "enterCode": "Kodu Gir"
+        "enterCode": "Kodu Gir",
+        "planNames": {
+            "plans": "Planlar",
+            "BASIC": "Temel",
+            "STANDARD": "Standart",
+            "PREMIUM": "Premium"    
+        }
     },
     "theme": {
         "title": "Tema"
@@ -217,8 +224,31 @@
         "makeComment": "Yorum Yap",
         "makeCommentDetail": "Restoran hakkında yorumunuzu yapabilirsiniz. Yorumunuzu sadece restoran yönetimi görebilecek ve kişisel bilgileriniz paylaşılmayacaktır."
     },
+    "codes": {
+        "title": "Kodlar",
+        "id": "ID",
+        "code": "Kod",
+        "plan": "Plan",
+        "duration": "Süre (Gün)",
+        "rowsPerPageLabel": "Sayfa başına kod sayısı",
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
+        "actions": "Aksiyonlar",
+        "deleteConfirmModalTitle": "Kodu Sil",
+        "deleteConfirmModalDescription": "Kod silinecek. Silmek istediğinize emin misiniz?",
+        "successMessage": "Kod başarıyla gönderildi",
+        "errorMessage": "Kod gönderilemedi",
+        "deleteSuccessMessage": "Kod başarıyla silindi",
+        "deleteErrorMessage": "Kod silinemedi",
+        "editSuccessMessage": "Kod başarıyla güncellendi",
+        "editErrorMessage": "Kod güncellenemedi",
+        "addSuccessMessage": "Kod başarıyla eklendi",
+        "addErrorMessage": "Kod eklenemedi",
+        "updateCode": "Kodu Güncelle",
+        "addCode": "Kod Ekle"
+    },
     "rightTopMenu": {
         "comment": "Yorum Yap"
     }
+
 }
   

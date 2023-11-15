@@ -8,7 +8,7 @@ import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import XCircleIcon from "@heroicons/react/24/solid/XCircleIcon";
 import CreditCardIcon from "@heroicons/react/24/solid/CreditCardIcon";
 import DocumentTextIcon from "@heroicons/react/24/solid/DocumentTextIcon";
-import PaintBrushIcon from "@heroicons/react/24/solid/PaintBrushIcon";
+import CodeBracketSquare from "@heroicons/react/24/solid/CodeBracketSquareIcon";
 import BuildingStorefrontIcon from "@heroicons/react/24/solid/BuildingStorefrontIcon";
 import ChatBubbleBottomCenterTextIcon from "@heroicons/react/24/solid/ChatBubbleBottomCenterTextIcon";
 import { SvgIcon } from "@mui/material";
@@ -177,6 +177,17 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <XCircleIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Codes",
+    path: "/codes",
+    permission: ["admin"],
+    not_permitted_plan_ids: [],
+    icon: (
+      <SvgIcon fontSize="small">
+        <CodeBracketSquare />
       </SvgIcon>
     ),
   },

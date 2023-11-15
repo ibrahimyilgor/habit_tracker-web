@@ -5,6 +5,95 @@ import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
 
+/*UPDATE CODE*/
+
+export const updateCode = async (req, res) => {
+  try {
+    const { _id, plan_id, code, duration_in_days } = req.body;
+    await PlanCode.updateOne(
+      { _id: _id },
+      {
+        $set: {
+          plan_id: plan_id,
+          code: code,
+          duration_in_days: duration_in_days,
+        },
+      }
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "Code updated successfully." });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+/* ADD CODE */
+
+export const addCode = async (req, res) => {
+  try {
+    const newCode = new PlanCode({
+      plan_id: req.body.plan_id,
+      code: req.body.code,
+      duration_in_days: req.body.duration_in_days,
+    });
+
+    await newCode.save();
+
+    return res
+      .status(201)
+      .json({ success: true, message: "Code added", newCode });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+// GET CODES
+
+export const getCodes = async (req, res) => {
+  console.log("req.params", req.params);
+  try {
+    let codes = await PlanCode.find();
+    if (codes) {
+      res.status(200).json(codes);
+    } else {
+      res.status(404).json({
+        message: "PlanCodes not found.",
+        success: false,
+      });
+    }
+  } catch (error) {
+    console.error("Error in getCodes:", err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      success: false,
+    });
+  }
+};
+
+/*DELETE CODE*/
+
+export const deleteCode = async (req, res) => {
+  try {
+    PlanCode.findByIdAndDelete(req.params.id)
+      .then(() => {
+        // Successfully removed the code
+        res.status(200).json({ success: true }); // Send success response to client
+      })
+      .catch((err) => {
+        // Handle error
+        console.error(err);
+        res
+          .status(500)
+          .json({ success: false, error: "Failed to delete code" }); // Send error response to client
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Server error" }); // Send error response to client
+  }
+};
+
 // USE CODE
 
 export const useCode = async (req, res) => {

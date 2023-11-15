@@ -34,7 +34,8 @@
         "faq": "FAQ",
         "notifications": "Notifications",
         "tickets": "Tickets",
-        "comments": "Comments"
+        "comments": "Comments",
+        "codes": "Codes"
     },
     "branches": {
         "title": "Branches",
@@ -169,7 +170,13 @@
         "currentPlan": "Current Plan",
         "successMessage": "Plan updated successfully",
         "errorMessage": "Plan could not be updated",
-        "enterCode": "Enter Code"
+        "enterCode": "Enter Code",
+        "planNames": {
+            "plans": "Plans",
+            "BASIC": "Basic",
+            "STANDARD": "Standard",
+            "PREMIUM": "Premium"    
+        }
     },
     "theme": {
         "title": "Theme"
@@ -216,6 +223,29 @@
         "errorMessage": "Comment could not send",
         "makeComment": "Leave a Comment",
         "makeCommentDetail": "You can leave your comment about the restaurant. Your comment will be visible only to the restaurant management, and your personal information will not be shared."
+    },
+    "codes": {
+        "title": "Codes",
+        "id": "ID",
+        "code": "Code",
+        "plan": "Plan",
+        "duration": "Duration (Day)",
+        "rowsPerPageLabel": "Codes per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}",
+        "actions": "Actions",
+        "deleteConfirmModalTitle": "Delete Code",
+        "deleteConfirmModalDescription": "Are you sure to delete code?",
+        "successMessage": "Code sent successfully",
+        "errorMessage": "Code could not send",
+        "deleteSuccessMessage": "Code deleted succesfully",
+        "deleteErrorMessage": "Code could not be deleted",
+        "editSuccessMessage": "Code edited succesfully",
+        "editErrorMessage": "Code could not be edited",
+        "addSuccessMessage": "Code added successfully",
+        "addErrorMessage": "Code could not be added",
+        "updateCode": "Update Code",
+        "addCode": "Add Code"
+        
     },
     "rightTopMenu": {
         "comment": "Comment"
