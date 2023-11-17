@@ -71,11 +71,10 @@ export const AccountDelete = ({ setSnackbarOpen, setSnackbarSeverity, setSnackba
         }}
         rightAction={() => {
           state.deleteUser(state?.user?.user?._id).then((res) => {
-            console.log("ibrahimres", res);
             if (res.success === true) {
               setSnackbarOpen(true);
               setSnackbarSeverity("success");
-              setSnackbarMessage("Branch deleted successfully!");
+              setSnackbarMessage("User deleted successfully!");
               router.push("/auth/login");
             } else {
               setSnackbarOpen(true);

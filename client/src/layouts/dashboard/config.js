@@ -191,6 +191,17 @@ export const items = [
       </SvgIcon>
     ),
   },
+  {
+    title: "Users",
+    path: "/users",
+    permission: ["admin"],
+    not_permitted_plan_ids: [],
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    ),
+  },
   // {
   //   title: 'Customers',
   //   permission: ["admin", "user"],

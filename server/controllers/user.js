@@ -63,3 +63,40 @@ export const deleteUser = async (req, res) => {
       .json({ success: false, message: "Error deleting user.", error: error });
   }
 };
+
+// GET USERS
+
+export const getAllUsers = async (req, res) => {
+  console.log("req.params", req.params);
+  try {
+    const users = await User.find().lean(); // Using lean() for plain JavaScript objects
+
+    const usersWithRestaurants = await Promise.all(
+      users.map(async (user) => {
+        const restaurants = await Restaurant.find({
+          _id: { $in: user.restaurants },
+        });
+        return {
+          ...user,
+          restaurants: restaurants || [], // If no restaurants found, return an empty array
+        };
+      })
+    );
+
+    if (usersWithRestaurants.length > 0) {
+      res.status(200).json(usersWithRestaurants);
+    } else {
+      res.status(200).json({
+        message: "No users found.",
+        success: true,
+        users: [], // Return an empty array instead of an error
+      });
+    }
+  } catch (err) {
+    console.error("Error in getAllUsers:", err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      success: false,
+    });
+  }
+};

@@ -204,7 +204,7 @@ export const AuthProvider = (props) => {
     return tempUser;
   };
 
-  const deleteUser = async (id) => {
+  const deleteUser = async (id, deleteByAdmin = false) => {
     try {
       const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
         method: "DELETE",
@@ -213,11 +213,12 @@ export const AuthProvider = (props) => {
         },
       });
       const data = await response.json();
-
-      dispatch({
-        type: HANDLERS.SIGN_OUT,
-      });
-      sessionStorage.removeItem("user");
+      if (!deleteByAdmin) {
+        dispatch({
+          type: HANDLERS.SIGN_OUT,
+        });
+        sessionStorage.removeItem("user");
+      }
       return { success: true };
     } catch (error) {
       console.log("errorr", error);

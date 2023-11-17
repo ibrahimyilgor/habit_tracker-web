@@ -35,7 +35,8 @@
         "notifications": "Bildirimler",
         "tickets": "Biletler",
         "comments": "Yorumlar",
-        "codes": "Kodlar"
+        "codes": "Kodlar",
+        "users": "Kullanıcılar"
     },
     "branches": {
         "title": "Şubeler",
@@ -70,6 +71,8 @@
         "avatarUpdateError": "Fotoğraf güncellenemedi",
         "updateSuccessMessage": "Hesap başarıyla güncellendi",
         "updateErrorMessage": "Hesap güncellenemedi",
+        "deleteSuccessMessage": "Hesap başarıyla silindi",
+        "deleteErrorMessage": "Hesap silinemedi",
         "createDate": "Katılma Tarihi"
     },
     "imageUploader": {
@@ -248,7 +251,20 @@
     },
     "rightTopMenu": {
         "comment": "Yorum Yap"
+    },
+    "users": {
+        "title": "Kullanıcılar",
+        "id": "ID",
+        "name": "İsim",
+        "email": "Email",
+        "role": "Rol",
+        "restaurants": "Şubeler",
+        "planId": "Plan",
+        "planExpirationDate": "Plan Bitiş Tarihi",
+        "createdAt": "Yaratılma Tarihi",
+        "rowsPerPageLabel": "Sayfa başına kullanıcı sayısı",
+        "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
+        "actions": "Aksiyonlar"
     }
-
 }
   

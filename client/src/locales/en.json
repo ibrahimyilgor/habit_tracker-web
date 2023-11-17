@@ -35,7 +35,8 @@
         "notifications": "Notifications",
         "tickets": "Tickets",
         "comments": "Comments",
-        "codes": "Codes"
+        "codes": "Codes",
+        "users": "Users"
     },
     "branches": {
         "title": "Branches",
@@ -70,6 +71,8 @@
         "avatarUpdateError": "Avatar could not updated",
         "updateSuccessMessage": "Account updated successfully",
         "updateErrorMessage": "Account could not updated",
+        "deleteSuccessMessage": "Account deleted successfully",
+        "deleteErrorMessage": "Account could not deleted",
         "createDate": "Create Date"
     },
     "imageUploader": {
@@ -249,6 +252,20 @@
     },
     "rightTopMenu": {
         "comment": "Comment"
+    },
+    "users": {
+        "title": "Users",
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "restaurants": "Branches",
+        "planId": "Plan",
+        "planExpirationDate": "Plan Expiration Date",
+        "createdAt": "Created At",
+        "rowsPerPageLabel": "Users per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}",
+        "actions": "Actions"
     }
 }
   
