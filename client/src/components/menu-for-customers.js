@@ -7,12 +7,14 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Collapse from "@mui/material/Collapse";
 import { useTranslation } from "react-i18next";
-
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
 import { Box } from "@mui/system";
 import RightTopMenu from "src/sections/menu-for-customer/right-top-menu";
 import { useRouter } from "next/router";
 import { Grid, ImageList, ImageListItem, Typography } from "@mui/material";
-import MenuImages from "./menuImages";
 
 export default function MenuForCustomers({
   menu,
@@ -26,6 +28,8 @@ export default function MenuForCustomers({
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = router.query;
+
+  const imageRef = React.useRef();
 
   const [expanded, setExpanded] = React.useState([]);
   const [expandedItem, setExpandedItem] = React.useState([]);
@@ -64,8 +68,8 @@ export default function MenuForCustomers({
   }, [settings]);
 
   React.useEffect(() => {
-    console.log("expanded", expanded);
-  }, [expanded]);
+    console.log("imageRef", imageRef);
+  }, [imageRef]);
 
   React.useEffect(() => {
     // Filter out any elements in expandedItem that have an index value not in expanded
@@ -113,206 +117,180 @@ export default function MenuForCustomers({
   };
 
   return (
-    <List
+    <Box
       sx={{
-        width: "90%",
+        width: "100%",
         backgroundColor: colors?.backgroundColor ?? "background.paper",
-        margin: "5%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Box
+      <List
         sx={{
+          width: "90%",
+          maxWidth: "300px",
+          backgroundColor: colors?.backgroundColor ?? "background.paper",
+          margin: "5%",
           display: "flex",
-          flexDirection: "row",
-          marginBottom: 2,
-          float: settings?.showComment && !settings?.showLogo ? "right" : "center",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: settings?.showComment && !settings?.showLogo ? "end" : "center",
         }}
       >
-        {settings?.showLogo && (
-          <Box
-            sx={{
-              backgroundColor: colors?.backgroundColor ?? "#ffffff",
-              width: settings?.showComment ? "80%" : "100%",
-              height: "10vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={userAvatarSrc || ""}
-              alt=""
-              style={{
-                height: "100%",
-                width: "auto",
-              }}
-            />
-          </Box>
-        )}
-        {settings?.showComment && (
-          <Box
-            sx={{
-              backgroundColor: colors?.backgroundColor ?? "#ffffff",
-              width: "10%",
-              height: "10vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <RightTopMenu
-              settings={settings}
-              colors={colors}
-              setSnackbarOpen={setSnackbarOpen}
-              setSnackbarSeverity={setSnackbarSeverity}
-              setSnackbarMessage={setSnackbarMessage}
-            />
-          </Box>
-        )}
-      </Box>
-      {menu.map((value, index) => {
-        const labelId = `checkbox-list-secondary-label-${index}`;
-        const isExpanded = expanded.includes(index);
-        return (
-          <React.Fragment key={index}>
-            <ListItem //Category
-              alignItems="flex-start"
-              disablePadding
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 2,
+          }}
+        >
+          {settings?.showLogo && (
+            <Box
               sx={{
-                backgroundColor: colors?.itemColor ?? "background.paper",
-                borderRadius: 1,
-                marginBottom: 1,
+                backgroundColor: colors?.backgroundColor ?? "#ffffff",
+                width: settings?.showComment ? "80%" : "100%",
+                height: "10vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <ListItemButton onClick={() => handleExpand(index)}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt={value.name ?? "-"}
-                    src="/static/images/avatar/1.jpg"
+              <img
+                src={userAvatarSrc || ""}
+                alt=""
+                style={{
+                  height: "100%",
+                  width: "auto",
+                }}
+              />
+            </Box>
+          )}
+          {settings?.showComment && (
+            <Box
+              sx={{
+                backgroundColor: colors?.backgroundColor ?? "#ffffff",
+                width: "10%",
+                height: "10vh",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <RightTopMenu
+                settings={settings}
+                colors={colors}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+            </Box>
+          )}
+        </Box>
+        {menu.map((value, index) => {
+          const labelId = `checkbox-list-secondary-label-${index}`;
+          const isExpanded = expanded.includes(index);
+          return (
+            <React.Fragment key={index}>
+              <ListItem //Category
+                alignItems="flex-start"
+                disablePadding
+              >
+                <ListItemButton onClick={() => handleExpand(index)}>
+                  <Card
                     sx={{
-                      backgroundColor: colors?.backgroundColor ?? "#eeeeee",
-                      color: colors?.textColor ?? "#ffffff",
+                      width: "100%",
+                      backgroundColor: colors?.itemColor ?? "#ffffff",
                     }}
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  id={labelId}
-                  primary={
-                    <Typography variant="body2" style={{ color: colors?.textColor ?? "#FFFFFF" }}>
-                      {value.name}
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-              {value.items &&
-                value.items.map((item, itemIndex) => {
-                  const isExpandedItem = isExpanded
-                    ? expandedItem.some(
-                        (item) => item.index === index && item.itemIndex === itemIndex,
-                      )
-                    : null;
-                  return (
-                    <React.Fragment key={itemIndex}>
-                      <ListItemButton
-                        onClick={() => handleExpandItem(index, itemIndex)} //Items
-                        alignItems="center"
-                        disablePadding
-                        sx={{
-                          marginLeft: 5,
-                          marginBottom: isExpandedItem && item.explanation ? 0 : 1,
-                          marginTop: 1,
-                          padding: 1,
-                          borderRadius: isExpandedItem && item.explanation ? "5px 5px 0 0" : "5px",
-                          width: "auto",
-                          backgroundColor: colors?.itemColor ?? "background.paper",
-                          "&:hover": {
-                            backgroundColor: colors?.itemColor ?? "background.paper",
-                          },
-                        }}
-                      >
-                        <Grid container>
-                          <Grid item xs={9} sx={{ display: "flex", alignItems: "center" }}>
-                            <MenuImages />
-                            <ListItemText
-                              primary={
+                  >
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography
+                          color={colors?.textColor ?? "#000000"}
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                        >
+                          {value.name}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </ListItemButton>
+              </ListItem>
+              <Collapse
+                in={isExpanded}
+                timeout="auto"
+                unmountOnExit
+                sx={{
+                  width: "100%",
+                  margin: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {value.items &&
+                  value.items.map((item, itemIndex) => {
+                    return (
+                      <React.Fragment key={itemIndex}>
+                        <Card
+                          sx={{
+                            margin: 1,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: colors?.itemColor ?? "#ffffff",
+                          }}
+                        >
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              height="140"
+                              image="https://i.sozcucdn.com/wp-content/uploads/2022/04/05/iecrop/adana2_16_9_1649152561.jpg?w=776&h=436&mode=crop"
+                              alt="green iguana"
+                            />
+                            <CardContent>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "space-between",
+                                }}
+                              >
                                 <Typography
-                                  variant="body2"
-                                  style={{ color: colors?.textColor ?? "#FFFFFF" }}
+                                  color={colors?.textColor ?? "#000000"}
+                                  gutterBottom
+                                  variant="h5"
+                                  component="div"
                                 >
                                   {item.name}
                                 </Typography>
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
-                            <ListItemText
-                              primary={
                                 <Typography
-                                  variant="body2"
-                                  style={{ color: colors?.textColor ?? "#FFFFFF" }}
+                                  color={colors?.textColor ?? "#000000"}
+                                  gutterBottom
+                                  variant="h5"
+                                  component="div"
                                 >
                                   {item.price + " " + item.priceUnit}
                                 </Typography>
-                              }
-                            />
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              marginTop: 1,
-                              overflow: "auto",
-                            }}
-                          ></Grid>
-                        </Grid>
-                      </ListItemButton>
-                      <Collapse
-                        in={isExpandedItem && item.explanation}
-                        timeout="auto"
-                        unmountOnExit
-                      >
-                        <ListItemButton
-                          alignItems="center"
-                          disablePadding
-                          sx={{
-                            marginLeft: 5,
-                            marginBottom: 1,
-                            padding: 1,
-                            borderRadius: "0 0 5px 5px",
-                            width: "auto",
-                            backgroundColor: colors?.itemColor ?? "background.paper",
-                            "&:hover": {
-                              backgroundColor: colors?.itemColor ?? "background.paper",
-                            },
-                          }}
-                        >
-                          <Grid container>
-                            <Grid item xs={12}>
-                              <ListItemText
-                                primary={
-                                  <Typography
-                                    variant="body2"
-                                    style={{ color: colors?.textColor ?? "#FFFFFF" }}
-                                  >
-                                    {item.explanation}
-                                  </Typography>
-                                }
-                              />
-                            </Grid>
-                          </Grid>
-                        </ListItemButton>
-                      </Collapse>
-                    </React.Fragment>
-                  );
-                })}
-            </Collapse>
-          </React.Fragment>
-        );
-      })}
-    </List>
+                              </Box>
+                              <Box></Box>
+                              <Typography color={colors?.textColor ?? "#000000"} variant="body2">
+                                {item.explanation}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </React.Fragment>
+                    );
+                  })}
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
+      </List>
+    </Box>
   );
 }

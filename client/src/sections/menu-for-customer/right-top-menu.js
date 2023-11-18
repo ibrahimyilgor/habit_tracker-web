@@ -51,7 +51,7 @@ export default function RightTopMenu({
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        sx={{ color: colors?.textColor ?? "primary" }}
+        sx={{ color: colors?.itemColor ?? "primary" }}
       >
         <MoreVertIcon />
       </IconButton>
