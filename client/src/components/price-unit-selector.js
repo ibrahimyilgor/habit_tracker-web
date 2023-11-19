@@ -1,5 +1,12 @@
 import { MenuItem, Select } from "@mui/material";
 
+const styles = {
+  select: {
+    height: "53.133px",
+    width: "65px",
+  },
+};
+
 export const PriceUnitSelector = ({ priceUnit, setPriceUnit }) => {
   const priceUnits = ["£", "€", "$", "₺"];
 
@@ -15,7 +22,7 @@ export const PriceUnitSelector = ({ priceUnit, setPriceUnit }) => {
       id="demo-simple-select-standard"
       value={priceUnit}
       onChange={handleChange}
-      sx={{ width: 65 }}
+      sx={styles.select}
     >
       {priceUnits.map((pu, index) => {
         return (

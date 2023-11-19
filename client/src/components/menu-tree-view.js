@@ -1,13 +1,9 @@
 import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Checkbox from "@mui/material/Checkbox";
-import Avatar from "@mui/material/Avatar";
 import Collapse from "@mui/material/Collapse";
-import { Box, Divider, IconButton, ListItemIcon, TextField } from "@mui/material";
+import { Box, Button, CardActions, Divider, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,14 +13,21 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+
 import { PriceUnitSelector } from "./price-unit-selector";
 import { useRestaurantContext } from "src/contexts/restaurant-context";
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
+import Grid from "@mui/system/Unstable_Grid/Grid";
 
 export default function CheckboxListSecondary({ menu, setMenu }) {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
 
-  const [checked, setChecked] = React.useState([1]);
   const [expanded, setExpanded] = React.useState([]);
 
   const [editIndex, setEditIndex] = React.useState(null);
@@ -65,12 +68,13 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
   }, [editItemIndex]);
 
   const toggleItemClearButton = (itemIndex) => {
+    event.stopPropagation();
     setEditItemIndex(null);
   };
 
-  const toggleItemDoneButton = (index, itemIndex) => {
+  const toggleItemDoneButton = (event, index, itemIndex) => {
+    event.stopPropagation();
     let newMenu = [...menu];
-    console.log("done", newMenu, index);
     newMenu[index].items[itemIndex].name = editItemText;
     newMenu[index].items[itemIndex].price = editItemPrice;
     newMenu[index].items[itemIndex].explanation = editItemExplanation;
@@ -79,7 +83,12 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setEditItemIndex(null);
   };
 
-  const toggleItemDeleteButton = (index, itemIndex) => {
+  const toggleChangePhoto = (event, index, itemIndex) => {
+    event.stopPropagation();
+  };
+
+  const toggleItemDeleteButton = (event, index, itemIndex) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     let newItems = [...newMenu[index].items];
     newItems.splice(itemIndex, 1);
@@ -88,8 +97,8 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleItemDownButton = (index, itemIndex) => {
-    console.log("down");
+  const toggleItemDownButton = (event, index, itemIndex) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     let newItems = [...menu[index].items];
     if (itemIndex < newItems.length - 1) {
@@ -102,8 +111,8 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleItemUpButton = (index, itemIndex) => {
-    console.log("up");
+  const toggleItemUpButton = (event, index, itemIndex) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     let newItems = [...menu[index].items];
     if (itemIndex !== 0) {
@@ -116,11 +125,13 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleItemEditButton = (index, itemIndex) => {
+  const toggleItemEditButton = (event, index, itemIndex) => {
+    event.stopPropagation();
     setEditItemIndex({ index: index, itemIndex: itemIndex });
   };
 
-  const toggleAddCategory = (index) => {
+  const toggleAddCategory = (event) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     newMenu.push({
       name: t("menu.defaultNewCategory"),
@@ -129,8 +140,8 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleAddButton = (index) => {
-    console.log("add", menu, index);
+  const toggleAddButton = (event, index) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     newMenu[index].items.push({
       name: t("menu.defaultNewItem"),
@@ -140,33 +151,33 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleEditButton = (index) => {
-    console.log("edit");
+  const toggleEditButton = (event, index) => {
+    event.stopPropagation();
     setEditIndex(index);
   };
 
-  const toggleDoneButton = (index) => {
-    console.log("done");
+  const toggleDoneButton = (event, index) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     newMenu[index].name = editText;
     setMenu(newMenu);
     setEditIndex(null);
   };
 
-  const toggleClearButton = (index) => {
-    console.log("clear");
+  const toggleClearButton = (event, index) => {
+    event.stopPropagation();
     setEditIndex(null);
   };
 
-  const toggleDeleteButton = (index) => {
-    console.log("deletedelete");
+  const toggleDeleteButton = (event, index) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     newMenu.splice(index, 1);
     setMenu(newMenu);
   };
 
-  const toggleUpButton = (index) => {
-    console.log("up");
+  const toggleUpButton = (event, index) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     if (index !== 0) {
       [newMenu[index], newMenu[index - 1]] = [newMenu[index - 1], newMenu[index]];
@@ -174,8 +185,8 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
     setMenu(newMenu);
   };
 
-  const toggleDownButton = (index) => {
-    console.log("down");
+  const toggleDownButton = (event, index) => {
+    event.stopPropagation();
     let newMenu = [...menu];
     if (index < newMenu.length - 1) {
       [newMenu[index], newMenu[index + 1]] = [newMenu[index + 1], newMenu[index]];
@@ -203,70 +214,83 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
             <ListItem //Category
               alignItems="flex-start"
               disablePadding
-              secondaryAction={
-                //Category buttons
-                editIndex === index ? (
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <ListItemButton onClick={() => toggleDoneButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <DoneIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => toggleClearButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <ClearIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </div>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <ListItemButton onClick={() => toggleAddButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <AddIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => toggleEditButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <EditIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => toggleDeleteButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <DeleteIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => toggleUpButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <KeyboardArrowUpIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => toggleDownButton(index)}>
-                      <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                        <KeyboardArrowDownIcon />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </div>
-                )
-              }
             >
-              <ListItemButton onClick={() => handleExpand(index)}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt={editIndex === index ? editText : value.name ?? "-"}
-                    src="/static/images/avatar/1.jpg"
-                  />
-                </ListItemAvatar>
-                {editIndex === index ? (
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                  />
-                ) : (
-                  <ListItemText id={labelId} primary={value.name} />
-                )}
-              </ListItemButton>
+              <Card
+                sx={{
+                  width: "100%",
+                  marginBottom: 1,
+                }}
+                onClick={() => handleExpand(index)}
+              >
+                <CardActionArea>
+                  <CardContent>
+                    {editIndex !== index ? (
+                      <Typography
+                        // color={colors?.textColor ?? "#000000"}
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                      >
+                        {value?.name}
+                      </Typography>
+                    ) : (
+                      <TextField
+                        id="outlined-basic"
+                        variant="outlined"
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                      />
+                    )}
+                  </CardContent>
+                  <CardActions>
+                    {
+                      //Category buttons
+                      editIndex === index ? (
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <Button onClick={(event) => toggleDoneButton(event, index)}>
+                              <DoneIcon />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button onClick={(event) => toggleClearButton(event, index)}>
+                              <ClearIcon />
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      ) : (
+                        <Grid container spacing={1}>
+                          <Grid item>
+                            <Button onClick={(event) => toggleAddButton(event, index)}>
+                              <AddIcon />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button onClick={(event) => toggleEditButton(event, index)}>
+                              <EditIcon />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button onClick={(event) => toggleDeleteButton(event, index)}>
+                              <DeleteIcon />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button onClick={(event) => toggleUpButton(event, index)}>
+                              <KeyboardArrowUpIcon />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button onClick={(event) => toggleDownButton(event, index)}>
+                              <KeyboardArrowDownIcon />
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      )
+                    }
+                  </CardActions>
+                </CardActionArea>
+              </Card>
             </ListItem>
             <Collapse in={isExpanded} timeout="auto" unmountOnExit>
               {value.items &&
@@ -276,106 +300,176 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
                       alignItems="center"
                       disablePadding
                       sx={{ marginLeft: 5, marginBottom: 1, marginTop: 1 }}
-                      secondaryAction={
-                        //Item buttons
-                        editItemIndex &&
-                        editItemIndex.itemIndex === itemIndex &&
-                        editItemIndex.index === index ? (
-                          <div style={{ display: "flex", flexDirection: "row" }}>
-                            <ListItemButton onClick={() => toggleItemDoneButton(index, itemIndex)}>
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <DoneIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                            <ListItemButton onClick={() => toggleItemClearButton(itemIndex)}>
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <ClearIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                          </div>
-                        ) : (
-                          <div style={{ display: "flex", flexDirection: "row" }}>
-                            <ListItemButton onClick={() => toggleItemEditButton(index, itemIndex)}>
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <EditIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                            <ListItemButton
-                              onClick={() => toggleItemDeleteButton(index, itemIndex)}
-                            >
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <DeleteIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                            <ListItemButton onClick={() => toggleItemUpButton(index, itemIndex)}>
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <KeyboardArrowUpIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                            <ListItemButton onClick={() => toggleItemDownButton(index, itemIndex)}>
-                              <ListItemIcon style={{ display: "flex", justifyContent: "center" }}>
-                                <KeyboardArrowDownIcon />
-                              </ListItemIcon>
-                            </ListItemButton>
-                          </div>
-                        )
-                      }
                     >
-                      <ListItemAvatar>
-                        <Avatar
-                          alt={
-                            editItemIndex &&
+                      <Card
+                        sx={{
+                          margin: 1,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "90%",
+                          // backgroundColor: colors?.itemColor ?? "#ffffff",
+                        }}
+                      >
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image="https://i.sozcucdn.com/wp-content/uploads/2022/04/05/iecrop/adana2_16_9_1649152561.jpg?w=776&h=436&mode=crop"
+                            alt="green iguana"
+                          />
+                          <CardContent>
+                            {editItemIndex &&
                             editItemIndex.itemIndex === itemIndex &&
-                            editItemIndex.index === index
-                              ? editItemText
-                              : item.name ?? "-"
-                          }
-                          src="/static/images/avatar/1.jpg"
-                        />
-                      </ListItemAvatar>
-                      {editItemIndex &&
-                      editItemIndex.itemIndex === itemIndex &&
-                      editItemIndex.index === index ? (
-                        <Box>
-                          <Box sx={{ display: "flex", flexDirection: "row" }}>
-                            <TextField
-                              id="outlined-basic"
-                              variant="outlined"
-                              value={editItemText}
-                              onChange={(e) => setEditItemText(e.target.value)}
-                              style={{ marginRight: 5 }}
-                            />
-                            <TextField
-                              id="outlined-basic2"
-                              variant="outlined"
-                              value={editItemPrice}
-                              onChange={(e) => setEditItemPrice(e.target.value)}
-                              style={{ marginRight: 5 }}
-                            />
-                            <PriceUnitSelector priceUnit={priceUnit} setPriceUnit={setPriceUnit} />
-                          </Box>
-                          <Box sx={{ display: "flex", flexDirection: "row" }}>
-                            <TextField
-                              id="outlined-basic3"
-                              variant="outlined"
-                              value={editItemExplanation}
-                              onChange={(e) => setEditItemExplanation(e.target.value)}
-                              style={{ width: "100%" }}
-                            />
-                          </Box>
-                        </Box>
-                      ) : (
-                        <Box>
-                          <Box sx={{ display: "flex", flexDirection: "row" }}>
-                            <ListItemText
-                              secondary={item.name + " " + item.price + " " + item.priceUnit}
-                            />
-                          </Box>
-                          <Box sx={{ display: "flex", flexDirection: "row", width: "60%" }}>
-                            <ListItemText secondary={item.explanation} />
-                          </Box>
-                        </Box>
-                      )}
+                            editItemIndex.index === index ? (
+                              <Box>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    marginBottom: 1,
+                                    height: "50%",
+                                  }}
+                                >
+                                  <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    value={editItemText}
+                                    onChange={(e) => setEditItemText(e.target.value)}
+                                    style={{ marginRight: 5, width: "40%" }}
+                                  />
+                                  <TextField
+                                    id="outlined-basic2"
+                                    variant="outlined"
+                                    value={editItemPrice}
+                                    onChange={(e) => setEditItemPrice(e.target.value)}
+                                    style={{ marginRight: 5, width: "40%" }}
+                                  />
+                                  <PriceUnitSelector
+                                    priceUnit={priceUnit}
+                                    setPriceUnit={setPriceUnit}
+                                  />
+                                </Box>
+                                <Box sx={{ display: "flex", flexDirection: "row", width: "81%" }}>
+                                  <TextField
+                                    id="outlined-basic3"
+                                    variant="outlined"
+                                    value={editItemExplanation}
+                                    onChange={(e) => setEditItemExplanation(e.target.value)}
+                                    style={{ width: "100%" }}
+                                  />
+                                </Box>
+                              </Box>
+                            ) : (
+                              <>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    width: "100%",
+                                  }}
+                                >
+                                  <Typography
+                                    // color={colors?.textColor ?? "#000000"}
+                                    gutterBottom
+                                    variant="h5"
+                                    component="div"
+                                  >
+                                    {item.name}
+                                  </Typography>
+                                  <Typography
+                                    // color={colors?.textColor ?? "#000000"}
+                                    gutterBottom
+                                    variant="h5"
+                                    component="div"
+                                  >
+                                    {item.price + " " + item.priceUnit}
+                                  </Typography>
+                                </Box>
+                                <Box></Box>
+                                <Typography variant="body2">{item?.explanation}</Typography>
+                              </>
+                            )}
+                          </CardContent>
+                          <CardActions>
+                            {
+                              // Item buttons
+                              editItemIndex &&
+                              editItemIndex.itemIndex === itemIndex &&
+                              editItemIndex.index === index ? (
+                                <Grid container spacing={1}>
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) =>
+                                        toggleChangePhoto(event, index, itemIndex)
+                                      }
+                                    >
+                                      <AddAPhotoIcon />
+                                    </Button>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) =>
+                                        toggleItemDoneButton(event, index, itemIndex)
+                                      }
+                                    >
+                                      <DoneIcon />
+                                    </Button>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) => toggleItemClearButton(event, itemIndex)}
+                                    >
+                                      <ClearIcon />
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                              ) : (
+                                <Grid container>
+                                  {" "}
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) =>
+                                        toggleItemEditButton(event, index, itemIndex)
+                                      }
+                                    >
+                                      <EditIcon />
+                                    </Button>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      onClick={() =>
+                                        toggleItemDeleteButton(event, index, itemIndex)
+                                      }
+                                    >
+                                      <DeleteIcon />
+                                    </Button>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) =>
+                                        toggleItemUpButton(event, index, itemIndex)
+                                      }
+                                    >
+                                      <KeyboardArrowUpIcon />
+                                    </Button>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      onClick={(event) =>
+                                        toggleItemDownButton(event, index, itemIndex)
+                                      }
+                                    >
+                                      <KeyboardArrowDownIcon />
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                              )
+                            }
+                          </CardActions>
+                        </CardActionArea>
+                      </Card>
                     </ListItem>
                   );
                 })}
@@ -384,14 +478,36 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
         );
       })}
       <Divider style={{ margin: 10 }} /> {/* Add Category */}
-      <ListItemButton onClick={toggleAddCategory}>
-        <ListItemAvatar>
-          <Avatar alt="+">
-            <AddIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText id={"add"} primary={t("menu.addCategory")} sx={{ fontWeight: "bold" }} />
-      </ListItemButton>
+      <Card
+        sx={{
+          margin: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          cursor: "pointer",
+        }}
+        onClick={toggleAddCategory}
+      >
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <ListItemAvatar>
+              <AddIcon />
+            </ListItemAvatar>
+            <Typography gutterBottom variant="h6" component="div">
+              {t("menu.addCategory")}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
     </List>
   );
 }
