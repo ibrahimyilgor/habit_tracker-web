@@ -37,6 +37,43 @@ export default function MenuForCustomers({
   const [userAvatar, setUserAvatar] = React.useState();
   const [userAvatarSrc, setUserAvatarSrc] = React.useState("");
 
+  const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
+    try {
+      const response = await fetch(`http://localhost:3001/menuItemPhoto/getMenuItemPhoto/${id}`, {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const file = new File([blob], "fileName", { type: "image/*" });
+
+        if (file) {
+          console.log("ibrahimfile", file);
+
+          let tempMenu = [...menu];
+          tempMenu[indexCategory].items[indexItem].photo = file;
+          setMenu(tempMenu);
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            let tempMenu = [...menu];
+            tempMenu[indexCategory].items[indexItem].photoSrc = reader.result;
+            setMenu(tempMenu);
+          };
+          reader.readAsDataURL(file);
+        }
+
+        return file;
+      } else {
+        console.error("Failed to fetch menu item photo:", response.statusText, id);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching menu item photo:", error, id);
+      return null;
+    }
+  };
+
   const fetchLogo = async (id) => {
     try {
       const response = await fetch(
@@ -60,6 +97,18 @@ export default function MenuForCustomers({
       setUserAvatar(null);
     }
   };
+
+  React.useEffect(() => {
+    console.log("menu", menu);
+
+    menu.forEach((category, indexCategory) => {
+      category?.items?.forEach((item, indexItem) => {
+        if (!item?.photo) {
+          fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
+        }
+      });
+    });
+  }, [menu]);
 
   React.useEffect(() => {
     if (settings?.showLogo) {
@@ -248,8 +297,8 @@ export default function MenuForCustomers({
                             <CardMedia
                               component="img"
                               height="140"
-                              image="https://i.sozcucdn.com/wp-content/uploads/2022/04/05/iecrop/adana2_16_9_1649152561.jpg?w=776&h=436&mode=crop"
-                              alt="green iguana"
+                              image={menu?.[index]?.items[itemIndex]?.photoSrc}
+                              alt=""
                             />
                             <CardContent>
                               <Box

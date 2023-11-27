@@ -23,10 +23,15 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid/Grid";
+import { ImageUploader } from "./dropzone";
+import { ImageUploaderMenuItemPhoto } from "./dropzoneMenuItemPhoto";
+import { PLAN_IDS } from "src/utils/constants";
+import { useAuthContext } from "src/contexts/auth-context";
 
 export default function CheckboxListSecondary({ menu, setMenu }) {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
+  const state = useAuthContext();
 
   const [expanded, setExpanded] = React.useState([]);
 
@@ -38,7 +43,58 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
   const [editItemPrice, setEditItemPrice] = React.useState("");
   const [editItemExplanation, setEditItemExplanation] = React.useState("");
 
+  const [uploadImageOpen, setUploadImageOpen] = React.useState();
+
   const [priceUnit, setPriceUnit] = React.useState("");
+
+  const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
+    try {
+      const response = await fetch(`http://localhost:3001/menuItemPhoto/getMenuItemPhoto/${id}`, {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const file = new File([blob], "fileName", { type: "image/*" });
+
+        if (file) {
+          console.log("ibrahimfile", file);
+
+          let tempMenu = [...menu];
+          tempMenu[indexCategory].items[indexItem].photo = file;
+          setMenu(tempMenu);
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            let tempMenu = [...menu];
+            tempMenu[indexCategory].items[indexItem].photoSrc = reader.result;
+            setMenu(tempMenu);
+          };
+          reader.readAsDataURL(file);
+        }
+
+        return file;
+      } else {
+        console.error("Failed to fetch menu item photo:", response.statusText, id);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching menu item photo:", error, id);
+      return null;
+    }
+  };
+
+  React.useEffect(() => {
+    console.log("menu", menu);
+
+    menu.forEach((category, indexCategory) => {
+      category?.items?.forEach((item, indexItem) => {
+        if (!item?.photo) {
+          fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
+        }
+      });
+    });
+  }, [menu]);
 
   React.useEffect(() => {
     if (restaurant?.restaurants && restaurant.restaurants.length > 0) {
@@ -85,6 +141,9 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
 
   const toggleChangePhoto = (event, index, itemIndex) => {
     event.stopPropagation();
+    setUploadImageOpen(true);
+    setEditIndex(index);
+    setEditItemIndex({ index: index, itemIndex: itemIndex });
   };
 
   const toggleItemDeleteButton = (event, index, itemIndex) => {
@@ -205,309 +264,335 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
   };
 
   return (
-    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-      {menu.map((value, index) => {
-        const labelId = `checkbox-list-secondary-label-${index}`;
-        const isExpanded = expanded.includes(index);
-        return (
-          <React.Fragment key={index}>
-            <ListItem //Category
-              alignItems="flex-start"
-              disablePadding
-            >
-              <Card
-                sx={{
-                  width: "100%",
-                  marginBottom: 1,
-                }}
-                onClick={() => handleExpand(index)}
+    <>
+      <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        {menu.map((value, index) => {
+          const labelId = `checkbox-list-secondary-label-${index}`;
+          const isExpanded = expanded.includes(index);
+          return (
+            <React.Fragment key={index}>
+              <ListItem //Category
+                alignItems="flex-start"
+                disablePadding
               >
-                <CardActionArea>
-                  <CardContent>
-                    {editIndex !== index ? (
-                      <Typography
-                        // color={colors?.textColor ?? "#000000"}
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                      >
-                        {value?.name}
-                      </Typography>
-                    ) : (
-                      <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                      />
-                    )}
-                  </CardContent>
-                  <CardActions>
-                    {
-                      //Category buttons
-                      editIndex === index ? (
-                        <Grid container spacing={1}>
-                          <Grid item>
-                            <Button onClick={(event) => toggleDoneButton(event, index)}>
-                              <DoneIcon />
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={(event) => toggleClearButton(event, index)}>
-                              <ClearIcon />
-                            </Button>
-                          </Grid>
-                        </Grid>
+                <Card
+                  sx={{
+                    width: "100%",
+                    marginBottom: 1,
+                  }}
+                  onClick={() => handleExpand(index)}
+                >
+                  <CardActionArea>
+                    <CardContent>
+                      {editIndex !== index ? (
+                        <Typography
+                          // color={colors?.textColor ?? "#000000"}
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                        >
+                          {value?.name}
+                        </Typography>
                       ) : (
-                        <Grid container spacing={1}>
-                          <Grid item>
-                            <Button onClick={(event) => toggleAddButton(event, index)}>
-                              <AddIcon />
-                            </Button>
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                        />
+                      )}
+                    </CardContent>
+                    <CardActions>
+                      {
+                        //Category buttons
+                        editIndex === index ? (
+                          <Grid container spacing={1}>
+                            <Grid item>
+                              <Button onClick={(event) => toggleDoneButton(event, index)}>
+                                <DoneIcon />
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button onClick={(event) => toggleClearButton(event, index)}>
+                                <ClearIcon />
+                              </Button>
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <Button onClick={(event) => toggleEditButton(event, index)}>
-                              <EditIcon />
-                            </Button>
+                        ) : (
+                          <Grid container spacing={1}>
+                            <Grid item>
+                              <Button onClick={(event) => toggleAddButton(event, index)}>
+                                <AddIcon />
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button onClick={(event) => toggleEditButton(event, index)}>
+                                <EditIcon />
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button onClick={(event) => toggleDeleteButton(event, index)}>
+                                <DeleteIcon />
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button onClick={(event) => toggleUpButton(event, index)}>
+                                <KeyboardArrowUpIcon />
+                              </Button>
+                            </Grid>
+                            <Grid item>
+                              <Button onClick={(event) => toggleDownButton(event, index)}>
+                                <KeyboardArrowDownIcon />
+                              </Button>
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <Button onClick={(event) => toggleDeleteButton(event, index)}>
-                              <DeleteIcon />
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={(event) => toggleUpButton(event, index)}>
-                              <KeyboardArrowUpIcon />
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={(event) => toggleDownButton(event, index)}>
-                              <KeyboardArrowDownIcon />
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      )
-                    }
-                  </CardActions>
-                </CardActionArea>
-              </Card>
-            </ListItem>
-            <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-              {value.items &&
-                value.items.map((item, itemIndex) => {
-                  return (
-                    <ListItem //Items
-                      alignItems="center"
-                      disablePadding
-                      sx={{ marginLeft: 5, marginBottom: 1, marginTop: 1 }}
-                    >
-                      <Card
-                        sx={{
-                          margin: 1,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "90%",
-                          // backgroundColor: colors?.itemColor ?? "#ffffff",
-                        }}
+                        )
+                      }
+                    </CardActions>
+                  </CardActionArea>
+                </Card>
+              </ListItem>
+              <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                {value.items &&
+                  value.items.map((item, itemIndex) => {
+                    return (
+                      <ListItem //Items
+                        alignItems="center"
+                        disablePadding
+                        sx={{ marginLeft: 5, marginBottom: 1, marginTop: 1 }}
                       >
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image="https://i.sozcucdn.com/wp-content/uploads/2022/04/05/iecrop/adana2_16_9_1649152561.jpg?w=776&h=436&mode=crop"
-                            alt="green iguana"
-                          />
-                          <CardContent>
-                            {editItemIndex &&
-                            editItemIndex.itemIndex === itemIndex &&
-                            editItemIndex.index === index ? (
-                              <Box>
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    marginBottom: 1,
-                                    height: "50%",
-                                  }}
-                                >
-                                  <TextField
-                                    id="outlined-basic"
-                                    variant="outlined"
-                                    value={editItemText}
-                                    onChange={(e) => setEditItemText(e.target.value)}
-                                    style={{ marginRight: 5, width: "40%" }}
-                                  />
-                                  <TextField
-                                    id="outlined-basic2"
-                                    variant="outlined"
-                                    value={editItemPrice}
-                                    onChange={(e) => setEditItemPrice(e.target.value)}
-                                    style={{ marginRight: 5, width: "40%" }}
-                                  />
-                                  <PriceUnitSelector
-                                    priceUnit={priceUnit}
-                                    setPriceUnit={setPriceUnit}
-                                  />
-                                </Box>
-                                <Box sx={{ display: "flex", flexDirection: "row", width: "81%" }}>
-                                  <TextField
-                                    id="outlined-basic3"
-                                    variant="outlined"
-                                    value={editItemExplanation}
-                                    onChange={(e) => setEditItemExplanation(e.target.value)}
-                                    style={{ width: "100%" }}
-                                  />
-                                </Box>
-                              </Box>
-                            ) : (
-                              <>
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <Typography
-                                    // color={colors?.textColor ?? "#000000"}
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    {item.name}
-                                  </Typography>
-                                  <Typography
-                                    // color={colors?.textColor ?? "#000000"}
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    {item.price + " " + item.priceUnit}
-                                  </Typography>
-                                </Box>
-                                <Box></Box>
-                                <Typography variant="body2">{item?.explanation}</Typography>
-                              </>
-                            )}
-                          </CardContent>
-                          <CardActions>
-                            {
-                              // Item buttons
-                              editItemIndex &&
+                        <Card
+                          sx={{
+                            margin: 1,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "90%",
+                            // backgroundColor: colors?.itemColor ?? "#ffffff",
+                          }}
+                        >
+                          <CardActionArea>
+                            {menu?.[index]?.items[itemIndex]?.photo &&
+                              PLAN_IDS[2] !== state?.user?.user?._id && (
+                                <CardMedia
+                                  component="img"
+                                  height="140"
+                                  image={menu?.[index]?.items[itemIndex]?.photoSrc}
+                                  alt=""
+                                />
+                              )}
+                            <CardContent>
+                              {editItemIndex &&
                               editItemIndex.itemIndex === itemIndex &&
                               editItemIndex.index === index ? (
-                                <Grid container spacing={1}>
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) =>
-                                        toggleChangePhoto(event, index, itemIndex)
-                                      }
-                                    >
-                                      <AddAPhotoIcon />
-                                    </Button>
-                                  </Grid>
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) =>
-                                        toggleItemDoneButton(event, index, itemIndex)
-                                      }
-                                    >
-                                      <DoneIcon />
-                                    </Button>
-                                  </Grid>
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) => toggleItemClearButton(event, itemIndex)}
-                                    >
-                                      <ClearIcon />
-                                    </Button>
-                                  </Grid>
-                                </Grid>
+                                <Box>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      marginBottom: 1,
+                                      height: "50%",
+                                    }}
+                                  >
+                                    <TextField
+                                      id="outlined-basic"
+                                      variant="outlined"
+                                      value={editItemText}
+                                      onChange={(e) => setEditItemText(e.target.value)}
+                                      style={{ marginRight: 5, width: "40%" }}
+                                    />
+                                    <TextField
+                                      id="outlined-basic2"
+                                      variant="outlined"
+                                      value={editItemPrice}
+                                      onChange={(e) => setEditItemPrice(e.target.value)}
+                                      style={{ marginRight: 5, width: "40%" }}
+                                    />
+                                    <PriceUnitSelector
+                                      priceUnit={priceUnit}
+                                      setPriceUnit={setPriceUnit}
+                                    />
+                                  </Box>
+                                  <Box sx={{ display: "flex", flexDirection: "row", width: "81%" }}>
+                                    <TextField
+                                      id="outlined-basic3"
+                                      variant="outlined"
+                                      value={editItemExplanation}
+                                      onChange={(e) => setEditItemExplanation(e.target.value)}
+                                      style={{ width: "100%" }}
+                                    />
+                                  </Box>
+                                </Box>
                               ) : (
-                                <Grid container>
-                                  {" "}
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) =>
-                                        toggleItemEditButton(event, index, itemIndex)
-                                      }
+                                <>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      justifyContent: "space-between",
+                                      width: "100%",
+                                    }}
+                                  >
+                                    <Typography
+                                      // color={colors?.textColor ?? "#000000"}
+                                      gutterBottom
+                                      variant="h5"
+                                      component="div"
                                     >
-                                      <EditIcon />
-                                    </Button>
-                                  </Grid>
-                                  <Grid item>
-                                    <Button
-                                      onClick={() =>
-                                        toggleItemDeleteButton(event, index, itemIndex)
-                                      }
+                                      {item.name}
+                                    </Typography>
+                                    <Typography
+                                      // color={colors?.textColor ?? "#000000"}
+                                      gutterBottom
+                                      variant="h5"
+                                      component="div"
                                     >
-                                      <DeleteIcon />
-                                    </Button>
+                                      {item.price + " " + item.priceUnit}
+                                    </Typography>
+                                  </Box>
+                                  <Box></Box>
+                                  <Typography variant="body2">{item?.explanation}</Typography>
+                                </>
+                              )}
+                            </CardContent>
+                            <CardActions>
+                              {
+                                // Item buttons
+                                editItemIndex &&
+                                editItemIndex.itemIndex === itemIndex &&
+                                editItemIndex.index === index ? (
+                                  <Grid container spacing={1}>
+                                    {PLAN_IDS[2] === state?.user?.user?.plan_id?._id && (
+                                      <Grid item>
+                                        <Button
+                                          onClick={(event) =>
+                                            toggleChangePhoto(event, index, itemIndex)
+                                          }
+                                        >
+                                          <AddAPhotoIcon />
+                                        </Button>
+                                      </Grid>
+                                    )}
+                                    <Grid item>
+                                      <Button
+                                        onClick={(event) =>
+                                          toggleItemDoneButton(event, index, itemIndex)
+                                        }
+                                      >
+                                        <DoneIcon />
+                                      </Button>
+                                    </Grid>
+                                    <Grid item>
+                                      <Button
+                                        onClick={(event) => toggleItemClearButton(event, itemIndex)}
+                                      >
+                                        <ClearIcon />
+                                      </Button>
+                                    </Grid>
                                   </Grid>
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) =>
-                                        toggleItemUpButton(event, index, itemIndex)
-                                      }
-                                    >
-                                      <KeyboardArrowUpIcon />
-                                    </Button>
+                                ) : (
+                                  <Grid container>
+                                    {" "}
+                                    {PLAN_IDS[2] === state?.user?.user?.plan_id?._id && (
+                                      <Grid item>
+                                        <Button
+                                          onClick={(event) =>
+                                            toggleChangePhoto(event, index, itemIndex)
+                                          }
+                                        >
+                                          <AddAPhotoIcon />
+                                        </Button>
+                                      </Grid>
+                                    )}
+                                    <Grid item>
+                                      <Button
+                                        onClick={() =>
+                                          toggleItemDeleteButton(event, index, itemIndex)
+                                        }
+                                      >
+                                        <DeleteIcon />
+                                      </Button>
+                                    </Grid>
+                                    <Grid item>
+                                      <Button
+                                        onClick={(event) =>
+                                          toggleItemUpButton(event, index, itemIndex)
+                                        }
+                                      >
+                                        <KeyboardArrowUpIcon />
+                                      </Button>
+                                    </Grid>
+                                    <Grid item>
+                                      <Button
+                                        onClick={(event) =>
+                                          toggleItemDownButton(event, index, itemIndex)
+                                        }
+                                      >
+                                        <KeyboardArrowDownIcon />
+                                      </Button>
+                                    </Grid>
                                   </Grid>
-                                  <Grid item>
-                                    <Button
-                                      onClick={(event) =>
-                                        toggleItemDownButton(event, index, itemIndex)
-                                      }
-                                    >
-                                      <KeyboardArrowDownIcon />
-                                    </Button>
-                                  </Grid>
-                                </Grid>
-                              )
-                            }
-                          </CardActions>
-                        </CardActionArea>
-                      </Card>
-                    </ListItem>
-                  );
-                })}
-            </Collapse>
-          </React.Fragment>
-        );
-      })}
-      <Divider style={{ margin: 10 }} /> {/* Add Category */}
-      <Card
-        sx={{
-          margin: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          cursor: "pointer",
-        }}
-        onClick={toggleAddCategory}
-      >
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <ListItemAvatar>
-              <AddIcon />
-            </ListItemAvatar>
-            <Typography gutterBottom variant="h6" component="div">
-              {t("menu.addCategory")}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-    </List>
+                                )
+                              }
+                            </CardActions>
+                          </CardActionArea>
+                        </Card>
+                      </ListItem>
+                    );
+                  })}
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
+        <Divider style={{ margin: 10 }} /> {/* Add Category */}
+        <Card
+          sx={{
+            margin: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            cursor: "pointer",
+          }}
+          onClick={toggleAddCategory}
+        >
+          <CardContent>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <ListItemAvatar>
+                <AddIcon />
+              </ListItemAvatar>
+              <Typography gutterBottom variant="h6" component="div">
+                {t("menu.addCategory")}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </List>
+      <ImageUploaderMenuItemPhoto
+        open={uploadImageOpen}
+        onClose={() => setUploadImageOpen(false)}
+        id={1}
+        menu={menu}
+        setMenu={setMenu}
+        indexItem={editItemIndex}
+      />
+      {/* 
+        BU İKİLİLER SAYFADA STEPPER İLERİ GERİ GİDİLDİĞİNDE VEYA ISPDF DEGİSTİGİNDE SIFIRLANIYOR MU BAK
+        KATEGORI VE ITEM SILINDIGINDE IMAGEI DA STATETEN SİL
+        + ITEM YERLERİ DEĞİŞTİĞİNDE NE OLUYOR TEST
+        EN SON KAYDETE BASILDIĞINDA ISPDF DEGİLSE IMAGELARI DA BACKENDDE KAYDET.
+        + MENU ÇEKİLDİĞİNDE IMAGELARI DA ÇEK
+        + PREMIUM DEĞİLSE IMAGE EKLEME VE GÖSTERMEYİ KAPAT
+        HESAP SİLİNİRSE VEYA PREMIUM HARİCİNE GEÇERSE BÜTÜN İMAGELARI DB DEN SİL
+      */}
+    </>
   );
 }

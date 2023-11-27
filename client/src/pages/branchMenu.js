@@ -97,6 +97,7 @@ const BranchMenu = () => {
             {!isPdf && (
               <MenuForCustomers
                 menu={menu}
+                setMenu={setMenu}
                 settings={settings}
                 colors={colors}
                 setSnackbarOpen={setSnackbarOpen}
