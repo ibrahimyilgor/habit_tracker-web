@@ -2,6 +2,8 @@ import Comment from "../models/Comment.js";
 import MenuPdf from "../models/MenuPdf.js";
 import PlanCode from "../models/PlanCode.js";
 import Restaurant from "../models/Restaurant.js";
+import MenuItemPhoto from "../models/MenuItemPhoto.js";
+
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
 
@@ -129,6 +131,19 @@ export const useCode = async (req, res) => {
         return res.status(404).json({
           message: "User not found or plan_id not updated.",
           success: false,
+        });
+      }
+
+      // Delete the menuItemPhotos
+      if (plan_id !== PLAN_IDS[2]) {
+        //if not premium
+        await MenuItemPhoto.deleteMany({
+          user_id: user_id,
+        }).catch((err) => {
+          res.status(404).json({
+            message: "Could not delete menu item photos if plan is not PREMIUM",
+            success: false,
+          });
         });
       }
 

@@ -12,60 +12,74 @@ export const ImageUploaderMenuItemPhoto = ({
   id,
   menu,
   setMenu,
-  indexItem,
+  itemIndex,
+  setItemIndex,
+  categoryIndex,
+  setCategoryIndex,
 }) => {
   const { t } = useTranslation();
   const state = useAuthContext();
 
+  const [tempMenu, setTempMenu] = useState([]);
+  const [prevPhoto, setPrevPhoto] = useState(null);
+  const [newPhoto, setNewPhoto] = useState(null);
+
   useEffect(() => {
-    console.log("ibrahimindex", indexItem);
-  }, [indexItem]);
+    if (!open) {
+      setItemIndex(0);
+      setCategoryIndex(0);
+    } else {
+      setNewPhoto(null);
+      setPrevPhoto(menu[categoryIndex]?.items[itemIndex]?.photo);
+      setTempMenu([...menu]);
+    }
+  }, [open]);
+
+  const handleClose = () => {};
 
   const handleSubmit = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("file", menu[indexItem?.index]?.items[indexItem?.itemIndex]?.photo);
-      formData.append("user_id", state?.user?.user?._id);
-      formData.append("menu_item_id", menu[indexItem?.index]?.items[indexItem?.itemIndex]?._id);
-      await fetch("http://localhost:3001/menuItemPhoto/save", {
-        method: "PUT",
-        body: formData,
-        headers: { Authorization: "Bearer " + state?.user?.token },
-      });
-      onClose();
-    } catch (error) {
-      console.error("Error in handleSubmit:", error);
-    }
+    // try {
+    //   const formData = new FormData();
+    //   formData.append("file", menu[categoryIndex]?.items[itemIndex]?.photo);
+    //   formData.append("user_id", state?.user?.user?._id);
+    //   formData.append("menu_item_id", menu[categoryIndex]?.items[itemIndex]?._id);
+    //   await fetch("http://localhost:3001/menuItemPhoto/save", {
+    //     method: "PUT",
+    //     body: formData,
+    //     headers: { Authorization: "Bearer " + state?.user?.token },
+    //   });
+    //   onClose();
+    // } catch (error) {
+    //   console.error("Error in handleSubmit:", error);
+    // }
+
+    setMenu((prevMenu) => {
+      const tempMenu = [...prevMenu];
+      // Ensure tempMenu has an element at indexCategory
+      if (!tempMenu[categoryIndex]) {
+        tempMenu[categoryIndex] = { items: [] };
+      }
+      const category = { ...tempMenu[categoryIndex] };
+      // Ensure category has an items array and an element at indexItem
+      if (!category.items) {
+        category.items = [];
+      }
+      if (!category.items[itemIndex]) {
+        category.items[itemIndex] = {};
+      }
+      const updatedItem = { ...category.items[itemIndex] };
+      updatedItem.photo = newPhoto;
+      updatedItem.photoSrc = newPhoto ? URL.createObjectURL(newPhoto) : null;
+      category.items[itemIndex] = updatedItem;
+      tempMenu[categoryIndex] = category;
+      return tempMenu;
+    });
+    onClose();
   };
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length > 0) {
-      setMenu((prevMenu) => {
-        const tempMenu = [...prevMenu];
-
-        // Ensure tempMenu has an element at indexCategory
-        if (!tempMenu[indexItem?.index]) {
-          tempMenu[indexItem?.index] = { items: [] };
-        }
-
-        const category = { ...tempMenu[indexItem?.index] };
-
-        // Ensure category has an items array and an element at indexItem
-        if (!category.items) {
-          category.items = [];
-        }
-        if (!category.items[indexItem?.itemIndex]) {
-          category.items[indexItem?.itemIndex] = {};
-        }
-
-        const updatedItem = { ...category.items[indexItem?.itemIndex] };
-        updatedItem.photo = acceptedFiles[0];
-        category.items[indexItem?.itemIndex] = updatedItem;
-
-        tempMenu[indexItem?.index] = category;
-
-        return tempMenu;
-      });
+      setNewPhoto(acceptedFiles[0]);
     }
   };
 
@@ -76,13 +90,18 @@ export const ImageUploaderMenuItemPhoto = ({
   });
 
   const handleClearFile = () => {
-    let tempMenu = [...menu];
-    tempMenu[indexItem?.index].items[indexItem?.itemIndex].photo = null;
-    setMenu(tempMenu);
+    setNewPhoto(null);
+    setPrevPhoto(null);
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={() => {
+        onClose();
+        handleClose();
+      }}
+    >
       <Box
         sx={{
           height: "350px",
@@ -104,7 +123,7 @@ export const ImageUploaderMenuItemPhoto = ({
         <Typography variant="h5" sx={{ mb: 2 }}>
           {t("imageUploader.title")}
         </Typography>
-        {!menu?.[indexItem?.index]?.items[indexItem?.itemIndex]?.photo && (
+        {!(newPhoto || prevPhoto) && (
           <Box
             {...getRootProps()}
             sx={{
@@ -129,7 +148,7 @@ export const ImageUploaderMenuItemPhoto = ({
             <Typography variant="h6">{t("imageUploader.dropFile")}</Typography>
           </Box>
         )}
-        {menu?.[indexItem?.index]?.items[indexItem?.itemIndex]?.photo && (
+        {(newPhoto || prevPhoto) && (
           <Box
             sx={{
               display: "flex",
@@ -149,9 +168,7 @@ export const ImageUploaderMenuItemPhoto = ({
               }}
             >
               <img
-                src={URL.createObjectURL(
-                  menu?.[indexItem?.index]?.items?.[indexItem?.itemIndex]?.photo,
-                )}
+                src={newPhoto || prevPhoto ? URL.createObjectURL(newPhoto || prevPhoto) : null}
                 // alt={menuItemPhotos["6559fc440266b2d0072affea"]?.name}
                 style={{ width: 100 }}
               />
@@ -162,7 +179,14 @@ export const ImageUploaderMenuItemPhoto = ({
           </Box>
         )}
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button variant="contained" onClick={onClose} sx={{ mr: 2 }}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              onClose();
+              handleClose();
+            }}
+            sx={{ mr: 2 }}
+          >
             {t("common.back")}
           </Button>
           <Button

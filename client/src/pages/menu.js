@@ -15,7 +15,7 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import ArrowUturnLeftIcon from "@heroicons/react/24/solid/ArrowUturnLeftIcon";
 import ArrowUturnRightIcon from "@heroicons/react/24/solid/ArrowUturnRightIcon";
 import BookmarkSquareIcon from "@heroicons/react/24/solid/BookmarkSquareIcon";
-
+import cloneDeep from "lodash/cloneDeep";
 import { BranchSelector } from "src/sections/branch/branch-selector";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -79,6 +79,10 @@ const Menu = () => {
   useEffect(() => {
     console.log("settingsmenu", restaurant);
   }, [restaurant]);
+
+  useEffect(() => {
+    console.log("ibomenu", menu);
+  }, [menu]);
 
   useEffect(() => {
     if (
@@ -154,9 +158,16 @@ const Menu = () => {
 
   const saveMenu = async () => {
     if (tabValue === 0) {
-      console.log("settings2", settings);
-
+      console.log("ibrahimeyattara3", menu);
+      const tempPhotos = cloneDeep(menu);
       try {
+        let tempMenu = [...menu];
+        tempMenu.forEach((cat) => {
+          cat.items.forEach(async (item) => {
+            (item.photo = null), (item.photoSrc = null);
+          });
+        });
+
         const response = await fetch(
           `http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
           {
@@ -166,7 +177,7 @@ const Menu = () => {
               Authorization: "Bearer " + state?.user?.token,
             },
             body: JSON.stringify({
-              menu: menu,
+              menu: tempMenu,
               isPdf: tabValue,
               settings: settings,
               colors: settings?.colors,
@@ -181,7 +192,33 @@ const Menu = () => {
           setSnackbarOpen(true);
           setSnackbarSeverity("success");
           setSnackbarMessage(t("menu.successMessage"));
-          restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
+          let restaurantUpdatedForPhoto = [];
+          const data = await restaurant.getBranches(
+            state?.user?.user?._id,
+            state?.user?.token,
+            null,
+          );
+          const currentMenu = data?.filter((res) => res?._id === restaurant.selectedBranchIds)?.[0];
+
+          tempPhotos.forEach((cat, indexCategory) => {
+            cat.items.forEach(async (item, indexItem) => {
+              if (item?.photo) {
+                const formData = new FormData();
+                formData.append("file", item?.photo);
+                formData.append("user_id", state?.user?.user?._id);
+                formData.append("restaurant_id", restaurant.selectedBranchIds);
+                formData.append(
+                  "menu_item_id",
+                  currentMenu?.menu?.[indexCategory]?.items?.[indexItem]?._id,
+                );
+                await fetch("http://localhost:3001/menuItemPhoto/save", {
+                  method: "PUT",
+                  body: formData,
+                  headers: { Authorization: "Bearer " + state?.user?.token },
+                });
+              }
+            });
+          });
         } else {
           console.error("Failed to add menu:", response.statusText);
           setSnackbarOpen(true);
@@ -205,6 +242,25 @@ const Menu = () => {
         formData.append("fileName", file?.name);
 
         try {
+          const responseDeleteMenuItemPhotos = await fetch(
+            `http://localhost:3001/menuItemPhoto/deleteMenuItemPhoto/${restaurant.selectedBranchIds}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: "Bearer " + state?.user?.token,
+              },
+            },
+          );
+
+          if (responseDeleteMenuItemPhotos.ok) {
+            // Handle success
+            console.log("MenuItemPhotos deleted successfully");
+            // Additional actions upon successful deletion if needed
+          } else {
+            // Handle other status codes (e.g., 404, 500)
+            console.error("Failed to delete MenuItemPhotos");
+          }
+
           await fetch("http://localhost:3001/pdfMenu/save", {
             method: "PUT",
             body: formData,
@@ -274,7 +330,7 @@ const Menu = () => {
                 <Typography variant="h4">{t("menu.title")}</Typography>
               </div>
 
-              {restaurant.selectedBranchIds.length > 0 && (
+              {restaurant.selectedBranchIds && (
                 <div
                   style={{
                     flex: 1,
@@ -327,7 +383,7 @@ const Menu = () => {
                       )}
                     </SvgIcon>
                   }
-                  disabled={activeStep === 0 && restaurant.selectedBranchIds.length === 0}
+                  disabled={activeStep === 0 && !restaurant.selectedBranchIds}
                   onClick={() => {
                     if (activeStep === steps.length - 1) {
                       saveMenu();
@@ -377,7 +433,7 @@ const Menu = () => {
                     </TabList>
                   </Box>
                   <TabPanel value={0}>
-                    <TreeViewCRUDExample menu={menu} setMenu={setMenu} />
+                    <TreeViewCRUDExample menu={menu} setMenu={setMenu} activeStep={activeStep} />
                   </TabPanel>
                   <TabPanel value={1}>
                     {" "}

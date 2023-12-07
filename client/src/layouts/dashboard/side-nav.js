@@ -97,48 +97,8 @@ export const SideNav = (props) => {
               <Typography color="inherit" variant="subtitle1" wrap>
                 {state?.user?.user?.name || ""}
               </Typography>
-              {/* <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                {restaurant?.plan || "Basic Plan"}
-              </Typography> */}
             </div>
           </Box>
-          {/* <Box
-            sx={{
-              alignItems: 'center',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
-              borderRadius: 1,
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 2,
-              p: '12px'
-            }}
-          > */}
-          {/* <div>
-              <Typography
-                color="inherit"
-                variant="subtitle1"
-              >
-                {restaurant?.name || ""}
-              </Typography>
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                {restaurant?.branch || "X Branch"}
-              </Typography>
-            </div> */}
-          {/* <BranchSelector /> */}
-          {/* <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon> */}
-          {/* </Box> */}
         </Box>
         <Divider sx={{ borderColor: "neutral.700" }} />
         <Box

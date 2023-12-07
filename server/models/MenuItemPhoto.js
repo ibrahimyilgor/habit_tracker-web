@@ -9,6 +9,10 @@ const MenuItemPhotoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  restaurant_id: {
+    type: String,
+    required: true,
+  },
   file: {
     type: Buffer,
     required: true,

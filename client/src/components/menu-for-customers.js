@@ -294,12 +294,14 @@ export default function MenuForCustomers({
                           }}
                         >
                           <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              height="140"
-                              image={menu?.[index]?.items[itemIndex]?.photoSrc}
-                              alt=""
-                            />
+                            {menu?.[index]?.items?.[itemIndex]?.photoSrc && (
+                              <CardMedia
+                                component="img"
+                                height="140"
+                                image={menu?.[index]?.items?.[itemIndex]?.photoSrc}
+                                alt=""
+                              />
+                            )}
                             <CardContent>
                               <Box
                                 sx={{

@@ -1,3 +1,4 @@
+import MenuItemPhoto from "../models/MenuItemPhoto.js";
 import MenuPdf from "../models/MenuPdf.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
@@ -57,6 +58,8 @@ export const addBranch = async (req, res) => {
 export const deleteBranch = async (req, res) => {
   console.log("ibrahimmm", req.params.id);
   try {
+    MenuItemPhoto.deleteMany({ restaurant_id: req.params.id });
+
     Restaurant.findByIdAndDelete(req.params.id)
       .then((deletedRestaurant) => {
         return User.findByIdAndUpdate(

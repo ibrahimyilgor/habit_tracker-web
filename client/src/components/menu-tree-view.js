@@ -28,7 +28,7 @@ import { ImageUploaderMenuItemPhoto } from "./dropzoneMenuItemPhoto";
 import { PLAN_IDS } from "src/utils/constants";
 import { useAuthContext } from "src/contexts/auth-context";
 
-export default function CheckboxListSecondary({ menu, setMenu }) {
+export default function CheckboxListSecondary({ menu, setMenu, activeStep }) {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
   const state = useAuthContext();
@@ -37,6 +37,9 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
 
   const [editIndex, setEditIndex] = React.useState(null);
   const [editText, setEditText] = React.useState("");
+
+  const [photoItemIndex, setPhotoItemIndex] = React.useState(null);
+  const [photoCategoryIndex, setPhotoCategoryIndex] = React.useState(null);
 
   const [editItemIndex, setEditItemIndex] = React.useState(null);
   const [editItemText, setEditItemText] = React.useState("");
@@ -76,34 +79,42 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
         return file;
       } else {
         console.error("Failed to fetch menu item photo:", response.statusText, id);
+        let tempMenu = [...menu];
+        tempMenu[indexCategory].items[indexItem].photo = null;
+        setMenu(tempMenu);
         return null;
       }
     } catch (error) {
       console.error("Error fetching menu item photo:", error, id);
+      let tempMenu = [...menu];
+      tempMenu[indexCategory].items[indexItem].photo = null;
+      setMenu(tempMenu);
       return null;
     }
   };
 
   React.useEffect(() => {
-    console.log("menu", menu);
-
-    menu.forEach((category, indexCategory) => {
-      category?.items?.forEach((item, indexItem) => {
-        if (!item?.photo) {
-          fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
-        }
+    if (activeStep === 1) {
+      menu.forEach((category, indexCategory) => {
+        category?.items?.forEach((item, indexItem) => {
+          if (!item?.photo) {
+            fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
+          }
+        });
       });
-    });
-  }, [menu]);
+    }
+  }, [activeStep]);
 
   React.useEffect(() => {
+    console.log("restchanged", restaurant);
+    console.log("selectedBranchIdsselectedBranchIds2", restaurant.selectedBranchIds);
     if (restaurant?.restaurants && restaurant.restaurants.length > 0) {
       setMenu(
         restaurant.restaurants.filter((r) => r._id === restaurant.selectedBranchIds)?.[0]?.menu ??
           [],
       );
     }
-  }, [restaurant]);
+  }, [restaurant.selectedBranchIds]);
 
   React.useEffect(() => {
     if (editIndex !== null) {
@@ -142,8 +153,8 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
   const toggleChangePhoto = (event, index, itemIndex) => {
     event.stopPropagation();
     setUploadImageOpen(true);
-    setEditIndex(index);
-    setEditItemIndex({ index: index, itemIndex: itemIndex });
+    setPhotoItemIndex(itemIndex);
+    setPhotoCategoryIndex(index);
   };
 
   const toggleItemDeleteButton = (event, index, itemIndex) => {
@@ -462,17 +473,6 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
                                 editItemIndex.itemIndex === itemIndex &&
                                 editItemIndex.index === index ? (
                                   <Grid container spacing={1}>
-                                    {PLAN_IDS[2] === state?.user?.user?.plan_id?._id && (
-                                      <Grid item>
-                                        <Button
-                                          onClick={(event) =>
-                                            toggleChangePhoto(event, index, itemIndex)
-                                          }
-                                        >
-                                          <AddAPhotoIcon />
-                                        </Button>
-                                      </Grid>
-                                    )}
                                     <Grid item>
                                       <Button
                                         onClick={(event) =>
@@ -504,6 +504,15 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
                                         </Button>
                                       </Grid>
                                     )}
+                                    <Grid item>
+                                      <Button
+                                        onClick={(event) =>
+                                          toggleItemEditButton(event, index, itemIndex)
+                                        }
+                                      >
+                                        <EditIcon />
+                                      </Button>
+                                    </Grid>
                                     <Grid item>
                                       <Button
                                         onClick={() =>
@@ -582,16 +591,23 @@ export default function CheckboxListSecondary({ menu, setMenu }) {
         id={1}
         menu={menu}
         setMenu={setMenu}
-        indexItem={editItemIndex}
+        itemIndex={photoItemIndex}
+        setItemIndex={setPhotoItemIndex}
+        categoryIndex={photoCategoryIndex}
+        setCategoryIndex={setPhotoCategoryIndex}
       />
       {/* 
         BU İKİLİLER SAYFADA STEPPER İLERİ GERİ GİDİLDİĞİNDE VEYA ISPDF DEGİSTİGİNDE SIFIRLANIYOR MU BAK
+        FOTOLAR KAYDETTEN SONRA TEKRAR BAKTIGIMIZDA GÖRÜNÜYOR MU BAK
         KATEGORI VE ITEM SILINDIGINDE IMAGEI DA STATETEN SİL
         + ITEM YERLERİ DEĞİŞTİĞİNDE NE OLUYOR TEST
-        EN SON KAYDETE BASILDIĞINDA ISPDF DEGİLSE IMAGELARI DA BACKENDDE KAYDET.
+        + EN SON KAYDETE BASILDIĞINDA ISPDF DEGİLSE IMAGELARI DA BACKENDDE KAYDET.
+        + EN SON KAYDETE BASILDIĞINDA ISPDF İSE DBDEKİ, O MENÜDEKİ BÜTÜN IMAGELARI SİL.
         + MENU ÇEKİLDİĞİNDE IMAGELARI DA ÇEK
         + PREMIUM DEĞİLSE IMAGE EKLEME VE GÖSTERMEYİ KAPAT
-        HESAP SİLİNİRSE VEYA PREMIUM HARİCİNE GEÇERSE BÜTÜN İMAGELARI DB DEN SİL
+        + HESAP SİLİNİRSE BÜTÜN İMAGELARI DB DEN SİL
+        + PREMIUM HARİCİNE GEÇERSE BÜTÜN İMAGELARI DB DEN SİL
+        + PLAN DEĞİŞTİRME TRIGGERINDA IMAGELARI DBDEN SİL
       */}
     </>
   );

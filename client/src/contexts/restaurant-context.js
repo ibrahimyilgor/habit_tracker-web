@@ -8,13 +8,17 @@ export const RestaurantContext = createContext({ undefined });
 export const RestaurantProvider = (props) => {
   const { children } = props;
   const [restaurants, setRestaurants] = useState([]);
-  const [selectedBranchIds, setSelectedBranchIds] = useState([]);
+  const [selectedBranchIds, setSelectedBranchIds] = useState();
   const router = useRouter();
   const state = useAuthContext();
 
   useEffect(() => {
     console.log("restaurantss", restaurants, state);
   }, [restaurants]);
+
+  useEffect(() => {
+    console.log("selectedBranchIdsselectedBranchIds", selectedBranchIds);
+  }, [selectedBranchIds]);
 
   useEffect(
     () => {
@@ -73,7 +77,6 @@ export const RestaurantProvider = (props) => {
   };
 
   const deleteBranch = async (id, userId) => {
-    console.log("ibrahimmm", id);
     try {
       const response = await fetch(
         `http://localhost:3001/restaurant/${id}/${userId}/deleteBranch`,
@@ -85,12 +88,8 @@ export const RestaurantProvider = (props) => {
         },
       );
       const data = await response.json();
-      if (selectedBranchIds.includes(id)) {
-        // Remove from branch selector if the branch is selected
-        var index = selectedBranchIds.indexOf(id);
-        if (index !== -1) {
-          selectedBranchIds.splice(index, 1);
-        }
+      if (selectedBranchIds === id) {
+        setSelectedBranchIds();
       }
       return { success: true };
     } catch (error) {

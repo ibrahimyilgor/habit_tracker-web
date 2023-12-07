@@ -4,7 +4,7 @@ import MenuItemPhoto from "../models/MenuItemPhoto.js";
 
 export const saveMenuItemPhoto = async (req, res) => {
   try {
-    const { menu_item_id, user_id } = req.body;
+    const { menu_item_id, user_id, restaurant_id } = req.body;
     const file = req.file.buffer;
 
     // Check if a menu item photo with the menu_item_id already exists
@@ -20,6 +20,7 @@ export const saveMenuItemPhoto = async (req, res) => {
         user_id,
         menu_item_id,
         file,
+        restaurant_id,
       });
 
       // Save the new menu item photo to the database
@@ -55,5 +56,28 @@ export const getMenuItemPhoto = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to retrieve MenuItemPhoto." });
+  }
+};
+
+/*DELETE MENU ITEM PHOTO*/
+
+export const deleteMenuItemPhotoByMenuId = async (req, res) => {
+  try {
+    // Delete all MenuItemPhotos based on the restaurant_id provided in the request params
+    await MenuItemPhoto.deleteMany({ restaurant_id: req.params.id });
+
+    res.status(200).json({
+      success: true,
+      message: `Deleted all MenuItemPhotos related to restaurant ID: ${req.params.id}.`,
+    });
+
+    console.log("Deletion successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting MenuItemPhotos.",
+      error: error,
+    });
   }
 };

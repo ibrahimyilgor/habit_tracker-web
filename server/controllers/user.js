@@ -5,6 +5,7 @@ import UserAvatar from "../models/UserAvatar.js";
 import ResetPassword from "../models/ResetPassword.js";
 import Comment from "../models/Comment.js";
 import Plan from "../models/Plan.js";
+import MenuItemPhoto from "../models/MenuItemPhoto.js";
 
 /*READ USER*/
 
@@ -50,6 +51,7 @@ export const deleteUser = async (req, res) => {
     await UserAvatar.deleteMany({ user_id: req.params.id }); //Delete all user avatars
     await ResetPassword.deleteMany({ user_id: req.params.id }); //Delete the reset password
     await Comment.deleteMany({ user_id: req.params.id }); //Delete the comments
+    await MenuItemPhoto.deleteMany({ user_id: req.params.id }); //Delete all user avatars
 
     res.status(200).json({
       success: true,
