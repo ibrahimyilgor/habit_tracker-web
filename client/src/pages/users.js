@@ -62,7 +62,12 @@ const Users = () => {
 
   const useUsers = (page, rowsPerPage) => {
     return useMemo(() => {
-      return applyPagination(usersData || [], page, rowsPerPage);
+      return applyPagination(
+        usersData.filter((res) => res?.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          [],
+        page,
+        rowsPerPage,
+      );
     }, [page, rowsPerPage, usersData, searchQuery]);
   };
 

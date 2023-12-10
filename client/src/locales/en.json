@@ -170,6 +170,7 @@
     "plan": {
         "title": "Plan",
         "changePlan": "Change Plan",
+        "extendPlan": "Extend Plan",
         "currentPlan": "Current Plan",
         "successMessage": "Plan updated successfully",
         "errorMessage": "Plan could not be updated",

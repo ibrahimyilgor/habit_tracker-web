@@ -6,6 +6,7 @@ import MenuItemPhoto from "../models/MenuItemPhoto.js";
 
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
+import { ObjectId } from "mongodb";
 
 /*UPDATE CODE*/
 
@@ -114,10 +115,27 @@ export const useCode = async (req, res) => {
 
       // Update the user's plan_id
 
+      const user = await User.findById(user_id);
+
+      console.log(
+        "USERUSERUSERUSERUSERUSERUSERUSER",
+        user,
+        user?.plan_id,
+        plan_id,
+        user.plan_expiration_date,
+        user?.plan_id === plan_id
+      );
+
       let date = new Date();
       if (plan_id === PLAN_IDS[0]) {
         date = new Date("9999-12-12");
       } else {
+        if (
+          user?.plan_id.equals(new ObjectId(plan_id)) &&
+          user.plan_expiration_date
+        ) {
+          date = new Date(user.plan_expiration_date);
+        }
         date.setDate(date.getDate() + planCode.duration_in_days);
       }
 

@@ -101,14 +101,14 @@ export const CodesTable = (props) => {
         <Box sx={{ minWidth: 800 }}>
           {/* <Search placeholder={t("common.search")} value={searchQuery} setValue={setSearchQuery} /> */}
           <Card sx={{ p: 2 }}>
-            <PlanSelector
+            {/* <PlanSelector
               name="plan"
               setValue={(e) => {
                 setPlan(e.target.value);
               }}
               withTitle={true}
               value={plan}
-            />
+            /> */}
           </Card>
           <Table>
             <TableHead>

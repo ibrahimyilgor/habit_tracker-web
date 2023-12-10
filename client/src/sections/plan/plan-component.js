@@ -14,9 +14,9 @@ import { useAuthContext } from "src/contexts/auth-context";
 import i18n from "src/i18n";
 import CustomizedSnackbars from "../snackbar";
 import { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import { useRestaurantContext } from "src/contexts/restaurant-context";
+import { indigo } from "src/theme/colors";
 
 export const PlanComponent = ({ plan }) => {
   const { t } = useTranslation();
@@ -73,6 +73,8 @@ export const PlanComponent = ({ plan }) => {
       <Card
         sx={{
           height: "100%",
+          borderStyle: state?.user?.user?.plan_id?._id === plan?._id && "solid",
+          borderColor: state?.user?.user?.plan_id?._id === plan?._id && indigo.main,
         }}
       >
         <CardContent sx={{}}>
@@ -135,54 +137,43 @@ export const PlanComponent = ({ plan }) => {
         <CardActions
           sx={{ padding: state?.user?.user?.plan_id?._id === plan?._id ? "16px" : "8px" }}
         >
-          {state?.user?.user?.plan_id?._id === plan?._id ? (
-            <Button
-              variant="text"
-              fullWidth
-              onClick={() => {}}
-              // disabled={true}
+          <Box sx={{ flexDirection: "row", display: "flex" }}>
+            <Box
+              sx={{
+                width: "70%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              {t("plan.currentPlan")}
-            </Button>
-          ) : (
-            <Box sx={{ flexDirection: "row", display: "flex" }}>
-              <Box
-                sx={{
-                  width: "70%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <TextField
-                  label={t("plan.enterCode")}
-                  value={code}
-                  onChange={(c) => setCode(c.target.value)}
-                />
-              </Box>
-              <Box
-                sx={{
-                  width: "30%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Button
-                  variant="text"
-                  onClick={() => {
-                    changePlan(plan?._id);
-                  }}
-                  disabled={code.length === 0}
-                >
-                  {state?.user?.user?.plan_id === plan?._id
-                    ? t("plan.currentPlan")
-                    : t("plan.changePlan")}
-                </Button>
-              </Box>
+              <TextField
+                label={t("plan.enterCode")}
+                value={code}
+                onChange={(c) => setCode(c.target.value)}
+              />
             </Box>
-          )}
+            <Box
+              sx={{
+                width: "30%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="text"
+                onClick={() => {
+                  changePlan(plan?._id);
+                }}
+                disabled={code.length === 0}
+              >
+                {state?.user?.user?.plan_id?._id === plan?._id
+                  ? t("plan.extendPlan")
+                  : t("plan.changePlan")}
+              </Button>
+            </Box>
+          </Box>
         </CardActions>
       </Card>
       <CustomizedSnackbars
