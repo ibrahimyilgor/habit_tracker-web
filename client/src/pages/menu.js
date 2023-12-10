@@ -9,7 +9,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import TreeViewCRUDExample from "src/components/menu-tree-view";
+import MenuTreeView from "src/components/menu-tree-view";
 import { useTranslation } from "react-i18next";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import ArrowUturnLeftIcon from "@heroicons/react/24/solid/ArrowUturnLeftIcon";
@@ -433,7 +433,7 @@ const Menu = () => {
                     </TabList>
                   </Box>
                   <TabPanel value={0}>
-                    <TreeViewCRUDExample menu={menu} setMenu={setMenu} activeStep={activeStep} />
+                    <MenuTreeView menu={menu} setMenu={setMenu} activeStep={activeStep} />
                   </TabPanel>
                   <TabPanel value={1}>
                     {" "}

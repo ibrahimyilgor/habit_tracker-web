@@ -28,7 +28,7 @@ import { ImageUploaderMenuItemPhoto } from "./dropzoneMenuItemPhoto";
 import { PLAN_IDS } from "src/utils/constants";
 import { useAuthContext } from "src/contexts/auth-context";
 
-export default function CheckboxListSecondary({ menu, setMenu, activeStep }) {
+export default function MenuTreeView({ menu, setMenu, activeStep }) {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
   const state = useAuthContext();
