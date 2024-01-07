@@ -368,6 +368,7 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
                   value.items.map((item, itemIndex) => {
                     return (
                       <ListItem //Items
+                        key={itemIndex}
                         alignItems="center"
                         disablePadding
                         sx={{ marginLeft: 5, marginBottom: 1, marginTop: 1 }}

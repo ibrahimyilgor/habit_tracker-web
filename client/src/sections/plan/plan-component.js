@@ -112,6 +112,7 @@ export const PlanComponent = ({ plan }) => {
               ?.text.map((d, index) => {
                 return (
                   <Box
+                    key={index}
                     sx={{
                       width: "100%",
                       display: "flex",
