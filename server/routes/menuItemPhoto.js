@@ -4,7 +4,7 @@ import {
   deleteMenuItemPhotoByMenuId,
   getMenuItemPhoto,
   saveMenuItemPhoto,
-} from "../controllers/MenuItemPhoto.js";
+} from "../controllers/menuItemPhoto.js";
 
 const router = express.Router();
 
