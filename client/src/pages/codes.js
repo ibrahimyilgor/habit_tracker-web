@@ -29,7 +29,7 @@ const Codes = () => {
   const { t } = useTranslation();
 
   const getCodes = async (token) => {
-    const codeResponse = await fetch(`http://localhost:3001/planCode/getCodes`, {
+    const codeResponse = await fetch(process.env.BACKEND_SERVER + `/planCode/getCodes`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });

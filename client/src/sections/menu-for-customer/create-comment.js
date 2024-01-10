@@ -47,7 +47,7 @@ export const CreateCommentModal = ({
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3001/comment/${id}/addComment`, {
+      const response = await fetch(process.env.BACKEND_SERVER + `/comment/${id}/addComment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

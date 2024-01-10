@@ -43,7 +43,7 @@ export const AccountProfileDetails = ({
     async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch("http://localhost:3001/user/updateUser", {
+        const response = await fetch(process.env.BACKEND_SERVER + "/user/updateUser", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

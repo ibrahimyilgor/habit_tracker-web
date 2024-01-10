@@ -69,7 +69,7 @@ export const AccountProfile = () => {
         formData.append("file", localAvatar);
         formData.append("user_id", state?.user?.user?._id);
 
-        await fetch("http://localhost:3001/userAvatar/save", {
+        await fetch(process.env.BACKEND_SERVER + "/userAvatar/save", {
           method: "PUT",
           body: formData,
           headers: { Authorization: "Bearer " + state?.user?.token },

@@ -31,7 +31,7 @@ export const RestaurantProvider = (props) => {
   );
 
   const getBranches = async (id, token, name = null) => {
-    const restaurantResponse = await fetch(`http://localhost:3001/restaurant/${id}`, {
+    const restaurantResponse = await fetch(process.env.BACKEND_SERVER + `/restaurant/${id}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });
@@ -47,7 +47,7 @@ export const RestaurantProvider = (props) => {
   const addBranch = async ({ id, name, address, phone }) => {
     console.log("ibrahim2", name);
     try {
-      const response = await fetch(`http://localhost:3001/restaurant/${id}/addBranch`, {
+      const response = await fetch(process.env.BACKEND_SERVER + `/restaurant/${id}/addBranch`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const RestaurantProvider = (props) => {
   const deleteBranch = async (id, userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/restaurant/${id}/${userId}/deleteBranch`,
+        process.env.BACKEND_SERVER + `/restaurant/${id}/${userId}/deleteBranch`,
         {
           method: "DELETE",
           headers: {

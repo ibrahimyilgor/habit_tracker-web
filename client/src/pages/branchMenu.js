@@ -41,7 +41,7 @@ const BranchMenu = () => {
     const fetchData = async () => {
       if (id) {
         const menuResponse = await fetch(
-          `http://localhost:3001/restaurant/${id}/getMenuForCustomers`,
+          process.env.BACKEND_SERVER + `/restaurant/${id}/getMenuForCustomers`,
           {
             method: "GET",
           },
@@ -50,7 +50,7 @@ const BranchMenu = () => {
 
         console.log("tempMenu", tempMenu, tempMenu?.[0].menu || []);
 
-        const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
+        const response = await fetch(process.env.BACKEND_SERVER + `/pdfMenu/${id}`, {
           method: "GET",
         });
 

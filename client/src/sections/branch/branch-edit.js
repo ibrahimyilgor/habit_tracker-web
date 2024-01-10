@@ -49,7 +49,7 @@ export const BranchEdit = ({
     async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch("http://localhost:3001/restaurant/updateBranch", {
+        const response = await fetch(process.env.BACKEND_SERVER + "/restaurant/updateBranch", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

@@ -146,7 +146,7 @@ export const AuthProvider = (props) => {
 
   const fetchUserAvatar = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/userAvatar/${id}`, {
+      const response = await fetch(process.env.BACKEND_SERVER + `/userAvatar/${id}`, {
         method: "GET",
       });
 
@@ -168,7 +168,7 @@ export const AuthProvider = (props) => {
   const getUser = async (id) => {
     console.log("decodeid", id);
 
-    const userResponse = await fetch("http://localhost:3001/user/" + id, {
+    const userResponse = await fetch(process.env.BACKEND_SERVER + "/user/" + id, {
       method: "GET",
       headers: {
         Authorization:
@@ -206,7 +206,7 @@ export const AuthProvider = (props) => {
 
   const deleteUser = async (id, deleteByAdmin = false) => {
     try {
-      const response = await fetch(`http://localhost:3001/user/${id}/deleteUser`, {
+      const response = await fetch(process.env.BACKEND_SERVER + `/user/${id}/deleteUser`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + state?.user?.token,
@@ -228,7 +228,7 @@ export const AuthProvider = (props) => {
 
   const updatePassword = async (id, password) => {
     try {
-      const response = await fetch("http://localhost:3001/auth/updatePassword", {
+      const response = await fetch(process.env.BACKEND_SERVER + "/auth/updatePassword", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -248,7 +248,7 @@ export const AuthProvider = (props) => {
 
   const forgotPassword = async (values, onSubmitProps) => {
     try {
-      const loggedInResponse = await fetch("http://localhost:3001/auth/forgotPassword", {
+      const loggedInResponse = await fetch(process.env.BACKEND_SERVER + "/auth/forgotPassword", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -276,7 +276,7 @@ export const AuthProvider = (props) => {
 
   const changePassword = async (values, token) => {
     try {
-      const loggedInResponse = await fetch("http://localhost:3001/auth/changePassword", {
+      const loggedInResponse = await fetch(process.env.BACKEND_SERVER + "/auth/changePassword", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...values, token }),
@@ -304,7 +304,7 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+    const loggedInResponse = await fetch(process.env.BACKEND_SERVER + "/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
@@ -339,7 +339,7 @@ export const AuthProvider = (props) => {
       // const hashedPassword = await bcrypt.hash(password, saltRounds);
       // formData.password = hashedPassword
 
-      const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+      const savedUserResponse = await fetch(process.env.BACKEND_SERVER + "/auth/register", {
         method: "POST",
         body: formData,
       });

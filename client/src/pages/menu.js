@@ -113,7 +113,7 @@ const Menu = () => {
       } else if (tabValue === 1) {
         try {
           const response = await fetch(
-            `http://localhost:3001/pdfMenu/${restaurant.selectedBranchIds}`,
+            process.env.BACKEND_SERVER + `/pdfMenu/${restaurant.selectedBranchIds}`,
             {
               method: "GET",
             },
@@ -169,7 +169,7 @@ const Menu = () => {
         });
 
         const response = await fetch(
-          `http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
+          process.env.BACKEND_SERVER + `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
           {
             method: "PUT",
             headers: {
@@ -211,7 +211,7 @@ const Menu = () => {
                   "menu_item_id",
                   currentMenu?.menu?.[indexCategory]?.items?.[indexItem]?._id,
                 );
-                await fetch("http://localhost:3001/menuItemPhoto/save", {
+                await fetch(process.env.BACKEND_SERVER + "/menuItemPhoto/save", {
                   method: "PUT",
                   body: formData,
                   headers: { Authorization: "Bearer " + state?.user?.token },
@@ -243,7 +243,8 @@ const Menu = () => {
 
         try {
           const responseDeleteMenuItemPhotos = await fetch(
-            `http://localhost:3001/menuItemPhoto/deleteMenuItemPhoto/${restaurant.selectedBranchIds}`,
+            process.env.BACKEND_SERVER +
+              `/menuItemPhoto/deleteMenuItemPhoto/${restaurant.selectedBranchIds}`,
             {
               method: "DELETE",
               headers: {
@@ -261,14 +262,14 @@ const Menu = () => {
             console.error("Failed to delete MenuItemPhotos");
           }
 
-          await fetch("http://localhost:3001/pdfMenu/save", {
+          await fetch(process.env.BACKEND_SERVER + "/pdfMenu/save", {
             method: "PUT",
             body: formData,
             headers: { Authorization: "Bearer " + state?.user?.token },
           });
 
           const response = await fetch(
-            `http://localhost:3001/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
+            process.env.BACKEND_SERVER + `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
             {
               method: "PUT",
               headers: {

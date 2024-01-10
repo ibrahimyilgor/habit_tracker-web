@@ -50,7 +50,7 @@ export const CodesEdit = ({
 
   const editCode = async ({ id, code, plan_id, duration_in_days }) => {
     try {
-      const response = await fetch(`http://localhost:3001/planCode/${id}/updateCode`, {
+      const response = await fetch(process.env.BACKEND_SERVER + `/planCode/${id}/updateCode`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -27,7 +27,7 @@ const Page = () => {
   const [averageRate, setAverageRate] = useState({ average30: 0, average60: 0 });
 
   const getAverageRateOfCommentsInLast30Days = async (id, token, name = null) => {
-    const commentsResponse = await fetch(`http://localhost:3001/comment/average/${id}`, {
+    const commentsResponse = await fetch(process.env.BACKEND_SERVER + `/comment/average/${id}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });

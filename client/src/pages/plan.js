@@ -19,7 +19,7 @@ const Plan = () => {
     // declare the data fetching function
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/plan/list`, {
+        const response = await fetch(process.env.BACKEND_SERVER + `/plan/list`, {
           method: "GET",
           headers: { Authorization: "Bearer " + state?.user?.token },
         });

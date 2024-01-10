@@ -30,7 +30,7 @@ const Users = () => {
   const { t } = useTranslation();
 
   const getUsers = async (token) => {
-    const usersResponse = await fetch(`http://localhost:3001/user/getAllUsers`, {
+    const usersResponse = await fetch(process.env.BACKEND_SERVER + `/user/getAllUsers`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });

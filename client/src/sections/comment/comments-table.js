@@ -149,7 +149,7 @@ export const CommentsTable = (props) => {
         rightAction={async () => {
           try {
             const response = await fetch(
-              `http://localhost:3001/comment/${selectedForDelete?._id}/deleteComment`,
+              process.env.BACKEND_SERVER + `/comment/${selectedForDelete?._id}/deleteComment`,
               {
                 method: "DELETE",
                 headers: {

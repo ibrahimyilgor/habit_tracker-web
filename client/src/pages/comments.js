@@ -25,7 +25,7 @@ const Comments = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const getComments = async (id, token, name = null) => {
-    const commentsResponse = await fetch(`http://localhost:3001/comment/${id}`, {
+    const commentsResponse = await fetch(process.env.BACKEND_SERVER + `/comment/${id}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });

@@ -52,9 +52,12 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
 
   const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
     try {
-      const response = await fetch(`http://localhost:3001/menuItemPhoto/getMenuItemPhoto/${id}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        process.env.BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
+        {
+          method: "GET",
+        },
+      );
 
       if (response.ok) {
         const blob = await response.blob();
