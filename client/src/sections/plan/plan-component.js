@@ -36,7 +36,7 @@ export const PlanComponent = ({ plan }) => {
   const changePlan = async (id) => {
     setCode("");
     try {
-      const response = await fetch(process.env.BACKEND_SERVER + "/planCode/useCode", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/planCode/useCode", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

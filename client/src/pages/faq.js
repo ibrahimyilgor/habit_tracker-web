@@ -39,7 +39,7 @@ const Faq = () => {
     // declare the data fetching function
     const fetchData = async () => {
       try {
-        const response = await fetch(process.env.BACKEND_SERVER + `/faq/list`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/faq/list`, {
           method: "GET",
           headers: { Authorization: "Bearer " + state?.user?.token },
         });

@@ -113,7 +113,7 @@ const Menu = () => {
       } else if (tabValue === 1) {
         try {
           const response = await fetch(
-            process.env.BACKEND_SERVER + `/pdfMenu/${restaurant.selectedBranchIds}`,
+            process.env.NEXT_PUBLIC_BACKEND_SERVER + `/pdfMenu/${restaurant.selectedBranchIds}`,
             {
               method: "GET",
             },
@@ -169,7 +169,8 @@ const Menu = () => {
         });
 
         const response = await fetch(
-          process.env.BACKEND_SERVER + `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
+          process.env.NEXT_PUBLIC_BACKEND_SERVER +
+            `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
           {
             method: "PUT",
             headers: {
@@ -211,7 +212,7 @@ const Menu = () => {
                   "menu_item_id",
                   currentMenu?.menu?.[indexCategory]?.items?.[indexItem]?._id,
                 );
-                await fetch(process.env.BACKEND_SERVER + "/menuItemPhoto/save", {
+                await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/menuItemPhoto/save", {
                   method: "PUT",
                   body: formData,
                   headers: { Authorization: "Bearer " + state?.user?.token },
@@ -243,7 +244,7 @@ const Menu = () => {
 
         try {
           const responseDeleteMenuItemPhotos = await fetch(
-            process.env.BACKEND_SERVER +
+            process.env.NEXT_PUBLIC_BACKEND_SERVER +
               `/menuItemPhoto/deleteMenuItemPhoto/${restaurant.selectedBranchIds}`,
             {
               method: "DELETE",
@@ -262,14 +263,15 @@ const Menu = () => {
             console.error("Failed to delete MenuItemPhotos");
           }
 
-          await fetch(process.env.BACKEND_SERVER + "/pdfMenu/save", {
+          await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/pdfMenu/save", {
             method: "PUT",
             body: formData,
             headers: { Authorization: "Bearer " + state?.user?.token },
           });
 
           const response = await fetch(
-            process.env.BACKEND_SERVER + `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
+            process.env.NEXT_PUBLIC_BACKEND_SERVER +
+              `/restaurant/${restaurant.selectedBranchIds}/saveMenu`,
             {
               method: "PUT",
               headers: {

@@ -47,13 +47,16 @@ export const CreateCommentModal = ({
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(process.env.BACKEND_SERVER + `/comment/${id}/addComment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/comment/${id}/addComment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rate: rate, comment: comment }),
         },
-        body: JSON.stringify({ rate: rate, comment: comment }),
-      });
+      );
 
       if (response.ok) {
         setSnackbarOpen(true);

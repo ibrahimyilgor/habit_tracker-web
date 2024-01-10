@@ -74,7 +74,7 @@ export const CodesTable = (props) => {
 
   const deleteCode = async (id) => {
     try {
-      await fetch(process.env.BACKEND_SERVER + `/planCode/${id}/deleteCode`, {
+      await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/planCode/${id}/deleteCode`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + state?.user?.token,

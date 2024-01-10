@@ -40,7 +40,7 @@ export default function MenuForCustomers({
   const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
     try {
       const response = await fetch(
-        process.env.BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
         {
           method: "GET",
         },
@@ -80,7 +80,7 @@ export default function MenuForCustomers({
   const fetchLogo = async (id) => {
     try {
       const response = await fetch(
-        process.env.BACKEND_SERVER + `/userAvatar/getAvatarByRestaurantId/${id}`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/userAvatar/getAvatarByRestaurantId/${id}`,
         {
           method: "GET",
         },

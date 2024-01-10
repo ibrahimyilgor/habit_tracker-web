@@ -53,7 +53,7 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
   const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
     try {
       const response = await fetch(
-        process.env.BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
         {
           method: "GET",
         },

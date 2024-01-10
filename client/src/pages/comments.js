@@ -25,10 +25,13 @@ const Comments = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const getComments = async (id, token, name = null) => {
-    const commentsResponse = await fetch(process.env.BACKEND_SERVER + `/comment/${id}`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    });
+    const commentsResponse = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/comment/${id}`,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
     const tempComments = await commentsResponse.json();
 
     console.log("tempComments", tempComments);

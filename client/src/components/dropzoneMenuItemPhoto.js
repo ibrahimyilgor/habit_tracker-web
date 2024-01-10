@@ -43,7 +43,7 @@ export const ImageUploaderMenuItemPhoto = ({
     //   formData.append("file", menu[categoryIndex]?.items[itemIndex]?.photo);
     //   formData.append("user_id", state?.user?.user?._id);
     //   formData.append("menu_item_id", menu[categoryIndex]?.items[itemIndex]?._id);
-    //   await fetch(process.env.BACKEND_SERVER + "/menuItemPhoto/save", {
+    //   await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/menuItemPhoto/save", {
     //     method: "PUT",
     //     body: formData,
     //     headers: { Authorization: "Bearer " + state?.user?.token },
