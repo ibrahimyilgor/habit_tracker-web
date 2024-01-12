@@ -28,8 +28,8 @@ export const AuthGuard = (props) => {
 
     if (
       !isAuthenticated &&
-      !router?.pathname.startsWith("/branchmenu") &&
-      !router?.pathname.startsWith("/auth/change-password")
+      !router?.pathname.includes("/branchmenu") &&
+      !router?.pathname.includes("/auth/change-password")
     ) {
       console.log("Not authenticated, redirecting");
       router

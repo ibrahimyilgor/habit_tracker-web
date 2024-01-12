@@ -17,7 +17,6 @@ const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
   useNProgress();
 
   dotenv.config();
