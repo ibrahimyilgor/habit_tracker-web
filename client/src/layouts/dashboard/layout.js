@@ -29,21 +29,24 @@ export const Layout = withAuthGuard((props) => {
   const pathname = router.pathname;
   const [openNav, setOpenNav] = useState(false);
 
-  const handlePathnameChange = useCallback(() => {
-    console.log("PATHNAME", pathname);
-
-    if (openNav) {
-      setOpenNav(false);
-    }
-  }, [openNav]);
-
   useEffect(
     () => {
-      handlePathnameChange();
+      console.log("PATHNAME", pathname);
+      if (openNav) {
+        setOpenNav(false);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname],
   );
+
+  // useEffect(
+  //   () => {
+  //     console.log("PATHNAME2", pathname);
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [pathname],
+  // );
 
   return (
     <>
