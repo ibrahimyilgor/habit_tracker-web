@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import MenuForCustomers from "src/components/menu-for-customers";
 import CustomizedSnackbars from "src/sections/snackbar";
 
-const BranchMenu = () => {
+const Branchmenu = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = router.query;
@@ -127,6 +127,6 @@ const BranchMenu = () => {
   );
 };
 
-BranchMenu.getLayout = (branchMenu) => <DashboardLayout>{branchMenu}</DashboardLayout>;
+Branchmenu.getLayout = (branchMenu) => <DashboardLayout>{branchMenu}</DashboardLayout>;
 
-export default BranchMenu;
+export default Branchmenu;
