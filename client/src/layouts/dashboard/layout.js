@@ -25,11 +25,10 @@ const LayoutContainer = styled("div")({
 
 export const Layout = withAuthGuard((props) => {
   const { children } = props;
-  const pathname = usePathname();
+  let pathname = window.location.href;
   const [openNav, setOpenNav] = useState(false);
 
   const handlePathnameChange = useCallback(() => {
-    console.log("PATHNAME", pathname);
     if (openNav) {
       setOpenNav(false);
     }
@@ -45,7 +44,7 @@ export const Layout = withAuthGuard((props) => {
 
   return (
     <>
-      {!pathname.startsWith("/branchmenu") && (
+      {!pathname.includes("/branchmenu") && (
         <>
           <TopNav onNavOpen={() => setOpenNav(true)} />
           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
@@ -54,7 +53,7 @@ export const Layout = withAuthGuard((props) => {
           </LayoutRoot>
         </>
       )}
-      {pathname.startsWith("/branchmenu") && (
+      {pathname.includes("/branchmenu") && (
         <div style={{ margin: 0, maxWidth: "none" }}>{children}</div>
       )}
     </>
