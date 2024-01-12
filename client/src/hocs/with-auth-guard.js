@@ -16,6 +16,7 @@ export const withAuthGuard = (Component) => (props) => {
     !items
       .filter((item) => item.path === router.pathname)?.[0]
       ?.permission?.includes(state?.user?.user?.role),
+    router?.pathname,
   );
 
   if (
