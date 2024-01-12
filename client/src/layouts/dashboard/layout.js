@@ -45,7 +45,7 @@ export const Layout = withAuthGuard((props) => {
 
   return (
     <>
-      {!pathname.startsWith("/branchMenu") && (
+      {!pathname.startsWith("/branchmenu") && (
         <>
           <TopNav onNavOpen={() => setOpenNav(true)} />
           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
@@ -54,7 +54,7 @@ export const Layout = withAuthGuard((props) => {
           </LayoutRoot>
         </>
       )}
-      {pathname.startsWith("/branchMenu") && (
+      {pathname.startsWith("/branchmenu") && (
         <div style={{ margin: 0, maxWidth: "none" }}>{children}</div>
       )}
     </>

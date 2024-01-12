@@ -1,6 +1,6 @@
 export const getLinkOfMenu = (id) => {
   const { protocol, hostname, port } = window.location;
-  return `${protocol}//${hostname}${port ? `:${port}` : ""}/branchMenu?id=${id}`;
+  return `${protocol}//${hostname}${port ? `:${port}` : ""}/branchmenu?id=${id}`;
 };
 
 export const navigateToLink = (id) => {

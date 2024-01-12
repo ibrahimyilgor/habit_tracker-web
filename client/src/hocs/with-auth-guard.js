@@ -19,10 +19,10 @@ export const withAuthGuard = (Component) => (props) => {
   );
 
   if (
-    router?.pathname.startsWith("/branchMenu") ||
+    router?.pathname.startsWith("/branchmenu") ||
     router?.pathname.startsWith("/auth/change-password") ||
     !isAuthenticated ||
-    (!router?.pathname.startsWith("/branchMenu") &&
+    (!router?.pathname.startsWith("/branchmenu") &&
       items.filter((item) => item.path === router.pathname).length > 0 &&
       items
         .filter((item) => item.path === router.pathname)?.[0]
