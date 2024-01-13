@@ -68,10 +68,6 @@ const Menu = () => {
     setTabValue(newValue);
   };
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
-
   useEffect(() => {
     console.log("settings", settings);
   }, [settings]);
@@ -391,6 +387,14 @@ const Menu = () => {
                     if (activeStep === steps.length - 1) {
                       saveMenu();
                     } else {
+                      if (activeStep === 0) {
+                        const tempMenu = cloneDeep(
+                          restaurant.restaurants.filter(
+                            (r) => r._id === restaurant.selectedBranchIds,
+                          )?.[0]?.menu ?? [],
+                        );
+                        setMenu(tempMenu);
+                      }
                       setActiveStep((step) => step + 1);
                     }
                   }}

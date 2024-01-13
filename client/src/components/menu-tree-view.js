@@ -50,6 +50,19 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
 
   const [priceUnit, setPriceUnit] = React.useState("");
 
+  React.useEffect(() => {
+    if (activeStep !== 1) {
+      setEditItemIndex();
+      setEditItemText();
+      setEditItemPrice();
+      setEditItemExplanation();
+      setPhotoItemIndex();
+      setPhotoCategoryIndex();
+      setEditIndex();
+      setEditText();
+    }
+  }, [activeStep]);
+
   const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
     try {
       const response = await fetch(
@@ -97,27 +110,28 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
   };
 
   React.useEffect(() => {
-    if (activeStep === 1) {
-      menu.forEach((category, indexCategory) => {
-        category?.items?.forEach((item, indexItem) => {
-          if (!item?.photo) {
-            fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
-          }
-        });
+    console.log("step1");
+    menu.forEach((category, indexCategory) => {
+      console.log("step3", category, indexCategory);
+      category?.items?.forEach((item, indexItem) => {
+        if (!item?.photo) {
+          console.log("step4", item);
+          fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
+        }
       });
-    }
-  }, [activeStep]);
+    });
+  }, []);
 
-  React.useEffect(() => {
-    console.log("restchanged", restaurant);
-    console.log("selectedBranchIdsselectedBranchIds2", restaurant.selectedBranchIds);
-    if (restaurant?.restaurants && restaurant.restaurants.length > 0) {
-      setMenu(
-        restaurant.restaurants.filter((r) => r._id === restaurant.selectedBranchIds)?.[0]?.menu ??
-          [],
-      );
-    }
-  }, [restaurant.selectedBranchIds]);
+  // React.useEffect(() => {
+  //   console.log("restchanged", restaurant);
+  //   console.log("selectedBranchIdsselectedBranchIds2", restaurant.selectedBranchIds);
+  //   if (restaurant?.restaurants && restaurant.restaurants.length > 0) {
+  //     setMenu(
+  //       restaurant.restaurants.filter((r) => r._id === restaurant.selectedBranchIds)?.[0]?.menu ??
+  //         [],
+  //     );
+  //   }
+  // }, [restaurant.selectedBranchIds]);
 
   React.useEffect(() => {
     if (editIndex !== null) {
@@ -601,9 +615,10 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
         setCategoryIndex={setPhotoCategoryIndex}
       />
       {/* 
-        BU İKİLİLER SAYFADA STEPPER İLERİ GERİ GİDİLDİĞİNDE VEYA ISPDF DEGİSTİGİNDE SIFIRLANIYOR MU BAK
-        FOTOLAR KAYDETTEN SONRA TEKRAR BAKTIGIMIZDA GÖRÜNÜYOR MU BAK
-        KATEGORI VE ITEM SILINDIGINDE IMAGEI DA STATETEN SİL
+        + BU İKİLİLER SAYFADA STEPPER İLERİ GERİ GİDİLDİĞİNDE VEYA ISPDF DEGİSTİGİNDE SIFIRLANIYOR MU BAK
+        + FOTOLAR KAYDETTEN SONRA TEKRAR BAKTIGIMIZDA GÖRÜNÜYOR MU BAK
+        FOTOSU OLAN BİR İTEMDAN FOTO SİLİNDİĞİNDE ARKADAN DA SİLİNSİN
+        KATEGORI VE ITEM SILINDIGINDE IMAGEI DA SİL
         + ITEM YERLERİ DEĞİŞTİĞİNDE NE OLUYOR TEST
         + EN SON KAYDETE BASILDIĞINDA ISPDF DEGİLSE IMAGELARI DA BACKENDDE KAYDET.
         + EN SON KAYDETE BASILDIĞINDA ISPDF İSE DBDEKİ, O MENÜDEKİ BÜTÜN IMAGELARI SİL.
