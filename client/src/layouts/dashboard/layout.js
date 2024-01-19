@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { styled } from "@mui/material/styles";
 import { withAuthGuard } from "src/hocs/with-auth-guard";
 import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
+import { useRouter } from "next/router";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -25,27 +25,32 @@ const LayoutContainer = styled("div")({
 
 export const Layout = withAuthGuard((props) => {
   const { children } = props;
-  const pathname = usePathname();
+  const router = useRouter();
+  const pathname = router.pathname;
   const [openNav, setOpenNav] = useState(false);
-
-  const handlePathnameChange = useCallback(() => {
-    console.log("PATHNAME", pathname);
-    if (openNav) {
-      setOpenNav(false);
-    }
-  }, [openNav]);
 
   useEffect(
     () => {
-      handlePathnameChange();
+      console.log("PATHNAME", pathname);
+      if (openNav) {
+        setOpenNav(false);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname],
   );
 
+  // useEffect(
+  //   () => {
+  //     console.log("PATHNAME2", pathname);
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [pathname],
+  // );
+
   return (
     <>
-      {!pathname.startsWith("/branchMenu") && (
+      {!pathname.toLowerCase().includes("/branchmenu") && (
         <>
           <TopNav onNavOpen={() => setOpenNav(true)} />
           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
@@ -54,7 +59,7 @@ export const Layout = withAuthGuard((props) => {
           </LayoutRoot>
         </>
       )}
-      {pathname.startsWith("/branchMenu") && (
+      {pathname.toLowerCase().includes("/branchmenu") && (
         <div style={{ margin: 0, maxWidth: "none" }}>{children}</div>
       )}
     </>

@@ -16,13 +16,14 @@ export const withAuthGuard = (Component) => (props) => {
     !items
       .filter((item) => item.path === router.pathname)?.[0]
       ?.permission?.includes(state?.user?.user?.role),
+    router?.pathname,
   );
 
   if (
-    router?.pathname.startsWith("/branchMenu") ||
-    router?.pathname.startsWith("/auth/change-password") ||
+    router?.pathname.toLowerCase().includes("/branchmenu") ||
+    router?.pathname.toLowerCase().includes("/auth/change-password") ||
     !isAuthenticated ||
-    (!router?.pathname.startsWith("/branchMenu") &&
+    (!router?.pathname.toLowerCase().includes("/branchmenu") &&
       items.filter((item) => item.path === router.pathname).length > 0 &&
       items
         .filter((item) => item.path === router.pathname)?.[0]

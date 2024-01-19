@@ -50,19 +50,22 @@ export const CodesEdit = ({
 
   const editCode = async ({ id, code, plan_id, duration_in_days }) => {
     try {
-      const response = await fetch(`http://localhost:3001/planCode/${id}/updateCode`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state?.user?.token,
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/planCode/${id}/updateCode`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state?.user?.token,
+          },
+          body: JSON.stringify({
+            _id: id,
+            plan_id,
+            code,
+            duration_in_days,
+          }),
         },
-        body: JSON.stringify({
-          _id: id,
-          plan_id,
-          code,
-          duration_in_days,
-        }),
-      });
+      );
       const data = await response.json();
       setSnackbarOpen(true);
       setSnackbarSeverity("success");

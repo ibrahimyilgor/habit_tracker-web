@@ -39,9 +39,12 @@ export default function MenuForCustomers({
 
   const fetchMenuItemPhoto = async (id, indexCategory, indexItem) => {
     try {
-      const response = await fetch(`http://localhost:3001/menuItemPhoto/getMenuItemPhoto/${id}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/menuItemPhoto/getMenuItemPhoto/${id}`,
+        {
+          method: "GET",
+        },
+      );
 
       if (response.ok) {
         const blob = await response.blob();
@@ -77,7 +80,7 @@ export default function MenuForCustomers({
   const fetchLogo = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/userAvatar/getAvatarByRestaurantId/${id}`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/userAvatar/getAvatarByRestaurantId/${id}`,
         {
           method: "GET",
         },

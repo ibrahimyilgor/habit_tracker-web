@@ -30,10 +30,13 @@ const Users = () => {
   const { t } = useTranslation();
 
   const getUsers = async (token) => {
-    const usersResponse = await fetch(`http://localhost:3001/user/getAllUsers`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    });
+    const usersResponse = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/user/getAllUsers`,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
     const tempUsers = await usersResponse.json();
     console.log("ibrahim", tempUsers);
     if (isArray(tempUsers)) {

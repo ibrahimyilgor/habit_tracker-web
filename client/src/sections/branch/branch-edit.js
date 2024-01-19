@@ -49,19 +49,22 @@ export const BranchEdit = ({
     async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch("http://localhost:3001/restaurant/updateBranch", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + state?.user?.token,
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_BACKEND_SERVER + "/restaurant/updateBranch",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + state?.user?.token,
+            },
+            body: JSON.stringify({
+              _id: values?.id,
+              name: values?.name,
+              address: values?.address,
+              phone: values?.phone,
+            }),
           },
-          body: JSON.stringify({
-            _id: values?.id,
-            name: values?.name,
-            address: values?.address,
-            phone: values?.phone,
-          }),
-        });
+        );
         const data = await response.json();
         setSnackbarOpen(true);
         setSnackbarSeverity("success");

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import MenuForCustomers from "src/components/menu-for-customers";
 import CustomizedSnackbars from "src/sections/snackbar";
 
-const BranchMenu = () => {
+const Branchmenu = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = router.query;
@@ -41,7 +41,7 @@ const BranchMenu = () => {
     const fetchData = async () => {
       if (id) {
         const menuResponse = await fetch(
-          `http://localhost:3001/restaurant/${id}/getMenuForCustomers`,
+          process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/getMenuForCustomers`,
           {
             method: "GET",
           },
@@ -50,7 +50,7 @@ const BranchMenu = () => {
 
         console.log("tempMenu", tempMenu, tempMenu?.[0].menu || []);
 
-        const response = await fetch(`http://localhost:3001/pdfMenu/${id}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/pdfMenu/${id}`, {
           method: "GET",
         });
 
@@ -127,6 +127,6 @@ const BranchMenu = () => {
   );
 };
 
-BranchMenu.getLayout = (branchMenu) => <DashboardLayout>{branchMenu}</DashboardLayout>;
+Branchmenu.getLayout = (branchmenu) => <DashboardLayout>{branchmenu}</DashboardLayout>;
 
-export default BranchMenu;
+export default Branchmenu;

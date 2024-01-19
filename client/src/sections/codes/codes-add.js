@@ -41,7 +41,7 @@ export const CodesAdd = ({
 
   const addCode = async ({ code, plan_id, duration_in_days }) => {
     try {
-      const response = await fetch(`http://localhost:3001/planCode/addCode`, {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/planCode/addCode`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -31,10 +31,13 @@ export const RestaurantProvider = (props) => {
   );
 
   const getBranches = async (id, token, name = null) => {
-    const restaurantResponse = await fetch(`http://localhost:3001/restaurant/${id}`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    });
+    const restaurantResponse = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}`,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
     const tempRestaurant = await restaurantResponse.json();
 
     console.log("tempRestaurant", tempRestaurant);
@@ -47,18 +50,21 @@ export const RestaurantProvider = (props) => {
   const addBranch = async ({ id, name, address, phone }) => {
     console.log("ibrahim2", name);
     try {
-      const response = await fetch(`http://localhost:3001/restaurant/${id}/addBranch`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + state?.user?.token,
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/addBranch`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + state?.user?.token,
+          },
+          body: JSON.stringify({
+            name,
+            address,
+            phone,
+          }),
         },
-        body: JSON.stringify({
-          name,
-          address,
-          phone,
-        }),
-      });
+      );
 
       const data = await response.json();
       if (data.restaurant) {
@@ -79,7 +85,7 @@ export const RestaurantProvider = (props) => {
   const deleteBranch = async (id, userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/restaurant/${id}/${userId}/deleteBranch`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/${userId}/deleteBranch`,
         {
           method: "DELETE",
           headers: {

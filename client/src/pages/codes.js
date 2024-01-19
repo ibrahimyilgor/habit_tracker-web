@@ -29,10 +29,13 @@ const Codes = () => {
   const { t } = useTranslation();
 
   const getCodes = async (token) => {
-    const codeResponse = await fetch(`http://localhost:3001/planCode/getCodes`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    });
+    const codeResponse = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/planCode/getCodes`,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
     const tempCodes = await codeResponse.json();
     console.log("tempComments", tempCodes);
 
