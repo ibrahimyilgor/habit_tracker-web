@@ -22,6 +22,7 @@ import menuItemPhotoRoutes from "./routes/menuItemPhoto.js";
 
 import { register } from "./controllers/auth.js";
 import { verifyToken } from "./middleware/auth.js";
+import { startCron } from "./cron.js";
 
 /*CONFIGURATIONS*/
 
@@ -61,6 +62,10 @@ app.use("/plan", planRoutes);
 app.use("/comment", commentRoutes);
 app.use("/planCode", planCodeRoutes);
 app.use("/menuItemPhoto", menuItemPhotoRoutes);
+
+/* CRON START */
+startCron()
+
 
 /*MONGOOSE SETUP*/
 
