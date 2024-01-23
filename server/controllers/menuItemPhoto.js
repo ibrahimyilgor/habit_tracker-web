@@ -81,3 +81,26 @@ export const deleteMenuItemPhotoByMenuId = async (req, res) => {
     });
   }
 };
+
+/*DELETE MENU ITEM PHOTO*/
+
+export const deleteMenuItemPhoto = async (req, res) => {
+  try {
+    // Delete a MenuItemPhoto based on the menu item id provided in the request params
+    await MenuItemPhoto.deleteOne({ menu_item_id: req.params.id });
+
+    res.status(200).json({
+      success: true,
+      message: `Deleted MenuItemPhoto of menu item ID: ${req.params.id}.`,
+    });
+
+    console.log("Deletion successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting MenuItemPhoto",
+      error: error,
+    });
+  }
+};

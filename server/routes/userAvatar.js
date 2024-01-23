@@ -1,6 +1,7 @@
 import express from "express";
 import { verifyToken } from "../middleware/auth.js";
 import {
+  deletUserAvatar,
   getUserAvatar,
   getUserAvatarByRestaurantId,
   saveUserAvatar,
@@ -19,5 +20,8 @@ router.get(
 
 /* SAVE */
 router.put("/save", verifyToken, saveUserAvatar);
+
+/* DELETE */
+router.delete("/deleteUserAvatar/:id", deletUserAvatar);
 
 export default router;

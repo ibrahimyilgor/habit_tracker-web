@@ -14,11 +14,12 @@ import { useAuthContext } from "src/contexts/auth-context";
 import { ParseToDate, ParseToDateAndHour } from "src/utils/date";
 import CustomizedSnackbars from "../snackbar";
 import { useTranslation } from "react-i18next";
+import { useRestaurantContext } from "src/contexts/restaurant-context";
 
 export const AccountProfile = () => {
   const { t } = useTranslation();
 
-  const { userAvatar, setUserAvatar, fetchUserAvatar, userAvatarSrc } = useAuthContext();
+  const { userAvatar, setUserAvatar, fetchUserAvatar, setUserAvatarSrc } = useAuthContext();
   const state = useAuthContext();
 
   const [uploadImageOpen, setUploadImageOpen] = useState();
@@ -38,6 +39,8 @@ export const AccountProfile = () => {
         setAvatarSrc(reader.result);
       };
       reader.readAsDataURL(userAvatar);
+    } else {
+      setAvatarSrc(null);
     }
   }, [userAvatar]);
 
@@ -65,21 +68,46 @@ export const AccountProfile = () => {
     async (event) => {
       event.preventDefault();
       try {
-        const formData = new FormData();
-        formData.append("file", localAvatar);
-        formData.append("user_id", state?.user?.user?._id);
+        if (localAvatar) {
+          const formData = new FormData();
+          formData.append("file", localAvatar);
+          formData.append("user_id", state?.user?.user?._id);
 
-        await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/userAvatar/save", {
-          method: "PUT",
-          body: formData,
-          headers: { Authorization: "Bearer " + state?.user?.token },
-        });
+          await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/userAvatar/save", {
+            method: "PUT",
+            body: formData,
+            headers: { Authorization: "Bearer " + state?.user?.token },
+          });
 
+          setSnackbarOpen(true);
+          setSnackbarSeverity("success");
+          setSnackbarMessage(t("account.avatarUpdateSuccess"));
+        } else {
+          const responseDeleteUserAvatar = await fetch(
+            process.env.NEXT_PUBLIC_BACKEND_SERVER +
+              `/userAvatar/deleteUserAvatar/${state.user?.user?._id}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: "Bearer " + state?.user?.token,
+              },
+            },
+          );
+
+          if (responseDeleteUserAvatar.ok) {
+            setSnackbarOpen(true);
+            setSnackbarSeverity("success");
+            setSnackbarMessage(t("account.avatarUpdateSuccess"));
+          } else {
+            setSnackbarOpen(true);
+            setSnackbarSeverity("error");
+            setSnackbarMessage(t("account.avatarUpdateError"));
+          }
+          setUserAvatar(null);
+          setUserAvatarSrc(null);
+        }
         fetchUserAvatar(state.user?.user?._id);
         setUploadImageOpen(false);
-        setSnackbarOpen(true);
-        setSnackbarSeverity("success");
-        setSnackbarMessage(t("account.avatarUpdateSuccess"));
       } catch (error) {
         setSnackbarOpen(true);
         setSnackbarSeverity("error");
@@ -107,16 +135,18 @@ export const AccountProfile = () => {
               height: "100%",
             }}
           >
-            <img
-              src={avatarSrc}
-              alt={userAvatar?.name || ""}
-              style={{
-                width: 250, // Set the width to 250
-                height: 120, // Set the height to 120
-                marginBottom: 2,
-                objectFit: "cover",
-              }}
-            />
+            {avatarSrc && (
+              <img
+                src={avatarSrc}
+                alt={userAvatar?.name || ""}
+                style={{
+                  width: 250, // Set the width to 250
+                  height: 120, // Set the height to 120
+                  marginBottom: 2,
+                  objectFit: "cover",
+                }}
+              />
+            )}
             <Typography gutterBottom variant="h5">
               {state?.user?.user?.name}
             </Typography>
@@ -138,6 +168,7 @@ export const AccountProfile = () => {
         </CardActions>
       </Card>
       <ImageUploader
+        defaultImage={userAvatar}
         open={uploadImageOpen}
         onClose={() => setUploadImageOpen(false)}
         handleSubmit={handleSubmit}

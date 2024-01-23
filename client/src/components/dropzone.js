@@ -3,7 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 
-export const ImageUploader = ({ open, onClose, handleSubmit, selectedFile, setSelectedFile }) => {
+export const ImageUploader = ({
+  open,
+  onClose,
+  handleSubmit,
+  selectedFile,
+  setSelectedFile,
+  defaultImage,
+}) => {
   const { t } = useTranslation();
 
   const onDrop = (acceptedFiles) => {
@@ -21,6 +28,10 @@ export const ImageUploader = ({ open, onClose, handleSubmit, selectedFile, setSe
   const handleClearFile = () => {
     setSelectedFile(null);
   };
+
+  useEffect(() => {
+    setSelectedFile(defaultImage);
+  }, [open]);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -104,12 +115,7 @@ export const ImageUploader = ({ open, onClose, handleSubmit, selectedFile, setSe
           <Button variant="contained" onClick={onClose} sx={{ mr: 2 }}>
             {t("common.back")}
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={!selectedFile}
-          >
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
             {t("common.save")}
           </Button>
         </Box>

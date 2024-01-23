@@ -85,3 +85,26 @@ export const getUserAvatarByRestaurantId = async (req, res) => {
     res.status(500).json({ message: "Failed to retrieve userAvatar." });
   }
 };
+
+/*DELETE USER AVATAR*/
+
+export const deletUserAvatar = async (req, res) => {
+  try {
+    // Delete a MenuItemPhoto based on the menu item id provided in the request params
+    await UserAvatar.deleteOne({ user_id: req.params.id });
+
+    res.status(200).json({
+      success: true,
+      message: `Deleted user avatar.`,
+    });
+
+    console.log("Deletion successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting userAvatar",
+      error: error,
+    });
+  }
+};

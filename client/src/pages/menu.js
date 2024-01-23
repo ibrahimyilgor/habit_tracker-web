@@ -197,25 +197,40 @@ const Menu = () => {
           );
           const currentMenu = data?.filter((res) => res?._id === restaurant.selectedBranchIds)?.[0];
 
-          tempPhotos.forEach((cat, indexCategory) => {
-            cat.items.forEach(async (item, indexItem) => {
-              if (item?.photo) {
-                const formData = new FormData();
-                formData.append("file", item?.photo);
-                formData.append("user_id", state?.user?.user?._id);
-                formData.append("restaurant_id", restaurant.selectedBranchIds);
-                formData.append(
-                  "menu_item_id",
-                  currentMenu?.menu?.[indexCategory]?.items?.[indexItem]?._id,
-                );
-                await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/menuItemPhoto/save", {
-                  method: "PUT",
-                  body: formData,
-                  headers: { Authorization: "Bearer " + state?.user?.token },
-                });
-              }
+          const responseDeleteMenuItemPhotos = await fetch(
+            process.env.NEXT_PUBLIC_BACKEND_SERVER +
+              `/menuItemPhoto/deleteMenuItemPhoto/${restaurant.selectedBranchIds}`,
+            {
+              method: "DELETE",
+              headers: {
+                Authorization: "Bearer " + state?.user?.token,
+              },
+            },
+          );
+
+          if (responseDeleteMenuItemPhotos.ok) {
+            tempPhotos.forEach((cat, indexCategory) => {
+              cat.items.forEach(async (item, indexItem) => {
+                if (item?.photo) {
+                  const formData = new FormData();
+                  formData.append("file", item?.photo);
+                  formData.append("user_id", state?.user?.user?._id);
+                  formData.append("restaurant_id", restaurant.selectedBranchIds);
+                  formData.append(
+                    "menu_item_id",
+                    currentMenu?.menu?.[indexCategory]?.items?.[indexItem]?._id,
+                  );
+                  await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/menuItemPhoto/save", {
+                    method: "PUT",
+                    body: formData,
+                    headers: { Authorization: "Bearer " + state?.user?.token },
+                  });
+                }
+              });
             });
-          });
+          } else {
+            console.error("Failed to delete MenuItemPhotos");
+          }
         } else {
           console.error("Failed to add menu:", response.statusText);
           setSnackbarOpen(true);

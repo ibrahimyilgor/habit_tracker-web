@@ -150,17 +150,19 @@ export const AuthProvider = (props) => {
         method: "GET",
       });
 
+      if (response.status === 404) {
+        setUserAvatar(null);
+      }
       if (response.ok) {
-        console.log("response", response);
         const blob = await response.blob();
         const file = new File([blob], "fileName", { type: "image/*" });
         setUserAvatar(file);
       } else {
-        console.error("Failed to fetch PDF:", response.statusText);
+        console.error("Failed to fetch user avatar", response.statusText);
         setUserAvatar(null);
       }
     } catch (error) {
-      console.error("Error fetching PDF:", error);
+      console.error("Error fetching user avatar", error);
       setUserAvatar(null);
     }
   };
