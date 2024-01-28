@@ -38,7 +38,6 @@
     "i18next-browser-languagedetector": "^7.0.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
-    "materialui-daterange-picker": "^1.1.92",
     "next": "13.1.6",
     "nprogress": "0.2.0",
     "pdfjs-dist": "^3.4.120",
