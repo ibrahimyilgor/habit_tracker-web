@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import ArrowPathIcon from "@heroicons/react/24/solid/ArrowPathIcon";
 import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -12,6 +13,10 @@ import {
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { Chart } from "src/components/chart";
+import { BranchSelector } from "../branch/branch-selector";
+import { useEffect, useRef, useState } from "react";
+import { OverviewBranchSelector } from "./overview-branch-selector";
+import OverviewDateRangePicker from "./overview-date-range-picker";
 
 const useChartOptions = () => {
   const theme = useTheme();
@@ -107,43 +112,33 @@ const useChartOptions = () => {
 export const OverviewSales = (props) => {
   const { chartSeries, sx } = props;
   const chartOptions = useChartOptions();
+  const cardRef = useRef();
+  const [branchFilter, setBranchFilter] = useState({ value: null });
 
   return (
-    <Card sx={sx}>
-      <CardHeader
-        action={
-          <Button
-            color="inherit"
-            size="small"
-            startIcon={
-              <SvgIcon fontSize="small">
-                <ArrowPathIcon />
-              </SvgIcon>
-            }
-          >
-            Sync
-          </Button>
-        }
-        title="Sales"
-      />
-      <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
-      </CardContent>
-      <Divider />
-      <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button
-          color="inherit"
-          endIcon={
-            <SvgIcon fontSize="small">
-              <ArrowRightIcon />
-            </SvgIcon>
+    <>
+      <Card sx={sx} ref={cardRef}>
+        <CardHeader
+          action={
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <OverviewBranchSelector
+                width={cardRef?.current?.clientWidth / 3}
+                value={branchFilter}
+                handleChange={(e) => {
+                  setBranchFilter(e.target);
+                }}
+              />
+              {/* <OverviewDateRangePicker /> */}
+            </Box>
           }
-          size="small"
-        >
-          Overview
-        </Button>
-      </CardActions>
-    </Card>
+          title="Sales"
+        />
+        <CardContent>
+          <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+        </CardContent>
+        <Divider />
+      </Card>
+    </>
   );
 };
 

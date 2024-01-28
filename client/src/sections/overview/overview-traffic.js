@@ -13,6 +13,9 @@ import {
   useTheme,
 } from "@mui/material";
 import { Chart } from "src/components/chart";
+import { BranchSelector } from "../branch/branch-selector";
+import { useRef, useState } from "react";
+import { OverviewBranchSelector } from "./overview-branch-selector";
 
 const useChartOptions = (labels) => {
   const theme = useTheme();
@@ -79,10 +82,23 @@ const iconMap = {
 export const OverviewTraffic = (props) => {
   const { chartSeries, labels, sx } = props;
   const chartOptions = useChartOptions(labels);
+  const cardRef = useRef();
+  const [branchFilter, setBranchFilter] = useState({ value: null });
 
   return (
-    <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
+    <Card sx={sx} ref={cardRef}>
+      <CardHeader
+        title="Traffic Source"
+        action={
+          <OverviewBranchSelector
+            width={cardRef?.current?.clientWidth / 2}
+            value={branchFilter}
+            handleChange={(e) => {
+              setBranchFilter(e.target);
+            }}
+          />
+        }
+      />
       <CardContent>
         <Chart height={300} options={chartOptions} series={chartSeries} type="donut" width="100%" />
         <Stack

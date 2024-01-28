@@ -194,6 +194,7 @@
         "displayedRows": "{{from}}-{{to}} of {{count}}"
     },
     "overview": {
+        "allBranches": "All branches",
         "branches": "Branches",
         "rateInLast30": "Rates in last 30 days",
         "rateInLast60": "Previous 30-day rates",

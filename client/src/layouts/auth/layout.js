@@ -45,7 +45,7 @@ export const Layout = (props) => {
               p: 3,
               position: "fixed",
               top: 0,
-              width: "50%",
+              width: "100%",
             }}
           >
             <Box

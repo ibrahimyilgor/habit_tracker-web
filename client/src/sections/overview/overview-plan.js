@@ -7,6 +7,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Divider,
   LinearProgress,
   Stack,
   SvgIcon,
@@ -46,7 +47,7 @@ export const OverviewPlan = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{}}>
           <Stack alignItems="center" direction="row" spacing={2} sx={{ mt: 2 }}>
             <Typography color="text.secondary" variant="caption">
               {t("overview.planRemainingDays", {
@@ -56,6 +57,7 @@ export const OverviewPlan = (props) => {
           </Stack>{" "}
         </Box>
       </CardContent>
+      <Divider />
       <CardActions sx={{ justifyContent: "flex-end" }}>
         <Button
           color="inherit"

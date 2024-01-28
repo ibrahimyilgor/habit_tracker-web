@@ -63,7 +63,7 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           <Grid container spacing={3}>
-            <Grid xs={12} sm={6} lg={3}>
+            <Grid xs={12} sm={6} lg={4}>
               <OverviewBranches
                 difference={12}
                 positive
@@ -71,7 +71,7 @@ const Page = () => {
                 value={restaurant.restaurants.length || 0}
               />
             </Grid>
-            <Grid xs={12} sm={6} lg={3}>
+            <Grid xs={12} sm={6} lg={4}>
               <OverviewAverageRates
                 difference={averageRate?.average60?.toFixed?.(2)}
                 positive={averageRate?.average60 <= averageRate?.average30}
@@ -79,7 +79,7 @@ const Page = () => {
                 value={averageRate?.average30?.toFixed?.(2) + " / 10"}
               />
             </Grid>
-            <Grid xs={12} sm={6} lg={3}>
+            <Grid xs={12} sm={6} lg={4}>
               <OverviewPlan
                 sx={{ height: "100%" }}
                 planName={
@@ -90,9 +90,9 @@ const Page = () => {
                 date={state?.user?.user?.plan_expiration_date}
               />
             </Grid>
-            <Grid xs={12} sm={6} lg={3}>
+            {/* <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
-            </Grid>
+            </Grid> */}
             <Grid xs={12} lg={8}>
               <OverviewSales
                 chartSeries={[
@@ -115,7 +115,7 @@ const Page = () => {
                 sx={{ height: "100%" }}
               />
             </Grid>
-            <Grid xs={12} md={6} lg={4}>
+            {/* <Grid xs={12} md={6} lg={4}>
               <OverviewLatestProducts
                 products={[
                   {
@@ -218,7 +218,7 @@ const Page = () => {
                 ]}
                 sx={{ height: "100%" }}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
       </Box>
