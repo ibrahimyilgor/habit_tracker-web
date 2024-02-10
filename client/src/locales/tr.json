@@ -36,7 +36,8 @@
         "tickets": "Biletler",
         "comments": "Yorumlar",
         "codes": "Kodlar",
-        "users": "Kullanıcılar"
+        "users": "Kullanıcılar",
+        "notification-admin": "Bildirimler"
     },
     "branches": {
         "title": "Şubeler",
@@ -267,6 +268,27 @@
         "rowsPerPageLabel": "Sayfa başına kullanıcı sayısı",
         "displayedRows": "{{count}} satırdan {{from}}-{{to}} arası",
         "actions": "Aksiyonlar"
+    },
+    "notifications": {
+        "id": "ID",
+        "title": "Bildirimler",
+        "titleName": "Başlık",
+        "content": "İçerik",
+        "sender": "Oluşturan",
+        "sendTo": "Gönderilen",
+        "date": "Tarih",
+        "actions": "Aksiyonlar",
+        "addNotification": "Bildirim Ekle",
+        "rowsPerPageLabel": "Sayfa başına bildirim sayısı",
+        "displayedRows":"{{count}} satırdan {{from}}-{{to}} arası",
+        "all": "Hepsi",
+        "plan": "Plan",
+        "user": "Kullanıcı",
+        "duration": "Süre (Gün)",
+        "deleteConfirmModalTitle":"Bildirimi Sil",
+        "deleteConfirmModalDescription":"Bildirim silinecek. Silmek istediğinize emin misiniz?",
+        "editSuccessMessage":"Bildirim başarıyla güncellendi",
+        "editErrorMessage": "Bildirim güncellenemedi"
     }
 }
   

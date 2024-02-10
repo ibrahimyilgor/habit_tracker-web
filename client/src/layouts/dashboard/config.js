@@ -202,6 +202,17 @@ export const items = [
       </SvgIcon>
     ),
   },
+  {
+    title: "notification-admin",
+    path: "/notification-admin",
+    permission: ["admin"],
+    not_permitted_plan_ids: [],
+    icon: (
+      <SvgIcon fontSize="small">
+        <BellIcon />
+      </SvgIcon>
+    ),
+  },
   // {
   //   title: 'Customers',
   //   permission: ["admin", "user"],

@@ -19,6 +19,7 @@ import planRoutes from "./routes/plan.js";
 import planCodeRoutes from "./routes/planCode.js";
 import commentRoutes from "./routes/comment.js";
 import menuItemPhotoRoutes from "./routes/menuItemPhoto.js";
+import notificationRoutes from "./routes/notification.js";
 
 import { register } from "./controllers/auth.js";
 import { verifyToken } from "./middleware/auth.js";
@@ -62,10 +63,10 @@ app.use("/plan", planRoutes);
 app.use("/comment", commentRoutes);
 app.use("/planCode", planCodeRoutes);
 app.use("/menuItemPhoto", menuItemPhotoRoutes);
+app.use("/notification", notificationRoutes);
 
 /* CRON START */
-startCron()
-
+startCron();
 
 /*MONGOOSE SETUP*/
 

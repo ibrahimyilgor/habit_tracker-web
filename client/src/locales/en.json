@@ -36,7 +36,8 @@
         "tickets": "Tickets",
         "comments": "Comments",
         "codes": "Codes",
-        "users": "Users"
+        "users": "Users",
+        "notification-admin": "Notifications"
     },
     "branches": {
         "title": "Branches",
@@ -268,6 +269,27 @@
         "rowsPerPageLabel": "Users per page",
         "displayedRows": "{{from}}-{{to}} of {{count}}",
         "actions": "Actions"
+    },
+    "notifications": {
+        "id": "ID",
+        "title": "Notifications",
+        "titleName": "Title",
+        "content": "Content",
+        "sender": "Sender",
+        "sendTo": "Send To",
+        "date": "Date",
+        "actions": "Actions",
+        "addNotification": "Add Notification",
+        "rowsPerPageLabel": "Notifications per page",
+        "displayedRows": "{{from}}-{{to}} of {{count}}",
+        "all": "All",
+        "plan": "Plan",
+        "user": "User",
+        "duration": "Duration (Day)",
+        "deleteConfirmModalTitle":"Delete Notification",
+        "deleteConfirmModalDescription": "Are you sure to delete notification?",
+        "editSuccessMessage": "Notification edited succesfully",
+        "editErrorMessage": "Notification could not be edited"
     }
 }
   
