@@ -30,6 +30,17 @@ const App = (props) => {
       <Head>
         <title>Devias Kit</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HFXTRW3H4Q"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-HFXTRW3H4Q');
+          `}
+        </script>
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
