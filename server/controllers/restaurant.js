@@ -1,6 +1,7 @@
 import MenuItemPhoto from "../models/MenuItemPhoto.js";
 import MenuPdf from "../models/MenuPdf.js";
 import Restaurant from "../models/Restaurant.js";
+import RestaurantVisit from "../models/RestaurantVisit.js";
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
 
@@ -44,6 +45,16 @@ export const addBranch = async (req, res) => {
     await user.save();
     await newRestaurant.save();
 
+    const newRestaurantVisit = new RestaurantVisit({
+      restaurant_id: newRestaurant?._id,
+      data: {
+        year: new Date().getFullYear(),
+        months: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    });
+
+    await newRestaurantVisit.save();
+
     return res
       .status(201)
       .json({ message: "Restaurant added to user", restaurant: newRestaurant });
@@ -58,9 +69,11 @@ export const addBranch = async (req, res) => {
 export const deleteBranch = async (req, res) => {
   console.log("ibrahimmm", req.params.id);
   try {
-    MenuItemPhoto.deleteMany({ restaurant_id: req.params.id });
-
-    Restaurant.findByIdAndDelete(req.params.id)
+    await MenuItemPhoto.deleteMany({ restaurant_id: req.params.id });
+    await RestaurantVisit.deleteMany({ restaurant_id: req.params.id });
+    await Comment.deleteMany({ restaurant_id: req.params.id }); //Delete the comments
+    await MenuPdf.deleteMany({ restaurant_id: req.params.id });
+    await Restaurant.findByIdAndDelete(req.params.id)
       .then((deletedRestaurant) => {
         return User.findByIdAndUpdate(
           req.params.userId,
