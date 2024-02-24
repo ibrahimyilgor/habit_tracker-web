@@ -16,6 +16,9 @@ import { Chart } from "src/components/chart";
 import { BranchSelector } from "../branch/branch-selector";
 import { useRef, useState } from "react";
 import { OverviewBranchSelector } from "./overview-branch-selector";
+import { useTranslation } from "react-i18next";
+import { OverviewYearSelector } from "./overview-year-selector";
+import { sum } from "lodash";
 
 const useChartOptions = (labels) => {
   const theme = useTheme();
@@ -80,25 +83,39 @@ const iconMap = {
 };
 
 export const OverviewTraffic = (props) => {
-  const { chartSeries, labels, sx } = props;
+  const { chartSeries, labels, sx, branchFilter, setBranchFilter, setYearSelector, yearSelector } =
+    props;
+  const { t } = useTranslation();
   const chartOptions = useChartOptions(labels);
   const cardRef = useRef();
-  const [branchFilter, setBranchFilter] = useState({ value: null });
 
   return (
     <Card sx={sx} ref={cardRef}>
       <CardHeader
-        title="Traffic Source"
-        action={
-          <OverviewBranchSelector
-            width={cardRef?.current?.clientWidth / 2}
-            value={branchFilter}
-            handleChange={(e) => {
-              setBranchFilter(e.target);
-            }}
-          />
+        title={
+          <Box sx={{ display: "inline-flex", flexDirection: "row", width: "100%" }}>
+            <Box sx={{ paddingRight: "5px", width: "60%" }}>
+              <OverviewBranchSelector
+                width={"100%"}
+                value={branchFilter}
+                handleChange={(e) => {
+                  setBranchFilter(e.target);
+                }}
+              />
+            </Box>
+            <Box sx={{ paddingLeft: "5px", width: "40%" }}>
+              <OverviewYearSelector
+                width={"100%"}
+                value={yearSelector}
+                handleChange={(e) => {
+                  setYearSelector(e.target.value);
+                }}
+              />
+            </Box>
+          </Box>
         }
       />
+      <CardHeader title={t("overview.trafficSource")} />
       <CardContent>
         <Chart height={300} options={chartOptions} series={chartSeries} type="donut" width="100%" />
         <Stack
@@ -125,7 +142,7 @@ export const OverviewTraffic = (props) => {
                   {label}
                 </Typography>
                 <Typography color="text.secondary" variant="subtitle2">
-                  {item}%
+                  {`${((item / sum(chartSeries)) * 100).toFixed(2)} %`}
                 </Typography>
               </Box>
             );

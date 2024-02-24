@@ -5,11 +5,12 @@ import RestaurantVisit from "../models/RestaurantVisit.js";
 export const getRestaurantVisit = async (req, res) => {
   console.log("req.params", req.params);
   try {
-    const { restaurant_ids } = req.body;
+    const { restaurant_ids } = req.params;
     let visit;
     visit = await RestaurantVisit.find({
-      restaurant_id: { $in: restaurant_ids },
+      restaurant_id: { $in: [restaurant_ids] },
     });
+    console.log("VISITVISITVISIT", visit);
     res.status(200).json(visit);
   } catch (error) {
     console.log(error);

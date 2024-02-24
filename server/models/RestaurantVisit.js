@@ -17,6 +17,21 @@ const RestaurantVisitSchema = new mongoose.Schema({
         required: true,
         default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       },
+      desktop: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      tablet: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      phone: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
     },
   ],
 });

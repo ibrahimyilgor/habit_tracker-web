@@ -201,7 +201,9 @@
         "rateInLast60": "Bir önceki 30 günlük yorumlar",
         "comments": "Yorumlar",
         "plan": "Plan",
-        "planRemainingDays": "Planınızın bitmesine son {{duration}} gün"
+        "planRemainingDays": "Planınızın bitmesine son {{duration}} gün",
+        "sales": "Ziyaretçiler",
+        "trafficSource": "Cihazlar"
     },
     "rePassword": {
         "title": "Şifreni Değiştir",
@@ -289,6 +291,20 @@
         "deleteConfirmModalDescription":"Bildirim silinecek. Silmek istediğinize emin misiniz?",
         "editSuccessMessage":"Bildirim başarıyla güncellendi",
         "editErrorMessage": "Bildirim güncellenemedi"
+    },
+    "months": {
+        "Jan": "Oca",
+        "Feb": "Şub",
+        "Mar": "Mar",
+        "Apr": "Nis",
+        "May": "May",
+        "Jun": "Haz",
+        "Jul": "Tem",
+        "Aug": "Ağu",
+        "Sep": "Eyl",
+        "Oct": "Eki",
+        "Nov": "Kas",
+        "Dec": "Ara"
     }
 }
   

@@ -5,6 +5,10 @@ import { getRestaurantVisit } from "../controllers/restauranVisit.js";
 const router = express.Router();
 
 /* READ VISIT */
-router.get("/getRestaurantVisit", verifyToken, getRestaurantVisit);
+router.get(
+  "/getRestaurantVisit/:restaurant_ids",
+  verifyToken,
+  getRestaurantVisit
+);
 
 export default router;

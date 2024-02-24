@@ -201,7 +201,9 @@
         "rateInLast60": "Previous 30-day rates",
         "comments": "Comments",
         "plan": "Plan",
-        "planRemainingDays": "Last {{duration}} days to end of your plan"
+        "planRemainingDays": "Last {{duration}} days to end of your plan",
+        "sales": "Visitors",
+        "trafficSource": "Devices"
     },
     "rePassword": {
         "title": "Change Password",
@@ -290,6 +292,20 @@
         "deleteConfirmModalDescription": "Are you sure to delete notification?",
         "editSuccessMessage": "Notification edited succesfully",
         "editErrorMessage": "Notification could not be edited"
+    },
+    "months": {
+        "Jan": "Jan",
+        "Feb": "Feb",
+        "Mar": "Mar",
+        "Apr": "Apr",
+        "May": "May",
+        "Jun": "Jun",
+        "Jul": "Jul",
+        "Aug": "Aug",
+        "Sep": "Sep",
+        "Oct": "Oct",
+        "Nov": "Nov",
+        "Dec": "Dec"
     }
 }
   

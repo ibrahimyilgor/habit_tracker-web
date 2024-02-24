@@ -49,6 +49,52 @@ const Page = () => {
     }
   }, []);
 
+  const [branchFilter, setBranchFilter] = useState({ value: null });
+  const [yearSelector, setYearSelector] = useState(new Date().getFullYear());
+  const [visit, setVisit] = useState([{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]);
+  const [device, setDevice] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    console.log("ibrahimvisit", visit, yearSelector);
+  }, [visit, yearSelector]);
+
+  useEffect(() => {
+    if (state?.user?.token && branchFilter?.value && yearSelector) {
+      getVisit(state?.user?.token, branchFilter?.value, yearSelector);
+    }
+  }, [state?.user?.token, branchFilter, yearSelector]);
+
+  const getVisit = async (token, branchIds, yearSelector) => {
+    const visitResponse = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurantVisit/getRestaurantVisit/` + branchIds,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
+    const tempVisit = await visitResponse.json();
+
+    console.log("tempVisit", tempVisit);
+
+    setVisit(
+      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months
+        ? [
+            {
+              name: yearSelector,
+              data: tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months,
+            },
+          ]
+        : [{ name: yearSelector, data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }],
+    );
+    setDevice([
+      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.desktop || 0,
+      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.tablet || 0,
+      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.phone || 0,
+    ]);
+
+    return tempVisit;
+  };
+
   return (
     <>
       <Head>
@@ -93,26 +139,26 @@ const Page = () => {
             {/* <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
             </Grid> */}
-            <Grid xs={12} lg={8}>
+            <Grid xs={12} lg={7}>
               <OverviewSales
-                chartSeries={[
-                  {
-                    name: "This year",
-                    data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
-                  },
-                  {
-                    name: "Last year",
-                    data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
-                  },
-                ]}
                 sx={{ height: "100%" }}
+                branchFilter={branchFilter}
+                setBranchFilter={setBranchFilter}
+                yearSelector={yearSelector}
+                setYearSelector={setYearSelector}
+                visit={visit}
+                setVisit={setVisit}
               />
             </Grid>
-            <Grid xs={12} md={6} lg={4}>
+            <Grid xs={12} md={6} lg={5}>
               <OverviewTraffic
-                chartSeries={[63, 15, 22]}
+                chartSeries={device}
                 labels={["Desktop", "Tablet", "Phone"]}
                 sx={{ height: "100%" }}
+                branchFilter={branchFilter}
+                setBranchFilter={setBranchFilter}
+                yearSelector={yearSelector}
+                setYearSelector={setYearSelector}
               />
             </Grid>
             {/* <Grid xs={12} md={6} lg={4}>

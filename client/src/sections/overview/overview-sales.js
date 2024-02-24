@@ -17,8 +17,11 @@ import { BranchSelector } from "../branch/branch-selector";
 import { useEffect, useRef, useState } from "react";
 import { OverviewBranchSelector } from "./overview-branch-selector";
 import OverviewDateRangePicker from "./overview-date-range-picker";
+import { useAuthContext } from "src/contexts/auth-context";
+import { useTranslation } from "react-i18next";
+import { OverviewYearSelector } from "./overview-year-selector";
 
-const useChartOptions = () => {
+const useChartOptions = (t) => {
   const theme = useTheme();
 
   return {
@@ -77,18 +80,18 @@ const useChartOptions = () => {
         show: true,
       },
       categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        t("months.Jan"),
+        t("months.Feb"),
+        t("months.Mar"),
+        t("months.Apr"),
+        t("months.May"),
+        t("months.Jun"),
+        t("months.Jul"),
+        t("months.Aug"),
+        t("months.Sep"),
+        t("months.Oct"),
+        t("months.Nov"),
+        t("months.Dec"),
       ],
       labels: {
         offsetY: 5,
@@ -99,7 +102,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => value,
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -110,31 +113,42 @@ const useChartOptions = () => {
 };
 
 export const OverviewSales = (props) => {
-  const { chartSeries, sx } = props;
-  const chartOptions = useChartOptions();
+  const { sx, branchFilter, setBranchFilter, setYearSelector, yearSelector, visit } = props;
+  const { t } = useTranslation();
+  const chartOptions = useChartOptions(t);
   const cardRef = useRef();
-  const [branchFilter, setBranchFilter] = useState({ value: null });
+  const state = useAuthContext();
 
   return (
     <>
       <Card sx={sx} ref={cardRef}>
         <CardHeader
-          action={
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <OverviewBranchSelector
-                width={cardRef?.current?.clientWidth / 3}
-                value={branchFilter}
-                handleChange={(e) => {
-                  setBranchFilter(e.target);
-                }}
-              />
-              {/* <OverviewDateRangePicker /> */}
+          title={
+            <Box sx={{ display: "inline-flex", flexDirection: "row", width: "100%" }}>
+              <Box sx={{ paddingRight: "5px", width: "60%" }}>
+                <OverviewBranchSelector
+                  width={"100%"}
+                  value={branchFilter}
+                  handleChange={(e) => {
+                    setBranchFilter(e.target);
+                  }}
+                />
+              </Box>
+              <Box sx={{ paddingLeft: "5px", width: "40%" }}>
+                <OverviewYearSelector
+                  width={"100%"}
+                  value={yearSelector}
+                  handleChange={(e) => {
+                    setYearSelector(e.target.value);
+                  }}
+                />
+              </Box>
             </Box>
           }
-          title="Sales"
         />
+        <CardHeader title={t("overview.sales")} />
         <CardContent>
-          <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+          <Chart height={350} options={chartOptions} series={visit} type="bar" width="100%" />
         </CardContent>
         <Divider />
       </Card>
