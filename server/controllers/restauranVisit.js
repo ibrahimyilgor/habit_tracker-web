@@ -17,7 +17,3 @@ export const getRestaurantVisit = async (req, res) => {
     throw new Error("Error while getting restaurant visit");
   }
 };
-
-// VISIT ÖNYÜZE BAĞLANACAK BRANCH VE YIL SELECTORLARI GELECEK
-// VISIT SU AN DELETUSER VE DELETEBRANCHTE SILINIYOR
-// VISIT SU AN SADECE NEW BRANCHTE BUGUNUN YILIYLA EKLENİYOR

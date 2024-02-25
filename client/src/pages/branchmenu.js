@@ -6,12 +6,13 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import MenuForCustomers from "src/components/menu-for-customers";
 import CustomizedSnackbars from "src/sections/snackbar";
+import usePrevious from "src/utils/use-previous";
 
 const Branchmenu = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = router.query;
-
+  const [idState, setIdState] = useState();
   const [menu, setMenu] = useState([]);
   const [isPdf, setIsPdf] = useState(false);
   const [settings, setSettings] = useState({});
@@ -38,10 +39,14 @@ const Branchmenu = () => {
   }, [file]);
 
   useEffect(() => {
+    setIdState(id);
+  }, [id]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      if (id) {
+      if (idState) {
         const menuResponse = await fetch(
-          process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/getMenuForCustomers`,
+          process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${idState}/getMenuForCustomers`,
           {
             method: "GET",
           },
@@ -50,9 +55,12 @@ const Branchmenu = () => {
 
         console.log("tempMenu", tempMenu, tempMenu?.[0].menu || []);
 
-        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/pdfMenu/${id}`, {
-          method: "GET",
-        });
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_BACKEND_SERVER + `/pdfMenu/${idState}`,
+          {
+            method: "GET",
+          },
+        );
 
         if (response.ok) {
           console.log("response", response);
@@ -76,7 +84,7 @@ const Branchmenu = () => {
     };
 
     fetchData().catch(console.error);
-  }, [id]);
+  }, [idState]);
 
   useEffect(() => {
     menu &&

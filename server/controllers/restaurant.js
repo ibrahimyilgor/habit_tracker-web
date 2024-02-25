@@ -193,6 +193,56 @@ export const getMenuForCustomers = async (req, res) => {
   try {
     let branches;
     branches = await Restaurant.find({ _id: req.params.id });
+
+    const restaurantVisit = await RestaurantVisit.findOne({
+      restaurant_id: req.params.id,
+    });
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    if (!restaurantVisit) {
+      // If the document doesn't exist, create a new one
+      const newRestaurantVisit = new RestaurantVisit({
+        restaurant_id: req.params.id,
+        data: [
+          {
+            year: currentYear.toString(),
+            months: Array(12).fill(0), // Sets all months to 0
+            tablet: 0,
+            phone: 0,
+            desktop: 0,
+          },
+        ],
+      });
+      newRestaurantVisit.data[0].months[currentMonth] = 1;
+      await newRestaurantVisit.save();
+      console.log("Restaurant visit data added for the current year.");
+    } else {
+      if (
+        restaurantVisit?.data?.filter?.((rv) => rv.year == currentYear)
+          ?.length === 0
+      ) {
+        // If the year does not exist
+        const newData = {
+          year: currentYear.toString(),
+          months: Array(12).fill(0), // Sets all months to 1
+          tablet: 0,
+          phone: 0,
+          desktop: 0,
+        };
+        newData.months[currentMonth] = 1;
+        restaurantVisit.data.push(newData);
+        await restaurantVisit.save();
+        console.log(
+          "Current year and months added to existing restaurant visit data."
+        );
+      } else {
+        restaurantVisit.data.filter((rv) => rv.year == currentYear)[0].months[
+          currentMonth
+        ] += 1;
+        await restaurantVisit.save();
+      }
+    }
+
     res.status(200).json(branches);
   } catch (error) {
     console.log(error);

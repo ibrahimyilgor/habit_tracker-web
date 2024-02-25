@@ -65,17 +65,17 @@ const useChartOptions = (labels) => {
 };
 
 const iconMap = {
-  Desktop: (
+  0: (
     <SvgIcon>
       <ComputerDesktopIcon />
     </SvgIcon>
   ),
-  Tablet: (
+  1: (
     <SvgIcon>
       <DeviceTabletIcon />
     </SvgIcon>
   ),
-  Phone: (
+  2: (
     <SvgIcon>
       <PhoneIcon />
     </SvgIcon>
@@ -127,7 +127,6 @@ export const OverviewTraffic = (props) => {
         >
           {chartSeries.map((item, index) => {
             const label = labels[index];
-
             return (
               <Box
                 key={label}
@@ -137,12 +136,14 @@ export const OverviewTraffic = (props) => {
                   alignItems: "center",
                 }}
               >
-                {iconMap[label]}
+                {iconMap[index]}
                 <Typography sx={{ my: 1 }} variant="h6">
                   {label}
                 </Typography>
                 <Typography color="text.secondary" variant="subtitle2">
-                  {`${((item / sum(chartSeries)) * 100).toFixed(2)} %`}
+                  {isNaN(item / sum(chartSeries))
+                    ? "0.00 %"
+                    : `${((item / sum(chartSeries)) * 100).toFixed(2)} %`}
                 </Typography>
               </Box>
             );

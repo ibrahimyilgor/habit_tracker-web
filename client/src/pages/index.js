@@ -17,12 +17,14 @@ import { useAuthContext } from "src/contexts/auth-context";
 import { useEffect, useState } from "react";
 import { useRestaurantContext } from "src/contexts/restaurant-context";
 import i18n from "src/i18n";
+import { useTranslation } from "react-i18next";
 
 const now = new Date();
 
 const Page = () => {
   const restaurant = useRestaurantContext();
   const state = useAuthContext();
+  const { t } = useTranslation();
 
   const [averageRate, setAverageRate] = useState({ average30: 0, average60: 0 });
 
@@ -153,7 +155,7 @@ const Page = () => {
             <Grid xs={12} md={6} lg={5}>
               <OverviewTraffic
                 chartSeries={device}
-                labels={["Desktop", "Tablet", "Phone"]}
+                labels={[t("overview.desktop"), t("overview.tablet"), t("overview.phone")]}
                 sx={{ height: "100%" }}
                 branchFilter={branchFilter}
                 setBranchFilter={setBranchFilter}

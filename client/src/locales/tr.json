@@ -203,7 +203,10 @@
         "plan": "Plan",
         "planRemainingDays": "Planınızın bitmesine son {{duration}} gün",
         "sales": "Ziyaretçiler",
-        "trafficSource": "Cihazlar"
+        "trafficSource": "Cihazlar",
+        "desktop": "Bilgisayar",
+        "tablet": "Tablet",
+        "phone": "Telefon"
     },
     "rePassword": {
         "title": "Şifreni Değiştir",

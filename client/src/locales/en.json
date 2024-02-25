@@ -203,7 +203,10 @@
         "plan": "Plan",
         "planRemainingDays": "Last {{duration}} days to end of your plan",
         "sales": "Visitors",
-        "trafficSource": "Devices"
+        "trafficSource": "Devices",
+        "desktop": "Desktop",
+        "tablet": "Tablet",
+        "phone": "Phone"
     },
     "rePassword": {
         "title": "Change Password",
