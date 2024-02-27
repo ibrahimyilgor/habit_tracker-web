@@ -1,6 +1,9 @@
 import express from "express";
 import { verifyToken } from "../middleware/auth.js";
-import { getRestaurantVisit } from "../controllers/restauranVisit.js";
+import {
+  getAllRestaurantVisitForAUser,
+  getRestaurantVisit,
+} from "../controllers/restauranVisit.js";
 
 const router = express.Router();
 
@@ -9,6 +12,13 @@ router.get(
   "/getRestaurantVisit/:restaurant_ids",
   verifyToken,
   getRestaurantVisit
+);
+
+/* READ VISITS OF ALL RESTAURANTS OF A USER */
+router.get(
+  "/getAllRestaurantVisitForAUser/:user_id",
+  verifyToken,
+  getAllRestaurantVisitForAUser
 );
 
 export default router;

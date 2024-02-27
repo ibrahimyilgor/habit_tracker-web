@@ -57,44 +57,74 @@ const Page = () => {
   const [device, setDevice] = useState([0, 0, 0]);
 
   useEffect(() => {
-    console.log("ibrahimvisit", visit, yearSelector);
-  }, [visit, yearSelector]);
+    console.log("ibrahimvisit", branchFilter, visit, yearSelector);
+  }, [branchFilter, visit, yearSelector]);
 
   useEffect(() => {
-    if (state?.user?.token && branchFilter?.value && yearSelector) {
+    if (state?.user?.token && yearSelector) {
       getVisit(state?.user?.token, branchFilter?.value, yearSelector);
     }
   }, [state?.user?.token, branchFilter, yearSelector]);
 
   const getVisit = async (token, branchIds, yearSelector) => {
-    const visitResponse = await fetch(
-      process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurantVisit/getRestaurantVisit/` + branchIds,
-      {
-        method: "GET",
-        headers: { Authorization: "Bearer " + token },
-      },
-    );
-    const tempVisit = await visitResponse.json();
+    if (branchIds === null) {
+      const visitResponse = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER +
+          `/restaurantVisit/getAllRestaurantVisitForAUser/` +
+          state?.user?.user?._id,
+        {
+          method: "GET",
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
+      const tempVisit = await visitResponse.json();
+      setVisit(
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months
+          ? [
+              {
+                name: yearSelector,
+                data: tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months,
+              },
+            ]
+          : [{ name: yearSelector, data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }],
+      );
+      setDevice([
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.desktop || 0,
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.tablet || 0,
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.phone || 0,
+      ]);
 
-    console.log("tempVisit", tempVisit);
+      return tempVisit;
+    } else {
+      const visitResponse = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurantVisit/getRestaurantVisit/` + branchIds,
+        {
+          method: "GET",
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
+      const tempVisit = await visitResponse.json();
 
-    setVisit(
-      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months
-        ? [
-            {
-              name: yearSelector,
-              data: tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months,
-            },
-          ]
-        : [{ name: yearSelector, data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }],
-    );
-    setDevice([
-      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.desktop || 0,
-      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.tablet || 0,
-      tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.phone || 0,
-    ]);
+      console.log("tempVisit", tempVisit);
 
-    return tempVisit;
+      setVisit(
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months
+          ? [
+              {
+                name: yearSelector,
+                data: tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months,
+              },
+            ]
+          : [{ name: yearSelector, data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }],
+      );
+      setDevice([
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.desktop || 0,
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.tablet || 0,
+        tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.phone || 0,
+      ]);
+
+      return tempVisit;
+    }
   };
 
   return (

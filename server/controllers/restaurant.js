@@ -4,6 +4,7 @@ import Restaurant from "../models/Restaurant.js";
 import RestaurantVisit from "../models/RestaurantVisit.js";
 import User from "../models/User.js";
 import { PLAN_IDS } from "../utils/constants.js";
+import { isDesktop, isTablet, isMobile } from "react-device-detect";
 
 /*READ BRANCHES*/
 
@@ -207,9 +208,9 @@ export const getMenuForCustomers = async (req, res) => {
           {
             year: currentYear.toString(),
             months: Array(12).fill(0), // Sets all months to 0
-            tablet: 0,
-            phone: 0,
-            desktop: 0,
+            tablet: isTablet ? 1 : 0,
+            phone: isMobile ? 1 : 0,
+            desktop: isDesktop ? 1 : 0,
           },
         ],
       });
@@ -225,9 +226,9 @@ export const getMenuForCustomers = async (req, res) => {
         const newData = {
           year: currentYear.toString(),
           months: Array(12).fill(0), // Sets all months to 1
-          tablet: 0,
-          phone: 0,
-          desktop: 0,
+          tablet: isTablet ? 1 : 0,
+          phone: isMobile ? 1 : 0,
+          desktop: isDesktop ? 1 : 0,
         };
         newData.months[currentMonth] = 1;
         restaurantVisit.data.push(newData);
@@ -239,6 +240,19 @@ export const getMenuForCustomers = async (req, res) => {
         restaurantVisit.data.filter((rv) => rv.year == currentYear)[0].months[
           currentMonth
         ] += 1;
+        if (isDesktop) {
+          restaurantVisit.data.filter(
+            (rv) => rv.year == currentYear
+          )[0].desktop += 1;
+        } else if (isMobile) {
+          restaurantVisit.data.filter(
+            (rv) => rv.year == currentYear
+          )[0].phone += 1;
+        } else if (isTablet) {
+          restaurantVisit.data.filter(
+            (rv) => rv.year == currentYear
+          )[0].tablet += 1;
+        }
         await restaurantVisit.save();
       }
     }

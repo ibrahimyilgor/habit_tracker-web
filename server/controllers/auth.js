@@ -121,7 +121,7 @@ export const forgotPassword = async (req, res) => {
       from: "ibrahimyilgor01@gmail.com",
       to: email,
       subject: "Password Reset",
-      html: `<p>You requested to reset your password. Please click the following link to reset your password: <a href="http://localhost:3000/auth/change-password?token=${token}">Reset Password</a></p>`, // You can also provide an HTML version of the email using the 'html' property
+      html: `<p>You requested to reset your password. Please click the following link to reset your password: <a href="${process.env.FRONTEND_URL}/auth/change-password?token=${token}">Reset Password</a></p>`, // You can also provide an HTML version of the email using the 'html' property
     };
 
     // Send the email
