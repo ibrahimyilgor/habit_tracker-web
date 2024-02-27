@@ -14,7 +14,8 @@
     "multer-gridfs-storage": "^5.0.2",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.3",
-    "react-device-detect": "^2.2.3"
+    "react-device-detect": "^2.2.3",
+    "react": "18.2.0"
   },
   "name": "server",
   "version": "1.0.0",
