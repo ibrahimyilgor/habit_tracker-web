@@ -6,6 +6,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTranslation } from "react-i18next";
 import { CreateCommentModal } from "./create-comment";
 import { useState } from "react";
+import { LanguagePopover } from "src/layouts/dashboard/language-popover";
+import { usePopover } from "src/hooks/use-popover";
 
 const ITEM_HEIGHT = 48;
 
@@ -18,6 +20,8 @@ export default function RightTopMenu({
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { t } = useTranslation();
+  const languagePopover = usePopover();
+
   const [openCreateCommentModal, setOpenCreateCommentModal] = useState(false);
 
   const open = Boolean(anchorEl);
@@ -29,18 +33,21 @@ export default function RightTopMenu({
   };
 
   const options = [
-    ...(settings.showComment
-      ? [
-          {
-            name: t("rightTopMenu.comment"),
-            action: () => {
-              setOpenCreateCommentModal(true);
-              handleClose();
-            },
-          },
-        ]
-      : []),
-  ];
+    settings.showComment && {
+      name: t("rightTopMenu.comment"),
+      action: () => {
+        setOpenCreateCommentModal(true);
+        handleClose();
+      },
+    },
+    {
+      name: t("topNav.language"),
+      action: () => {
+        languagePopover.handleOpen();
+        handleClose();
+      },
+    },
+  ].filter(Boolean);
 
   return (
     <div>
@@ -52,6 +59,7 @@ export default function RightTopMenu({
         aria-haspopup="true"
         onClick={handleClick}
         sx={{ color: colors?.itemColor ?? "primary" }}
+        ref={languagePopover.anchorRef}
       >
         <MoreVertIcon />
       </IconButton>
@@ -82,6 +90,11 @@ export default function RightTopMenu({
         setSnackbarOpen={setSnackbarOpen}
         setSnackbarSeverity={setSnackbarSeverity}
         setSnackbarMessage={setSnackbarMessage}
+      />
+      <LanguagePopover
+        anchorEl={languagePopover.anchorRef.current}
+        open={languagePopover.open}
+        onClose={languagePopover.handleClose}
       />
     </div>
   );

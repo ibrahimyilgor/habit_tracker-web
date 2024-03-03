@@ -220,25 +220,23 @@ export default function MenuForCustomers({
               />
             </Box>
           )}
-          {settings?.showComment && (
-            <Box
-              sx={{
-                backgroundColor: colors?.backgroundColor ?? "#ffffff",
-                width: "10%",
-                height: "10vh",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <RightTopMenu
-                settings={settings}
-                colors={colors}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
-                setSnackbarMessage={setSnackbarMessage}
-              />
-            </Box>
-          )}
+          <Box
+            sx={{
+              backgroundColor: colors?.backgroundColor ?? "#ffffff",
+              width: "10%",
+              height: "10vh",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <RightTopMenu
+              settings={settings}
+              colors={colors}
+              setSnackbarOpen={setSnackbarOpen}
+              setSnackbarSeverity={setSnackbarSeverity}
+              setSnackbarMessage={setSnackbarMessage}
+            />
+          </Box>
         </Box>
         {menu.map((value, index) => {
           const labelId = `checkbox-list-secondary-label-${index}`;
