@@ -72,7 +72,7 @@ export const updatePassword = async (req, res) => {
 export const forgotPassword = async (req, res) => {
   try {
     // Extract the user's email address from the request body or parameters
-    const { email } = req.body;
+    const { email, lang } = req.body;
 
     // Generate a reset token and expiration time
     const token = jwt.sign({ name: email }, process.env.JWT_SECRET_RESET_PW, {
@@ -107,6 +107,16 @@ export const forgotPassword = async (req, res) => {
       }
     }
 
+    const message = {
+      tr: `<p>Şifrenizi yenilemek istediniz. Lütfen bu linkten şifre yenileme işlemine devam edin: <a href="${process.env.FRONTEND_URL}/auth/change-password?token=${token}">Şifre Yenile</a></p>`,
+      en: `<p>You requested to reset your password. Please click the following link to reset your password: <a href="${process.env.FRONTEND_URL}/auth/change-password?token=${token}">Reset Password</a></p>`,
+    };
+
+    const subject = {
+      tr: `Şifre Yenileme`,
+      en: `Password Reset`,
+    };
+
     // Create a transporter to send the email (assuming you have SMTP server details)
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -120,8 +130,8 @@ export const forgotPassword = async (req, res) => {
     const mailOptions = {
       from: "ibrahimyilgor01@gmail.com",
       to: email,
-      subject: "Password Reset",
-      html: `<p>You requested to reset your password. Please click the following link to reset your password: <a href="${process.env.FRONTEND_URL}/auth/change-password?token=${token}">Reset Password</a></p>`, // You can also provide an HTML version of the email using the 'html' property
+      subject: subject[lang ?? "en"],
+      html: message[lang ?? "en"], // You can also provide an HTML version of the email using the 'html' property
     };
 
     // Send the email

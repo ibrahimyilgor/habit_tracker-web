@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { links } from "src/pages/404";
 import CustomizedSnackbars from "src/sections/snackbar";
 import { useTranslation } from "react-i18next";
+import i18n from "src/i18n";
 
 export const HANDLERS = {
   INITIALIZE: "INITIALIZE",
@@ -261,7 +262,7 @@ export const AuthProvider = (props) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+          body: JSON.stringify({ ...values, lang: i18n.languages[0] }),
         },
       );
 

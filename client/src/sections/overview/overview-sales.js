@@ -14,7 +14,7 @@ import {
 import { alpha, useTheme } from "@mui/material/styles";
 import { Chart } from "src/components/chart";
 import { BranchSelector } from "../branch/branch-selector";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { OverviewBranchSelector } from "./overview-branch-selector";
 import OverviewDateRangePicker from "./overview-date-range-picker";
 import { useAuthContext } from "src/contexts/auth-context";
