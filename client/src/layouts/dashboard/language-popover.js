@@ -15,7 +15,7 @@ export const languages = [
 ];
 
 export const LanguagePopover = (props) => {
-  const { anchorEl, onClose, open } = props;
+  const { anchorEl, onClose, open, colors } = props;
   const { t } = useTranslation();
 
   const changeLang = (lng) => {
@@ -44,7 +44,7 @@ export const LanguagePopover = (props) => {
       }}
       onClose={onClose}
       open={open}
-      PaperProps={{ sx: { width: 225 } }}
+      PaperProps={{ sx: { width: 225, backgroundColor: colors?.itemColor } }}
     >
       <MenuList
         disablePadding
@@ -58,13 +58,27 @@ export const LanguagePopover = (props) => {
       >
         {languages.map((lang, index) => (
           <Fragment key={lang.code}>
-            <MenuItem onClick={() => changeLang(lang.code)}>
-              <Box sx={{ mr: 1, display: "flex" }}>
+            <MenuItem
+              onClick={() => changeLang(lang.code)}
+              sx={{
+                backgroundColor: colors?.itemColor || "",
+                color: colors?.textColor,
+              }}
+            >
+              <Box
+                sx={{
+                  mr: 1,
+                  display: "flex",
+                  borderStyle: "solid",
+                  borderColor: colors?.textColor,
+                  borderWidth: 1,
+                }}
+              >
                 <img src={lang.flag} alt={lang.name} width={36} height={36 / lang.ratio} />
               </Box>
               <Typography variant="body1">{lang.name}</Typography>
             </MenuItem>
-            {index !== languages.length - 1 && <Divider />}
+            {index !== languages.length - 1 && <Divider sx={{ borderColor: colors?.textColor }} />}
           </Fragment>
         ))}
       </MenuList>

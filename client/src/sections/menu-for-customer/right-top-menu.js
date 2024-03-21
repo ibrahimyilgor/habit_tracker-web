@@ -8,6 +8,7 @@ import { CreateCommentModal } from "./create-comment";
 import { useState } from "react";
 import { LanguagePopover } from "src/layouts/dashboard/language-popover";
 import { usePopover } from "src/hooks/use-popover";
+import { Divider } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 
@@ -75,18 +76,30 @@ export default function RightTopMenu({
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: "20ch",
+            backgroundColor: colors?.itemColor,
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option.name} onClick={option.action}>
-            {option.name}
-          </MenuItem>
+        {options.map((option, index) => (
+          <React.Fragment key={index}>
+            <MenuItem
+              sx={{
+                backgroundColor: colors?.itemColor || "",
+                color: colors?.textColor,
+              }}
+              key={option.name}
+              onClick={option.action}
+            >
+              {option.name}
+            </MenuItem>
+            {index !== options.length - 1 && <Divider sx={{ borderColor: colors?.textColor }} />}
+          </React.Fragment>
         ))}
       </Menu>
       <CreateCommentModal
         open={openCreateCommentModal}
         onClose={() => setOpenCreateCommentModal(false)}
+        colors={colors}
         setSnackbarOpen={setSnackbarOpen}
         setSnackbarSeverity={setSnackbarSeverity}
         setSnackbarMessage={setSnackbarMessage}
@@ -95,6 +108,7 @@ export default function RightTopMenu({
         anchorEl={languagePopover.anchorRef.current}
         open={languagePopover.open}
         onClose={languagePopover.handleClose}
+        colors={colors}
       />
     </div>
   );

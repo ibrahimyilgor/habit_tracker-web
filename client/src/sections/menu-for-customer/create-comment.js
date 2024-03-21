@@ -14,17 +14,17 @@ import {
   TextField,
 } from "@mui/material";
 import { useAuthContext } from "src/contexts/auth-context";
-import CustomizedSnackbars from "../snackbar";
+import { StarBorder } from "@mui/icons-material";
 
 export const CreateCommentModal = ({
   open,
   onClose,
+  colors,
   setSnackbarMessage,
   setSnackbarOpen,
   setSnackbarSeverity,
 }) => {
   const { t } = useTranslation();
-  const state = useAuthContext();
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -86,12 +86,14 @@ export const CreateCommentModal = ({
         }}
       >
         <form onSubmit={addComment}>
-          <Card>
+          <Card sx={{ backgroundColor: colors?.itemColor || "" }}>
             <CardHeader
               subheader={t("comments.makeCommentDetail")}
               title={t("comments.makeComment")}
+              sx={{ color: colors?.textColor || "" }}
+              subheaderTypographyProps={{ color: colors?.textColor || "" }}
             />
-            <Divider />
+            <Divider sx={{ borderColor: colors?.textColor }} />
             <CardContent>
               <Stack spacing={3} sx={{ maxWidth: 400 }}>
                 <Rating
@@ -99,6 +101,8 @@ export const CreateCommentModal = ({
                   value={rate}
                   max={10}
                   onChange={(event, newValue) => setRate(newValue)}
+                  sx={{ color: colors?.textColor || "" }}
+                  emptyIcon={<StarBorder fontSize="inherit" sx={{ color: colors.textColor }} />}
                 />
 
                 <TextField
@@ -107,20 +111,49 @@ export const CreateCommentModal = ({
                   name="confirm"
                   onChange={(e) => setComment(e.target.value)}
                   value={comment}
+                  sx={{
+                    input: {
+                      color: colors?.textColor,
+                    },
+                    "& .MuiInputBase-root": {
+                      borderColor: colors?.textColor,
+                      boxShadow: colors && `${colors.textColor} 0 0 0 2px`,
+                    },
+                    "& .MuiFormLabel-root": {
+                      color: colors?.textColor,
+                    },
+                  }}
                 />
               </Stack>
             </CardContent>
-            <Divider />
+            <Divider sx={{ borderColor: colors?.textColor }} />
             <CardActions sx={{ justifyContent: "flex-end" }}>
               <Button
                 onClick={() => {
                   onClose();
                 }}
+                sx={{
+                  backgroundColor: colors?.textColor,
+                  "&:hover": {
+                    backgroundColor: colors?.textColor ? colors?.textColor + "CC" : "",
+                  },
+                  color: colors?.itemColor,
+                }}
                 variant="contained"
               >
                 {t("common.back")}
               </Button>
-              <Button variant="contained" type="submit">
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  backgroundColor: colors?.textColor,
+                  "&:hover": {
+                    backgroundColor: colors?.textColor ? colors?.textColor + "CC" : "",
+                  },
+                  color: colors?.itemColor,
+                }}
+              >
                 {t("common.save")}
               </Button>
             </CardActions>
