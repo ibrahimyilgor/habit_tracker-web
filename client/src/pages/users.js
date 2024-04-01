@@ -99,7 +99,7 @@ const Users = () => {
   return (
     <>
       <Head>
-        <title>Users | Devias Kit</title>
+        <title>Users | Scandelicious</title>
       </Head>
       <Box
         component="main"

@@ -97,7 +97,7 @@ const NotificationAdmin = () => {
   return (
     <>
       <Head>
-        <title>Notifications | Devias Kit</title>
+        <title>Notifications | Scandelicious</title>
       </Head>
       <Box
         component="main"

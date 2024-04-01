@@ -97,7 +97,7 @@ const Branchmenu = () => {
   return (
     <Box sx={{ backgroundColor: colors?.backgroundColor ?? "#ffffff", height: "100vh" }}>
       <Head>
-        <title>Branches | Devias Kit</title>
+        <title>Branches | Scandelicious</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Stack spacing={3}>

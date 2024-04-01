@@ -78,7 +78,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Register | Devias Kit</title>
+        <title>Register | Scandelicious</title>
       </Head>
       <Box
         sx={{

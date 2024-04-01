@@ -55,7 +55,7 @@ const Page = (props) => {
   return (
     <>
       <Head>
-        <title>Login | Devias Kit</title>
+        <title>Login | Scandelicious</title>
       </Head>
       <Box
         sx={{

@@ -53,7 +53,7 @@ const Page = (props) => {
   return (
     <>
       <Head>
-        <title>Forgot Password | Devias Kit</title>
+        <title>Forgot Password | Scandelicious</title>
       </Head>
       <Box
         sx={{

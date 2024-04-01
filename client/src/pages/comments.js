@@ -89,7 +89,7 @@ const Comments = () => {
   return (
     <>
       <Head>
-        <title>Comments | Devias Kit</title>
+        <title>Comments | Scandelicious</title>
       </Head>
       <Box
         component="main"

@@ -9,7 +9,7 @@ export const SplashScreen = () => {
       <div style={styles.container}>
         <Logo />
         <div style={styles.textContainer}>
-          <Typography style={styles.bigText}>Sitename</Typography>
+          <Typography style={styles.bigText}>Scandelicious</Typography>
           <Typography style={styles.smallText}>Loading...</Typography>
         </div>
       </div>

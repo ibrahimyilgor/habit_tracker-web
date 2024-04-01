@@ -88,7 +88,7 @@ const Page = (props) => {
   return (
     <>
       <Head>
-        <title>Change Password | Devias Kit</title>
+        <title>Change Password | Scandelicious</title>
       </Head>
       <Box
         sx={{

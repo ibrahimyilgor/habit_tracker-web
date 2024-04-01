@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Account | Devias Kit</title>
+        <title>Account | Scandelicious</title>
       </Head>
       <Box
         component="main"

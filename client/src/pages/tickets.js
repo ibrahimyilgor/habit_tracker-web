@@ -61,7 +61,7 @@ const Tickets = () => {
   return (
     <>
       <Head>
-        <title>Tickets | Devias Kit</title>
+        <title>Tickets | Scandelicious</title>
       </Head>
       <Box
         component="main"

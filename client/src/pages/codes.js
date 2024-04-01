@@ -92,7 +92,7 @@ const Codes = () => {
   return (
     <>
       <Head>
-        <title>Codes | Devias Kit</title>
+        <title>Codes | Scandelicious</title>
       </Head>
       <Box
         component="main"

@@ -18,7 +18,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>404 | Devias Kit</title>
+        <title>404 | Scandelicious</title>
       </Head>
       <Box
         component="main"

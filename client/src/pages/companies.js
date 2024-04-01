@@ -74,7 +74,7 @@ const companies = [
 const Page = () => (
   <>
     <Head>
-      <title>Companies | Devias Kit</title>
+      <title>Companies | Scandelicious</title>
     </Head>
     <Box
       component="main"

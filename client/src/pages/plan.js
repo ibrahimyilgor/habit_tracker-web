@@ -46,7 +46,7 @@ const Plan = () => {
   return (
     <>
       <Head>
-        <title>Theme | Devias Kit</title>
+        <title>Theme | Scandelicious</title>
       </Head>
       <Box component="main" sx={{ flexGrow: 1, py: 8, pr: 6 }}>
         <Container maxWidth="lg">

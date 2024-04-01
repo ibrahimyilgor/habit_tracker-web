@@ -66,7 +66,7 @@ const Faq = () => {
   return (
     <>
       <Head>
-        <title>Menu | Devias Kit</title>
+        <title>Menu | Scandelicious</title>
       </Head>
       <Box
         component="main"
