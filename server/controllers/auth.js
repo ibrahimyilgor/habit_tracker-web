@@ -121,14 +121,14 @@ export const forgotPassword = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "ibrahimyilgor01@gmail.com",
-        pass: "xzcikfklzpytnuwv",
+        user: "scandeliciousapp@gmail.com",
+        pass: "ozrknxuidstbejvc",
       },
     });
 
     // Prepare the email content
     const mailOptions = {
-      from: "ibrahimyilgor01@gmail.com",
+      from: "scandeliciousapp@gmail.com",
       to: email,
       subject: subject[lang ?? "en"],
       html: message[lang ?? "en"], // You can also provide an HTML version of the email using the 'html' property
