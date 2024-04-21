@@ -12,11 +12,13 @@ import "simplebar-react/dist/simplebar.min.css";
 import { RestaurantProvider } from "src/contexts/restaurant-context";
 import SplashScreen from "./splash";
 import dotenv from "dotenv";
+import { useTranslation } from "react-i18next";
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { t } = useTranslation();
   useNProgress();
 
   dotenv.config();
@@ -28,7 +30,7 @@ const App = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Scandelicious</title>
+        <title>{t("titles.onlyTitle")}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
 
         {/* Google tag (gtag.js) */}

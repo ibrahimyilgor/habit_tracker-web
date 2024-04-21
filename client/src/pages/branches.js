@@ -74,7 +74,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Branches | Scandelicious</title>
+        <title>{t("titles.branches")}</title>
       </Head>
       <Box
         component="main"

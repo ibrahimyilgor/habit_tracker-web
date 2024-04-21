@@ -18,7 +18,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>404 | Scandelicious</title>
+        <title>{t("titles.404")}</title>
       </Head>
       <Box
         component="main"

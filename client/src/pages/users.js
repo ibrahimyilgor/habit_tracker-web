@@ -99,7 +99,7 @@ const Users = () => {
   return (
     <>
       <Head>
-        <title>Users | Scandelicious</title>
+        <title>{t("titles.users")}</title>
       </Head>
       <Box
         component="main"

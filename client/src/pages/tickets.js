@@ -61,7 +61,7 @@ const Tickets = () => {
   return (
     <>
       <Head>
-        <title>Tickets | Scandelicious</title>
+        <title>{t("titles.tickets")}</title>
       </Head>
       <Box
         component="main"

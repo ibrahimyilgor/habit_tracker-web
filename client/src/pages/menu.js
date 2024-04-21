@@ -328,7 +328,7 @@ const Menu = () => {
   return (
     <>
       <Head>
-        <title>Menu | Scandelicious</title>
+        <title>{t("titles.menu")}</title>
       </Head>
       <Box
         component="main"

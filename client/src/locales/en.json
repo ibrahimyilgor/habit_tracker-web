@@ -102,7 +102,10 @@
         "emailIsRequired": "Email address is required",
         "passwordIsRequired": "Password is required",
         "loginSuccessMessage": "Successful login",
-        "loginErrorMessage": "Unsuccessful login"
+        "loginErrorMessage": "Unsuccessful login",
+        "description": "Prepare QR code menu for your business",
+        "name": "Scandelicious",
+        "welcome": "Welcome to Scandelicious"
     },
     "register": {
         "title": "Register",
@@ -309,6 +312,26 @@
         "Oct": "Oct",
         "Nov": "Nov",
         "Dec": "Dec"
+    },
+    "titles":{
+        "onlyTitle": "Scandelicious",
+        "404": "404 | Scandelicious",
+        "account": "Account | Scandelicious",
+        "branches": "Branches | Scandelicious",
+        "codes": "Codes | Scandelicious",
+        "comments": "Comments | Scandelicious",
+        "faq": "FAQ | Scandelicious",
+        "overview": "Overview | Scandelicious",
+        "menu": "Menu | Scandelicious",
+        "notification": "Notifications | Scandelicious",
+        "plan": "Plan | Scandelicious",
+        "settings": "Settings | Scandelicious",
+        "tickets": "Tickets | Scandelicious",
+        "users": "Users | Scandelicious",
+        "changePassword": "Change Password | Scandelicious",
+        "forgotPassword": "Forgot password | Scandelicious",
+        "login": "Login | Scandelicious",
+        "register": "Register | Scandelicious"
     }
 }
   

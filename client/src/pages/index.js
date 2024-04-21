@@ -130,7 +130,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Overview | Scandelicious</title>
+        <title>{t("titles.overview")}</title>
       </Head>
       <Box
         component="main"

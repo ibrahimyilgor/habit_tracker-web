@@ -53,7 +53,7 @@ const Page = (props) => {
   return (
     <>
       <Head>
-        <title>Forgot Password | Scandelicious</title>
+        <title>{t("titles.forgotPassword")}</title>
       </Head>
       <Box
         sx={{

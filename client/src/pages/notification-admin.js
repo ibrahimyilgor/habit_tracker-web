@@ -97,7 +97,7 @@ const NotificationAdmin = () => {
   return (
     <>
       <Head>
-        <title>Notifications | Scandelicious</title>
+        <title>{t("titles.notification")}</title>
       </Head>
       <Box
         component="main"

@@ -1,6 +1,14 @@
 import PropTypes from "prop-types";
 import NextLink from "next/link";
-import { Box, Typography, Unstable_Grid2 as Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Unstable_Grid2 as Grid,
+  IconButton,
+  Tooltip,
+  Paper,
+  Button,
+} from "@mui/material";
 import { Logo } from "src/components/logo";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { useTranslation } from "react-i18next";
@@ -8,6 +16,7 @@ import { usePopover } from "src/hooks/use-popover";
 import { LanguagePopover, languages } from "../dashboard/language-popover";
 import { useEffect } from "react";
 import i18n from "src/i18n";
+import Carousel from "react-material-ui-carousel";
 
 export const Layout = (props) => {
   const { children } = props;
@@ -18,6 +27,45 @@ export const Layout = (props) => {
 
   const languagePopover = usePopover();
   const { t } = useTranslation();
+
+  function Item(props) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={props.item.src} height="550px" width="220px" />
+        {/* <p>{props.item.description}</p> */}
+      </Box>
+    );
+  }
+
+  var items = [
+    {
+      src: "/assets/start_page/1.png",
+      description: "Probably the most random thing you have ever seen!1",
+    },
+    {
+      src: "/assets/start_page/2.png",
+      description: "Probably the most random thing you have ever seen!2",
+    },
+    {
+      src: "/assets/start_page/3.png",
+      description: "Probably the most random thing you have ever seen!3",
+    },
+    {
+      src: "/assets/start_page/4.png",
+      description: "Probably the most random thing you have ever seen!4",
+    },
+    {
+      src: "/assets/start_page/5.png",
+      description: "Probably the most random thing you have ever seen!5",
+    },
+  ];
 
   return (
     <Box
@@ -90,6 +138,12 @@ export const Layout = (props) => {
           }}
         >
           <Box sx={{ p: 3 }}>
+            <Player
+              autoplay
+              loop
+              src="https://assets4.lottiefiles.com/private_files/lf30_UlXgnV.json"
+              style={{ height: "150px", width: "150px" }}
+            ></Player>
             <Typography
               align="center"
               color="inherit"
@@ -100,22 +154,20 @@ export const Layout = (props) => {
               }}
               variant="h1"
             >
-              Welcome to{" "}
               <Box component="a" sx={{ color: "#15B79E" }} target="_blank">
-                Scandelicious
+                {t("login.welcome")}
               </Box>
             </Typography>
             <Typography align="center" sx={{ mb: 3 }} variant="subtitle1">
-              A professional kit that comes with ready-to-use MUI components.
+              {t("login.description")}
             </Typography>
             <img alt="" src="https://assets4.lottiefiles.com/private_files/lf30_UlXgnV.json" />
 
-            <Player
-              autoplay
-              loop
-              src="https://assets4.lottiefiles.com/private_files/lf30_UlXgnV.json"
-              style={{ height: "300px", width: "300px" }}
-            ></Player>
+            <Carousel duration={300}>
+              {items.map((item, i) => (
+                <Item key={i} item={item} />
+              ))}
+            </Carousel>
           </Box>
         </Grid>
       </Grid>

@@ -92,7 +92,7 @@ const Codes = () => {
   return (
     <>
       <Head>
-        <title>Codes | Scandelicious</title>
+        <title>{t("titles.codes")}</title>
       </Head>
       <Box
         component="main"

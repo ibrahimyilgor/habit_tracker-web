@@ -78,7 +78,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Register | Scandelicious</title>
+        <title>{t("titles.register")}</title>
       </Head>
       <Box
         sx={{

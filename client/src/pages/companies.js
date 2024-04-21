@@ -74,7 +74,7 @@ const companies = [
 const Page = () => (
   <>
     <Head>
-      <title>Companies | Scandelicious</title>
+      <title>{t("titles.404")}</title>
     </Head>
     <Box
       component="main"

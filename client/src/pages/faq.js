@@ -66,7 +66,7 @@ const Faq = () => {
   return (
     <>
       <Head>
-        <title>Menu | Scandelicious</title>
+        <title>{t("titles.faq")}</title>
       </Head>
       <Box
         component="main"

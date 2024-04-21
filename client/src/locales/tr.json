@@ -102,7 +102,10 @@
         "emailIsRequired": "Email adresi gereklidir",
         "passwordIsRequired": "Şifre gereklidir",
         "loginSuccessMessage": "Başarıyla giriş yapıldı",
-        "loginErrorMessage": "Giriş yapılamadı"
+        "loginErrorMessage": "Giriş yapılamadı",
+        "description": "İşletmeniz için QR kodlu menü hazırlayın",
+        "name": "Scandelicious",
+        "welcome": "Scandelicious'a hoşgeldiniz"
     },
     "register": {
         "title": "Kayıt Ol",
@@ -308,6 +311,26 @@
         "Oct": "Eki",
         "Nov": "Kas",
         "Dec": "Ara"
+    },
+    "titles":{
+        "onlyTitle": "Scandelicious",
+        "404": "404 | Scandelicious",
+        "account": "Hesap | Scandelicious",
+        "branches": "Şubeler | Scandelicious",
+        "codes": "Kodlar | Scandelicious",
+        "comments": "Yorumlar | Scandelicious",
+        "faq": "S.S.S | Scandelicious",
+        "overview": "Genel Bakış | Scandelicious",
+        "menu": "Menü | Scandelicious",
+        "notification": "Bildirimler | Scandelicious",
+        "plan": "Plan | Scandelicious",
+        "settings": "Ayarlar | Scandelicious",
+        "tickets": "Biletler | Scandelicious",
+        "users": "Kullanıcılar | Scandelicious",
+        "changePassword": "Şifreyi Değiştir | Scandelicious",
+        "forgotPassword": "Şifremi Unuttum | Scandelicious",
+        "login": "Giriş Yap | Scandelicious",
+        "register": "Kayıt Ol | Scandelicious"
     }
 }
   

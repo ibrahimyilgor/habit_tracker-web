@@ -89,7 +89,7 @@ const Comments = () => {
   return (
     <>
       <Head>
-        <title>Comments | Scandelicious</title>
+        <title>{t("titles.comments")}</title>
       </Head>
       <Box
         component="main"

@@ -7,7 +7,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 const Page = () => (
   <>
     <Head>
-      <title>Settings | Scandelicious</title>
+      <title>{t("titles.settings")}</title>
     </Head>
     <Box
       component="main"
@@ -18,7 +18,7 @@ const Page = () => (
     >
       <Container maxWidth="lg">
         <Stack spacing={3}>
-          <Typography variant="h4">Settings</Typography>
+          <Typography variant="h4">{t("sideNav.settings")}</Typography>
           <SettingsNotifications />
           <SettingsPassword />
         </Stack>
