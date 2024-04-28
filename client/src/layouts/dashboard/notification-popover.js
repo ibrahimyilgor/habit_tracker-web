@@ -8,7 +8,7 @@ export const NotificationPopover = (props) => {
   const [openNotificationModal, setOpenNotificationModal] = useState(false);
   const [notificationDetail, setNotificationDetail] = useState({});
 
-  return (
+  return notifications.length > 0 ? (
     <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -93,5 +93,5 @@ export const NotificationPopover = (props) => {
         }}
       />
     </Popover>
-  );
+  ) : null;
 };
