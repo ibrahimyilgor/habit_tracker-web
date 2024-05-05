@@ -101,14 +101,19 @@ export const CodesTable = (props) => {
         <Box sx={{ minWidth: 800 }}>
           {/* <Search placeholder={t("common.search")} value={searchQuery} setValue={setSearchQuery} /> */}
           <Card sx={{ p: 2 }}>
-            {/* <PlanSelector
+            <PlanSelector
               name="plan"
               setValue={(e) => {
-                setPlan(e.target.value);
+                console.log("eee", e?.target);
+                if (e?.target?.value) {
+                  setPlan(e.target.value);
+                } else {
+                  setPlan({ id: 0, name: "plans" });
+                }
               }}
               withTitle={true}
               value={plan}
-            /> */}
+            />
           </Card>
           <Table>
             <TableHead>

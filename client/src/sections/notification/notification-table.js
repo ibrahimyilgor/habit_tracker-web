@@ -111,7 +111,7 @@ export const NotificationsTable = (props) => {
                         : notif?.send_to?.type === "plan"
                         ? t("notifications." + notif?.send_to?.type) +
                           " - " +
-                          PLAN_NAMES[PLAN_IDS.indexOf(notif?.send_to?.value)]
+                          t("plan.planNames." + PLAN_NAMES[PLAN_IDS.indexOf(notif?.send_to?.value)])
                         : notif?.send_to?.type === "user"
                         ? t("notifications." + notif?.send_to?.type) + " - " + notif?.send_to?.value
                         : "-"}

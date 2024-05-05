@@ -26,7 +26,11 @@ export const PlanSelector = ({ value, setValue, multiple, width, withTitle = fal
       >
         {withTitle && (
           <>
-            <MenuItem key={"clear"} value={{ id: 0, name: "plans" }}>
+            <MenuItem
+              key={"clear"}
+              value={{ id: 0, name: "plans" }}
+              onClick={() => setValue({ id: 0, name: "plans" })}
+            >
               {t("plan.planNames.plans")}
             </MenuItem>
             <Divider />

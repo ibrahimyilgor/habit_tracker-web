@@ -63,7 +63,17 @@ const Codes = () => {
 
   const useCodes = (page, rowsPerPage) => {
     return useMemo(() => {
-      return applyPagination(commentData, page, rowsPerPage);
+      return applyPagination(
+        plan?.id
+          ? commentData?.filter((res) => {
+              // console.log("planplan", res, plan?.id, res?.plan_id === plan?.id);
+              return res?.plan_id === plan?.id;
+            })
+          : commentData || [],
+        // commentData,
+        page,
+        rowsPerPage,
+      );
     }, [page, commentData, rowsPerPage, searchQuery, plan]);
   };
 

@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { UserSelector } from "src/components/user-selector";
 import { PlanSelector } from "../plan/plan-selector";
 import { NotificationSenderTypeSelector } from "src/components/notification-sender-type-selector";
+import { PLAN_IDS, PLAN_NAMES } from "src/utils/constants";
 
 export const NotificationEdit = ({
   back,
@@ -35,7 +36,10 @@ export const NotificationEdit = ({
     id: selectedForEdit?._id,
     title: selectedForEdit?.title,
     content: selectedForEdit?.content,
-    plan: selectedForEdit?.send_to?.value,
+    plan: {
+      id: selectedForEdit?.send_to?.value,
+      name: PLAN_NAMES[PLAN_IDS.indexOf(selectedForEdit?.send_to?.value)],
+    },
     duration: selectedForEdit?.duration,
   });
 
@@ -43,8 +47,8 @@ export const NotificationEdit = ({
   const [user, setUser] = useState(selectedForEdit?.send_to?.value);
 
   useEffect(() => {
-    console.log("values", selectedForEdit);
-  }, [selectedForEdit]);
+    console.log("valuesss", values);
+  }, [values]);
 
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
@@ -147,10 +151,11 @@ export const NotificationEdit = ({
                   <PlanSelector
                     name="plan"
                     setValue={(e) => {
+                      console.log("values3", e.target.value);
                       setValues({ ...values, plan: e.target.value });
                     }}
                     width={"100%"}
-                    value={values?.plan}
+                    value={values.plan}
                   />
                 ) : senderType === "user" ? (
                   <UserSelector selectedUser={user} setSelectedUser={setUser} fullWidth />
