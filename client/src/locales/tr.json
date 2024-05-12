@@ -135,7 +135,9 @@
         "clear": "Temizle",
         "edit": "Düzenle",
         "downloadQR": "QR Kodu İndir",
-        "viewMenu": "Menüyü Görüntüle"
+        "viewMenu": "Menüyü Görüntüle",
+        "month": "Ay",
+        "monthShort": "Ay"
     },
     "menu": {
         "title": "Menü",
@@ -184,7 +186,9 @@
             "BASIC": "Temel",
             "STANDARD": "Standart",
             "PREMIUM": "Premium"    
-        }
+        },
+        "code": "Kod",
+        "paypal": "Paypal"
     },
     "theme": {
         "title": "Tema"

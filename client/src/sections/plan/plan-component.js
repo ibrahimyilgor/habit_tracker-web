@@ -17,6 +17,12 @@ import { useState } from "react";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import { useRestaurantContext } from "src/contexts/restaurant-context";
 import { indigo } from "src/theme/colors";
+import PayPalIntegration from "src/paypal";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { MonthSelector } from "src/components/monthSelector";
 
 export const PlanComponent = ({ plan }) => {
   const { t } = useTranslation();
@@ -28,6 +34,13 @@ export const PlanComponent = ({ plan }) => {
   const [code, setCode] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const [month, setMonth] = useState(1);
+  const [tabValue, setTabValue] = useState(0);
+
+  const tabHandleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   const lang = i18n.languages[0];
 
@@ -103,8 +116,8 @@ export const PlanComponent = ({ plan }) => {
               >
                 {plan?.name.filter((p) => p.language === lang)[0]?.text}
               </Typography>
-              <Typography gutterBottom variant="h6" width="25%">
-                {plan?.price + " €"}
+              <Typography gutterBottom variant="h7" width="25%">
+                {plan?.price + " € /" + t("common.monthShort")}
               </Typography>
             </Box>
             {plan?.description
@@ -136,43 +149,78 @@ export const PlanComponent = ({ plan }) => {
         </CardContent>
         <Divider />
         <CardActions
-          sx={{ padding: state?.user?.user?.plan_id?._id === plan?._id ? "16px" : "8px" }}
+          sx={{
+            padding: state?.user?.user?.plan_id?._id === plan?._id ? "16px" : "8px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <Box sx={{ flexDirection: "row", display: "flex" }}>
-            <Box
-              sx={{
-                width: "70%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                label={t("plan.enterCode")}
-                value={code}
-                onChange={(c) => setCode(c.target.value)}
-              />
-            </Box>
-            <Box
-              sx={{
-                width: "30%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="text"
-                onClick={() => {
-                  changePlan(plan?._id);
-                }}
-                disabled={code.length === 0}
-              >
-                {state?.user?.user?.plan_id?._id === plan?._id
-                  ? t("plan.extendPlan")
-                  : t("plan.changePlan")}
-              </Button>
+            <Box>
+              <TabContext value={tabValue}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    onChange={tabHandleChange}
+                    aria-label="payment-methods"
+                    sx={{ flexDirection: "row", display: "flex", width: "100%" }}
+                  >
+                    <Tab label={t("plan.code")} value={0} />
+                    <Tab label={t("plan.paypal")} value={1} disabled={plan?.price === 0} />
+                  </TabList>
+                </Box>
+                <TabPanel value={0}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TextField
+                      label={t("plan.enterCode")}
+                      value={code}
+                      onChange={(c) => setCode(c.target.value)}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        changePlan(plan?._id);
+                      }}
+                      disabled={code.length === 0}
+                    >
+                      {state?.user?.user?.plan_id?._id === plan?._id
+                        ? t("plan.extendPlan")
+                        : t("plan.changePlan")}
+                    </Button>
+                  </Box>
+                </TabPanel>
+                <TabPanel value={1}>
+                  {" "}
+                  <MonthSelector
+                    month={month}
+                    setMonth={setMonth}
+                    style={{ marginBottom: "5px", width: "100%" }}
+                  />
+                  <PayPalIntegration
+                    price={plan?.price * month}
+                    month={month}
+                    setSnackbarOpen={setSnackbarOpen}
+                    setSnackbarSeverity={setSnackbarSeverity}
+                    setSnackbarMessage={setSnackbarMessage}
+                  />
+                </TabPanel>
+              </TabContext>
             </Box>
           </Box>
         </CardActions>

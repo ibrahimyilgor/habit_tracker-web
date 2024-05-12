@@ -35,6 +35,7 @@ const App = (props) => {
 
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HFXTRW3H4Q"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=my-client-id&currency=EUR&vault=true"></script>
         <script>
           {`
             window.dataLayer = window.dataLayer || [];

@@ -135,7 +135,9 @@
         "clear": "Clear",
         "edit": "Edit",
         "downloadQR": "Download the QR Code",
-        "viewMenu": "View the Menu"
+        "viewMenu": "View the Menu",
+        "month": "Month",
+        "monthShort": "Mo"
     },
     "menu": {
         "title": "Menu",
@@ -184,7 +186,9 @@
             "BASIC": "Basic",
             "STANDARD": "Standard",
             "PREMIUM": "Premium"    
-        }
+        },
+        "code": "Code",
+        "paypal": "Paypal"
     },
     "theme": {
         "title": "Theme"

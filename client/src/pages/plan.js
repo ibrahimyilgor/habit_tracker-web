@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import i18n from "src/i18n";
 import { useAuthContext } from "src/contexts/auth-context";
 import { PlanComponent } from "src/sections/plan/plan-component";
+import PayPalIntegration from "src/paypal";
 
 const Plan = () => {
   const { t } = useTranslation();

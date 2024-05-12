@@ -4,6 +4,7 @@ import {
   addCode,
   deleteCode,
   getCodes,
+  paypalSuccess,
   updateCode,
   useCode,
 } from "../controllers/planCode.js";
@@ -12,6 +13,9 @@ const router = express.Router();
 
 /* USE CODE */
 router.put("/useCode", verifyToken, useCode);
+
+/* PAYPAL SUCCESS */
+router.put("/paypalSuccess", verifyToken, paypalSuccess);
 
 /* GET CODES */
 router.get("/getCodes", verifyToken, getCodes);
