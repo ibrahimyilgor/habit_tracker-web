@@ -37,7 +37,6 @@ const NotificationAdmin = () => {
     );
     const tempNotifications = await usersResponse.json();
     if (Array.isArray(tempNotifications)) {
-      console.log("ibrahim2", tempNotifications);
       setNotifData(tempNotifications);
     }
 

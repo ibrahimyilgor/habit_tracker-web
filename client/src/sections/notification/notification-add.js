@@ -39,10 +39,6 @@ export const NotificationAdd = ({
   const [senderType, setSenderType] = useState("all");
   const [user, setUser] = useState();
 
-  useEffect(() => {
-    console.log("values", senderType, values, user);
-  }, [values, senderType, user]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -84,7 +80,6 @@ export const NotificationAdd = ({
     );
     const tempNotifications = await usersResponse.json();
     if (Array.isArray(tempNotifications)) {
-      console.log("ibrahim2", tempNotifications);
       setNotifData(tempNotifications);
     }
 
@@ -100,7 +95,6 @@ export const NotificationAdd = ({
         user: user,
         duration: values.duration,
       }).then((res) => {
-        console.log("return", res);
         if (res._id) {
           setRefetch((r) => !r);
           back();

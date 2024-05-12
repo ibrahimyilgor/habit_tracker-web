@@ -47,7 +47,6 @@ export const addCode = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Code added", newCode });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -55,7 +54,6 @@ export const addCode = async (req, res) => {
 // GET CODES
 
 export const getCodes = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     let codes = await PlanCode.find();
     if (codes) {
@@ -67,7 +65,6 @@ export const getCodes = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error in getCodes:", err);
     res.status(500).json({
       error: "Internal Server Error",
       success: false,
@@ -86,13 +83,11 @@ export const deleteCode = async (req, res) => {
       })
       .catch((err) => {
         // Handle error
-        console.error(err);
         res
           .status(500)
           .json({ success: false, error: "Failed to delete code" }); // Send error response to client
       });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, error: "Server error" }); // Send error response to client
   }
 };
@@ -114,17 +109,7 @@ export const useCode = async (req, res) => {
       await PlanCode.findByIdAndDelete(planCode._id);
 
       // Update the user's plan_id
-
       const user = await User.findById(user_id);
-
-      console.log(
-        "USERUSERUSERUSERUSERUSERUSERUSER",
-        user,
-        user?.plan_id,
-        plan_id,
-        user.plan_expiration_date,
-        user?.plan_id === plan_id
-      );
 
       let date = new Date();
       if (plan_id === PLAN_IDS[0]) {
@@ -225,7 +210,6 @@ export const useCode = async (req, res) => {
     }
   } catch (err) {
     // General error handling
-    console.error("Error in useCode:", err);
     res.status(500).json({
       error: "Internal Server Error",
       success: false,

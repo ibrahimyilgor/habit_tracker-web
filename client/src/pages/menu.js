@@ -69,24 +69,10 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    console.log("settings", settings);
-  }, [settings]);
-
-  useEffect(() => {
-    console.log("settingsmenu", restaurant);
-  }, [restaurant]);
-
-  useEffect(() => {
-    console.log("ibomenu", menu);
-  }, [menu]);
-
-  useEffect(() => {
     if (
       restaurant?.restaurants?.filter((rest) => rest._id === restaurant.selectedBranchIds).length >
       0
     ) {
-      console.log("settingsibo", settings, restaurant);
-
       setSettings({
         showComment: restaurant?.restaurants?.filter(
           (rest) => rest._id === restaurant.selectedBranchIds,
@@ -116,16 +102,13 @@ const Menu = () => {
           );
 
           if (response.ok) {
-            console.log("response", response);
             const blob = await response.blob();
             const file = new File([blob], "fileName", { type: "application/pdf" });
             setFile(file);
           } else {
-            console.error("Failed to fetch PDF:", response.statusText);
             setFile(null);
           }
         } catch (error) {
-          console.error("Error fetching PDF:", error);
           setFile(null);
         }
       }
@@ -138,7 +121,6 @@ const Menu = () => {
   }, [tabValue]);
 
   useEffect(() => {
-    console.log("ibrahimeee", restaurant.selectedBranchIds, restaurant.restaurants);
     setTabValue(
       restaurant.selectedBranchIds &&
         restaurant?.restaurants.length > 0 &&
@@ -154,7 +136,6 @@ const Menu = () => {
 
   const saveMenu = async () => {
     if (tabValue === 0) {
-      console.log("ibrahimeyattara3", menu);
       const tempPhotos = cloneDeep(menu);
       try {
         let tempMenu = [...menu];
@@ -185,7 +166,6 @@ const Menu = () => {
 
         if (response.ok) {
           const updatedRestaurant = await response.json();
-          console.log("Menu added successfully:", updatedRestaurant);
           setSnackbarOpen(true);
           setSnackbarSeverity("success");
           setSnackbarMessage(t("menu.successMessage"));
@@ -229,16 +209,13 @@ const Menu = () => {
               });
             });
           } else {
-            console.error("Failed to delete MenuItemPhotos");
           }
         } else {
-          console.error("Failed to add menu:", response.statusText);
           setSnackbarOpen(true);
           setSnackbarSeverity("error");
           setSnackbarMessage(t("menu.errorMessage"));
         }
       } catch (error) {
-        console.error("An error occurred while adding the menu:", error.message);
         setSnackbarOpen(true);
         setSnackbarSeverity("error");
         setSnackbarMessage(t("menu.errorMessage"));
@@ -264,15 +241,6 @@ const Menu = () => {
               },
             },
           );
-
-          if (responseDeleteMenuItemPhotos.ok) {
-            // Handle success
-            console.log("MenuItemPhotos deleted successfully");
-            // Additional actions upon successful deletion if needed
-          } else {
-            // Handle other status codes (e.g., 404, 500)
-            console.error("Failed to delete MenuItemPhotos");
-          }
 
           await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/pdfMenu/save", {
             method: "PUT",

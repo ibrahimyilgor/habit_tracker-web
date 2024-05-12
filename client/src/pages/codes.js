@@ -37,7 +37,6 @@ const Codes = () => {
       },
     );
     const tempCodes = await codeResponse.json();
-    console.log("tempComments", tempCodes);
 
     setCommentData(tempCodes);
 
@@ -66,7 +65,6 @@ const Codes = () => {
       return applyPagination(
         plan?.id
           ? commentData?.filter((res) => {
-              // console.log("planplan", res, plan?.id, res?.plan_id === plan?.id);
               return res?.plan_id === plan?.id;
             })
           : commentData || [],

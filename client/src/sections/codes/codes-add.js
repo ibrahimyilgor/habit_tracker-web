@@ -35,10 +35,6 @@ export const CodesAdd = ({
     duration: 0,
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const addCode = async ({ code, plan_id, duration_in_days }) => {
     try {
       const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + `/planCode/addCode`, {
@@ -58,7 +54,6 @@ export const CodesAdd = ({
       return data;
     } catch (err) {
       err.success = false;
-      console.error(err);
       return err;
     }
   };
@@ -78,7 +73,6 @@ export const CodesAdd = ({
         plan_id: values?.plan_id,
         duration_in_days: values?.duration_in_days,
       }).then((res) => {
-        console.log("return", res);
         if (res.success === true) {
           setRefetch((r) => !r);
           setSnackbarOpen(true);

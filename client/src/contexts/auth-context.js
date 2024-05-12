@@ -78,10 +78,6 @@ export const AuthProvider = (props) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("state", state);
-  }, [state]);
-
-  useEffect(() => {
     if (userAvatar) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -103,19 +99,15 @@ export const AuthProvider = (props) => {
 
     try {
       isAuthenticated = window.sessionStorage.getItem("user") !== null;
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
 
     let tempUser = window.sessionStorage.getItem("user");
     if (tempUser) {
       tempUser = JSON.parse(tempUser);
     }
-    console.log("tempuser", tempUser);
 
     if (isAuthenticated) {
       const decode = jwt.verify(tempUser, "SSEECCRREETT");
-      console.log("decode", decode);
 
       if (decode?.id) {
         getUser(decode.id);
@@ -159,18 +151,14 @@ export const AuthProvider = (props) => {
         const file = new File([blob], "fileName", { type: "image/*" });
         setUserAvatar(file);
       } else {
-        console.error("Failed to fetch user avatar", response.statusText);
         setUserAvatar(null);
       }
     } catch (error) {
-      console.error("Error fetching user avatar", error);
       setUserAvatar(null);
     }
   };
 
   const getUser = async (id) => {
-    console.log("decodeid", id);
-
     const userResponse = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/user/" + id, {
       method: "GET",
       headers: {
@@ -180,8 +168,6 @@ export const AuthProvider = (props) => {
     });
 
     const tempUser = await userResponse.json();
-
-    console.log("userr", tempUser);
 
     const user = {
       token: state?.user?.token || JSON.parse(window.sessionStorage.getItem("user")),
@@ -227,7 +213,6 @@ export const AuthProvider = (props) => {
       }
       return { success: true };
     } catch (error) {
-      console.log("errorr", error);
       return { success: false };
     }
   };
@@ -246,11 +231,9 @@ export const AuthProvider = (props) => {
         },
       );
       const data = await response.json();
-      console.log("submit", data);
 
       return data;
     } catch (error) {
-      console.log("errorr", error);
       return { success: false };
     }
   };
@@ -267,7 +250,6 @@ export const AuthProvider = (props) => {
       );
 
       const loggedIn = await loggedInResponse.json();
-      console.log("loggedin", loggedIn);
       if (loggedIn?.error === "no user found") {
         setSnackbarOpen(true);
         setSnackbarSeverity("error");
@@ -319,7 +301,6 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (values, onSubmitProps) => {
-    console.log("ibrahimee", process.env.NEXT_PUBLIC_BACKEND_SERVER);
     const loggedInResponse = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER + "/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -350,11 +331,6 @@ export const AuthProvider = (props) => {
 
   const signUp = async (formData) => {
     try {
-      // const password = formData.password;
-      // const saltRounds = 10;
-      // const hashedPassword = await bcrypt.hash(password, saltRounds);
-      // formData.password = hashedPassword
-
       const savedUserResponse = await fetch(
         process.env.NEXT_PUBLIC_BACKEND_SERVER + "/auth/register",
         {

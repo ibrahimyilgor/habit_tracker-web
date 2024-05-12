@@ -28,14 +28,9 @@ export const CreateCommentModal = ({
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
-  console.log("idid", id);
 
   const [rate, setRate] = useState(0);
   const [comment, setComment] = useState("");
-
-  useEffect(() => {
-    console.log("ratete", rate);
-  }, [rate]);
 
   useEffect(() => {
     if (open) {

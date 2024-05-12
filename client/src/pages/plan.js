@@ -26,13 +26,10 @@ const Plan = () => {
 
         const tempPlanData = await response.json();
 
-        console.log("tempPlanData", tempPlanData);
-
         setPlan(tempPlanData);
 
         return tempPlanData;
       } catch (error) {
-        console.error("Error fetching plans", error);
         return null;
       }
     };

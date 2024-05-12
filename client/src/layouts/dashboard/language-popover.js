@@ -31,10 +31,6 @@ export const LanguagePopover = (props) => {
     [onClose],
   );
 
-  useEffect(() => {
-    console.log("safdfda", i18n);
-  }, [i18n]);
-
   return (
     <Popover
       anchorEl={anchorEl}

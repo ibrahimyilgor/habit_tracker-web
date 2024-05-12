@@ -21,10 +21,6 @@ import Carousel from "react-material-ui-carousel";
 export const Layout = (props) => {
   const { children } = props;
 
-  useEffect(() => {
-    console.log("i18nlanguage", i18n.languages[0]);
-  }, []);
-
   const languagePopover = usePopover();
   const { t } = useTranslation();
 

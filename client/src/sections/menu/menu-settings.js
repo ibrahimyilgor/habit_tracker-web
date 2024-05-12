@@ -25,10 +25,6 @@ export const MenuSettings = ({ settings, setSettings }) => {
     event.preventDefault();
   }, []);
 
-  useEffect(() => {
-    console.log("ibosettings", settings);
-  }, [settings]);
-
   return (
     <form onSubmit={handleSubmit}>
       <Card>
@@ -84,7 +80,6 @@ export const MenuSettings = ({ settings, setSettings }) => {
                         style={{ paddingRight: 10 }}
                         color={settings?.colors?.backgroundColor}
                         onChange={(e) => {
-                          console.log("eeee", e);
                           let backgroundCol = { ...settings?.colors, backgroundColor: e?.hex };
                           setSettings({ ...settings, colors: backgroundCol });
                         }}

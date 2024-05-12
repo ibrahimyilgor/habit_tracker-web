@@ -31,7 +31,6 @@ export const Layout = withAuthGuard((props) => {
 
   useEffect(
     () => {
-      console.log("PATHNAME", pathname);
       if (openNav) {
         setOpenNav(false);
       }
@@ -39,14 +38,6 @@ export const Layout = withAuthGuard((props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname],
   );
-
-  // useEffect(
-  //   () => {
-  //     console.log("PATHNAME2", pathname);
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [pathname],
-  // );
 
   return (
     <>

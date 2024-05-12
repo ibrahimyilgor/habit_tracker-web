@@ -46,10 +46,6 @@ export const NotificationEdit = ({
   const [senderType, setSenderType] = useState(selectedForEdit?.send_to?.type);
   const [user, setUser] = useState(selectedForEdit?.send_to?.value);
 
-  useEffect(() => {
-    console.log("valuesss", values);
-  }, [values]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -100,7 +96,6 @@ export const NotificationEdit = ({
         back();
         return data;
       } catch (err) {
-        console.error("Error updating notification:", err);
         setSnackbarOpen(true);
         setSnackbarSeverity("error");
         setSnackbarMessage(t("notifications.editErrorMessage"));
@@ -151,7 +146,6 @@ export const NotificationEdit = ({
                   <PlanSelector
                     name="plan"
                     setValue={(e) => {
-                      console.log("values3", e.target.value);
                       setValues({ ...values, plan: e.target.value });
                     }}
                     width={"100%"}

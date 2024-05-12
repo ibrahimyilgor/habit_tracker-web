@@ -5,12 +5,7 @@ import { useTranslation } from "react-i18next";
 export const OverviewYearSelector = ({ width, value, handleChange }) => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.log("valuevalue", value);
-  }, [value]);
-
   const renderValue = (selected) => {
-    console.log("ibrahimselectedyear", selected);
     return selected;
   };
 

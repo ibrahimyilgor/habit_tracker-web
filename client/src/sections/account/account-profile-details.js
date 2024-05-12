@@ -26,10 +26,6 @@ export const AccountProfileDetails = ({
     address: state?.user?.user?.address || "",
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const { t } = useTranslation();
 
   const handleChange = useCallback((event) => {
@@ -57,7 +53,6 @@ export const AccountProfileDetails = ({
           }),
         });
         const data = await response.json();
-        console.log("submit", data);
         setSnackbarOpen(true);
         setSnackbarSeverity("success");
         setSnackbarMessage(t("account.updateSuccessMessage"));
@@ -65,7 +60,6 @@ export const AccountProfileDetails = ({
 
         return data;
       } catch (error) {
-        console.error("Error updating user:", error);
         setSnackbarOpen(true);
         setSnackbarSeverity("error");
         setSnackbarMessage(t("account.updateErrorMessage"));

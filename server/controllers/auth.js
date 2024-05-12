@@ -11,7 +11,6 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
 
     const salt = await bcrypt.genSalt();
-    console.log("pwsalt", name, password, salt, req.body);
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
@@ -56,8 +55,11 @@ export const updatePassword = async (req, res) => {
   try {
     const { _id, password } = req.body;
 
+    if (_id.toString() === "6543dae7ca5aac09bf7d560c") {
+      res.status(500).json({ error: "test account cannot be changed" });
+    }
+
     const salt = await bcrypt.genSalt();
-    console.log("pwsalt", _id, password, salt, req.body);
     const passwordHash = await bcrypt.hash(password, salt);
 
     await User.updateOne({ _id: _id }, { $set: { password: passwordHash } });
@@ -73,6 +75,10 @@ export const forgotPassword = async (req, res) => {
   try {
     // Extract the user's email address from the request body or parameters
     const { email, lang } = req.body;
+
+    if (email === "test@test.test") {
+      res.status(500).json({});
+    }
 
     // Generate a reset token and expiration time
     const token = jwt.sign({ name: email }, process.env.JWT_SECRET_RESET_PW, {
@@ -137,10 +143,8 @@ export const forgotPassword = async (req, res) => {
     // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error sending email:", error);
         // Handle the error and send an appropriate response to the client
       } else {
-        console.log("Email sent:", info.response);
         // Handle the successful email sending and send a response to the client
       }
     });
@@ -159,6 +163,10 @@ export const changePassword = async (req, res) => {
     const { password, token } = req.body;
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
+
+    if (token.name === "test@test.test") {
+      res.status(500).json({ error: "test account cannot be changed" });
+    }
 
     await User.updateOne(
       { email: token.name },

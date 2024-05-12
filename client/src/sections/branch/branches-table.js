@@ -230,7 +230,6 @@ export const BranchesTable = (props) => {
         }}
         rightAction={() => {
           restaurant.deleteBranch(selectedForDelete?._id, state?.user?.user?._id).then((res) => {
-            console.log("deletebranchres", res);
             if (res.success === true) {
               setSnackbarOpen(true);
               setSnackbarSeverity("success");

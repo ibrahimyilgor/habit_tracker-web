@@ -38,7 +38,6 @@ const Users = () => {
       },
     );
     const tempUsers = await usersResponse.json();
-    console.log("ibrahim", tempUsers);
     if (isArray(tempUsers)) {
       setUsersData(tempUsers);
     }

@@ -51,8 +51,6 @@ export default function MenuForCustomers({
         const file = new File([blob], "fileName", { type: "image/*" });
 
         if (file) {
-          console.log("ibrahimfile", file);
-
           let tempMenu = [...menu];
           tempMenu[indexCategory].items[indexItem].photo = file;
           setMenu(tempMenu);
@@ -68,11 +66,9 @@ export default function MenuForCustomers({
 
         return file;
       } else {
-        console.error("Failed to fetch menu item photo:", response.statusText, id);
         return null;
       }
     } catch (error) {
-      console.error("Error fetching menu item photo:", error, id);
       return null;
     }
   };
@@ -87,23 +83,18 @@ export default function MenuForCustomers({
       );
 
       if (response.ok) {
-        console.log("response", response);
         const blob = await response.blob();
         const file = new File([blob], "fileName", { type: "image/*" });
         setUserAvatar(file);
       } else {
-        console.error("Failed to fetch PDF:", response.statusText);
         setUserAvatar(null);
       }
     } catch (error) {
-      console.error("Error fetching PDF:", error);
       setUserAvatar(null);
     }
   };
 
   React.useEffect(() => {
-    console.log("menu", menu);
-
     menu.forEach((category, indexCategory) => {
       category?.items?.forEach((item, indexItem) => {
         if (!item?.photo) {
@@ -118,10 +109,6 @@ export default function MenuForCustomers({
       fetchLogo(id);
     }
   }, [settings]);
-
-  React.useEffect(() => {
-    console.log("imageRef", imageRef);
-  }, [imageRef]);
 
   React.useEffect(() => {
     // Filter out any elements in expandedItem that have an index value not in expanded

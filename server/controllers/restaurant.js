@@ -9,13 +9,11 @@ import { isDesktop, isTablet, isMobile } from "react-device-detect";
 /*READ BRANCHES*/
 
 export const getBranches = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     let branches;
     branches = await Restaurant.find({ user_id: req.params.id });
     res.status(200).json(branches);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting restaurant by user id");
   }
 };
@@ -23,7 +21,6 @@ export const getBranches = async (req, res) => {
 /*ADD BRANCH*/
 
 export const addBranch = async (req, res) => {
-  console.log("ibrahim", req.body);
   try {
     const user = await User.findById(req.params.userId);
 
@@ -60,7 +57,6 @@ export const addBranch = async (req, res) => {
       .status(201)
       .json({ message: "Restaurant added to user", restaurant: newRestaurant });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -68,7 +64,6 @@ export const addBranch = async (req, res) => {
 /*DELETE BRANCH*/
 
 export const deleteBranch = async (req, res) => {
-  console.log("ibrahimmm", req.params.id);
   try {
     await MenuItemPhoto.deleteMany({ restaurant_id: req.params.id });
     await RestaurantVisit.deleteMany({ restaurant_id: req.params.id });
@@ -88,13 +83,11 @@ export const deleteBranch = async (req, res) => {
       })
       .catch((err) => {
         // Handle error
-        console.error(err);
         res
           .status(500)
           .json({ success: false, error: "Failed to delete branch" }); // Send error response to client
       });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, error: "Server error" }); // Send error response to client
   }
 };
@@ -117,7 +110,6 @@ export const updateBranch = async (req, res) => {
 /*ADD MENU*/
 
 export const saveMenu = async (req, res) => {
-  console.log("ibrahimee", req.body.menu);
   try {
     const { branchId } = req.params; // Retrieve the restaurant ID from the request parameters
     let { menu, isPdf, settings, colors, planId } = req.body; // Retrieve the menu from the request body
@@ -145,7 +137,6 @@ export const saveMenu = async (req, res) => {
       });
 
       if (!deletedMenuPdf) {
-        console.log("No associated MenuPdf found for deletion.");
       }
 
       updatedRestaurant = await Restaurant.updateOne(
@@ -182,7 +173,6 @@ export const saveMenu = async (req, res) => {
 
     res.status(200).json(updatedRestaurant); // Send the updated restaurant as a response
   } catch (error) {
-    console.log("ibrahimeerr", error);
     res.status(500).json({ error: "An error occurred while adding the menu." });
   }
 };
@@ -190,7 +180,6 @@ export const saveMenu = async (req, res) => {
 /*GET MENU FOR CUSTOMERS*/
 
 export const getMenuForCustomers = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     let branches;
     branches = await Restaurant.find({ _id: req.params.id });
@@ -216,7 +205,6 @@ export const getMenuForCustomers = async (req, res) => {
       });
       newRestaurantVisit.data[0].months[currentMonth] = 1;
       await newRestaurantVisit.save();
-      console.log("Restaurant visit data added for the current year.");
     } else {
       if (
         restaurantVisit?.data?.filter?.((rv) => rv.year == currentYear)
@@ -233,9 +221,6 @@ export const getMenuForCustomers = async (req, res) => {
         newData.months[currentMonth] = 1;
         restaurantVisit.data.push(newData);
         await restaurantVisit.save();
-        console.log(
-          "Current year and months added to existing restaurant visit data."
-        );
       } else {
         restaurantVisit.data.filter((rv) => rv.year == currentYear)[0].months[
           currentMonth
@@ -259,7 +244,6 @@ export const getMenuForCustomers = async (req, res) => {
 
     res.status(200).json(branches);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting restaurant by user id");
   }
 };

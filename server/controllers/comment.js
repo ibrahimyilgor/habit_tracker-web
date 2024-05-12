@@ -5,7 +5,6 @@ import User from "../models/User.js";
 //GET COMMENTS
 
 export const getComments = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     let comments = await Comment.find({ user_id: req.params.id });
 
@@ -13,13 +12,11 @@ export const getComments = async (req, res) => {
       let restaurant = await Restaurant.findOne({
         _id: comments[i].restaurant_id,
       });
-      console.log("rest", comments[i]);
       comments[i] = { ...comments[i]._doc, restaurant: restaurant || null };
     }
 
     res.status(200).json(comments);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting comments");
   }
 };
@@ -27,7 +24,6 @@ export const getComments = async (req, res) => {
 // DELETE COMMENT
 
 export const deleteComment = async (req, res) => {
-  console.log("ibrahimmm", req.params.id);
   try {
     Comment.findByIdAndDelete(req.params.id)
       .then((updatedUser) => {
@@ -36,13 +32,11 @@ export const deleteComment = async (req, res) => {
       })
       .catch((err) => {
         // Handle error
-        console.error(err);
         res
           .status(500)
           .json({ success: false, error: "Failed to delete branch" }); // Send error response to client
       });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, error: "Server error" }); // Send error response to client
   }
 };
@@ -50,7 +44,6 @@ export const deleteComment = async (req, res) => {
 // ADD COMMENT
 
 export const addComment = async (req, res) => {
-  console.log("pppppppppppp", req.params);
   try {
     const { restaurantId } = req.params; // Retrieve the restaurant ID from the request parameters
     const { rate, comment } = req.body; // Retrieve the rate and comment from the request body
@@ -78,7 +71,6 @@ export const addComment = async (req, res) => {
 
     res.status(201).json(savedComment);
   } catch (error) {
-    console.log("Error:", error);
     res
       .status(500)
       .json({ error: "An error occurred while adding the comment." });
@@ -125,7 +117,6 @@ export const getAverageRateOfCommentsInLast30Days = async (req, res) => {
 
     res.status(200).json({ average30, average60 });
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting average rate of comments");
   }
 };

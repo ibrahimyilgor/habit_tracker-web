@@ -37,10 +37,6 @@ export const CodesEdit = ({
     duration: selectedForEdit?.duration_in_days,
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -74,7 +70,6 @@ export const CodesEdit = ({
       back();
       return data;
     } catch (err) {
-      console.error("Error updating code:", err);
       setSnackbarOpen(true);
       setSnackbarSeverity("error");
       setSnackbarMessage(t("codes.editErrorMessage"));

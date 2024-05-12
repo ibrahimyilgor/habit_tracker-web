@@ -12,14 +12,6 @@ export const RestaurantProvider = (props) => {
   const router = useRouter();
   const state = useAuthContext();
 
-  useEffect(() => {
-    console.log("restaurantss", restaurants, state);
-  }, [restaurants]);
-
-  useEffect(() => {
-    console.log("selectedBranchIdsselectedBranchIds", selectedBranchIds);
-  }, [selectedBranchIds]);
-
   useEffect(
     () => {
       if (state?.user?.token) {
@@ -27,7 +19,7 @@ export const RestaurantProvider = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state?.user?.token],
+    [state?.user?.token]
   );
 
   const getBranches = async (id, token, name = null) => {
@@ -36,11 +28,9 @@ export const RestaurantProvider = (props) => {
       {
         method: "GET",
         headers: { Authorization: "Bearer " + token },
-      },
+      }
     );
     const tempRestaurant = await restaurantResponse.json();
-
-    console.log("tempRestaurant", tempRestaurant);
 
     setRestaurants(tempRestaurant);
 
@@ -48,7 +38,6 @@ export const RestaurantProvider = (props) => {
   };
 
   const addBranch = async ({ id, name, address, phone }) => {
-    console.log("ibrahim2", name);
     try {
       const response = await fetch(
         process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/addBranch`,
@@ -63,7 +52,7 @@ export const RestaurantProvider = (props) => {
             address,
             phone,
           }),
-        },
+        }
       );
 
       const data = await response.json();
@@ -72,8 +61,6 @@ export const RestaurantProvider = (props) => {
       } else {
         data.success = false;
       }
-      console.log(data.message);
-      console.log(data.restaurant);
       return data;
     } catch (err) {
       err.success = false;
@@ -85,13 +72,14 @@ export const RestaurantProvider = (props) => {
   const deleteBranch = async (id, userId) => {
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_SERVER + `/restaurant/${id}/${userId}/deleteBranch`,
+        process.env.NEXT_PUBLIC_BACKEND_SERVER +
+          `/restaurant/${id}/${userId}/deleteBranch`,
         {
           method: "DELETE",
           headers: {
             Authorization: "Bearer " + state?.user?.token,
           },
-        },
+        }
       );
       const data = await response.json();
       if (selectedBranchIds === id) {

@@ -9,16 +9,6 @@ export const withAuthGuard = (Component) => (props) => {
   const state = useAuthContext();
   const { isAuthenticated } = useAuthContext();
 
-  console.log(
-    "igipram",
-    items.filter((item) => item.path === router.pathname),
-    state?.user?.user?.role,
-    !items
-      .filter((item) => item.path === router.pathname)?.[0]
-      ?.permission?.includes(state?.user?.user?.role),
-    router?.pathname,
-  );
-
   if (
     router?.pathname.toLowerCase().includes("/branchmenu") ||
     router?.pathname.toLowerCase().includes("/auth/change-password") ||

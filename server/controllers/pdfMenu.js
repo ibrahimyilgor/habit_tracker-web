@@ -28,7 +28,6 @@ export const savePdf = async (req, res) => {
 
     res.status(201).json({ message: "PDF uploaded successfully." });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to upload PDF." });
   }
 };
@@ -50,7 +49,6 @@ export const getPdf = async (req, res) => {
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdf.file);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to retrieve PDF." });
   }
 };

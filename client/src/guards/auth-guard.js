@@ -31,13 +31,10 @@ export const AuthGuard = (props) => {
       !router?.pathname.toLowerCase().includes("/branchmenu") &&
       !router?.pathname.toLowerCase().includes("/auth/change-password")
     ) {
-      console.log("Not authenticated, redirecting");
-      router
-        .replace({
-          pathname: "/auth/login",
-          query: router.asPath !== "/" ? { continueUrl: router.asPath } : undefined,
-        })
-        .catch(console.error);
+      router.replace({
+        pathname: "/auth/login",
+        query: router.asPath !== "/" ? { continueUrl: router.asPath } : undefined,
+      });
     } else {
       setChecked(true);
     }

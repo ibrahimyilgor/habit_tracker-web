@@ -7,17 +7,7 @@ export const OverviewBranchSelector = ({ width, value, handleChange }) => {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
 
-  useEffect(() => {
-    console.log("valuevalue", value);
-  }, [value]);
-
-  // const handleChange = (event) => {
-  //   const { value } = event.target;
-  //   // restaurant?.setSelectedBranchIds(value);
-  // };
-
   const renderValue = (selected) => {
-    console.log("ibrahimselected", selected);
     if (!selected?.value || selected?.value.length === 0) {
       return t("overview.allBranches");
     } else if (selected) {

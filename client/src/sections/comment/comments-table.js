@@ -62,10 +62,6 @@ export const CommentsTable = (props) => {
 
   const state = useAuthContext();
 
-  useEffect(() => {
-    console.log("countt", count);
-  }, [count]);
-
   const { t } = useTranslation();
 
   return (

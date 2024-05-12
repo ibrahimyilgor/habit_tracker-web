@@ -29,7 +29,6 @@ export const saveMenuItemPhoto = async (req, res) => {
 
     res.status(201).json({ message: "Menu item photo uploaded successfully." });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to upload menu item photo." });
   }
 };
@@ -39,14 +38,12 @@ export const saveMenuItemPhoto = async (req, res) => {
 export const getMenuItemPhoto = async (req, res) => {
   try {
     const { menuItemId } = req.params;
-    console.log("error1", menuItemId);
     // Find the MenuItemPhoto based on the menuItemId
     const itemPhoto = await MenuItemPhoto.findOne({
       menu_item_id: menuItemId.toString(),
     });
 
     if (!itemPhoto) {
-      console.log("error1");
       return res.status(404).json({ message: "MenuItemPhoto not found." });
     }
 
@@ -54,7 +51,6 @@ export const getMenuItemPhoto = async (req, res) => {
     res.setHeader("Content-Type", "image/*");
     res.send(itemPhoto.file);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to retrieve MenuItemPhoto." });
   }
 };
@@ -70,10 +66,7 @@ export const deleteMenuItemPhotoByMenuId = async (req, res) => {
       success: true,
       message: `Deleted all MenuItemPhotos related to restaurant ID: ${req.params.id}.`,
     });
-
-    console.log("Deletion successful");
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
       message: "Error deleting MenuItemPhotos.",
@@ -93,10 +86,7 @@ export const deleteMenuItemPhoto = async (req, res) => {
       success: true,
       message: `Deleted MenuItemPhoto of menu item ID: ${req.params.id}.`,
     });
-
-    console.log("Deletion successful");
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
       message: "Error deleting MenuItemPhoto",

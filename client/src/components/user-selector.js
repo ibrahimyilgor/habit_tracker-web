@@ -19,10 +19,9 @@ export const UserSelector = ({ selectedUser, setSelectedUser, fullWidth }) => {
       {
         method: "GET",
         headers: { Authorization: "Bearer " + token },
-      },
+      }
     );
     const tempUsers = await usersResponse.json();
-    console.log("ibrahim", tempUsers);
     if (Array.isArray(tempUsers)) {
       setUsers(tempUsers);
     }

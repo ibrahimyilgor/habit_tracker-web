@@ -7,10 +7,6 @@ export const BranchSelector = ({ width }) => {
   const { t } = useTranslation();
   const restaurant = useRestaurantContext();
 
-  useEffect(() => {
-    console.log("restaurant", restaurant?.selectedBranchIds);
-  }, [restaurant]);
-
   const handleChange = (event) => {
     const { value } = event.target;
     restaurant?.setSelectedBranchIds(value);

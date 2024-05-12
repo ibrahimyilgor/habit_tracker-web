@@ -4,11 +4,9 @@ import Notification from "../models/Notification.js";
 
 export const getAllNotifications = async (req, res) => {
   let notifications = await Notification.find().lean();
-  console.log("ibrahimnotif", notifications);
   try {
     res.status(200).json(notifications);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting notifications");
   }
 };
@@ -35,7 +33,6 @@ export const addNotification = async (req, res) => {
 
     res.status(201).json(savedNotification);
   } catch (error) {
-    console.log("Error:", error);
     res
       .status(500)
       .json({ error: "An error occurred while adding the notification." });
@@ -52,13 +49,11 @@ export const deleteNotification = async (req, res) => {
       })
       .catch((err) => {
         // Handle error
-        console.error(err);
         res
           .status(500)
           .json({ success: false, error: "Failed to delete notification" });
       });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ success: false, error: "Server error" });
   }
 };
@@ -117,7 +112,6 @@ export const getNotificationsForAUser = async (req, res) => {
   try {
     res.status(200).json(returnNotifications);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting notifications");
   }
 };

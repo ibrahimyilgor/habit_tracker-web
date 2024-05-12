@@ -12,7 +12,6 @@ export const getPlan = async (req, res) => {
 
     res.json(plans);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to retrieve plans." });
   }
 };

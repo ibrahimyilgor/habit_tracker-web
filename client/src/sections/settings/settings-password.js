@@ -99,7 +99,6 @@ export const SettingsPassword = ({ setSnackbarOpen, setSnackbarSeverity, setSnac
             auth
               .updatePassword(state?.user?.user?._id, values.password)
               .then((res) => {
-                console.log("ibrahimres", res);
                 if (res.message) {
                   setSnackbarOpen(true);
                   setSnackbarSeverity("success");

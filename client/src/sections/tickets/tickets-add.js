@@ -27,10 +27,6 @@ export const TicketsAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnac
     address: "",
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -49,7 +45,6 @@ export const TicketsAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnac
           address: values?.address,
         })
         .then((res) => {
-          console.log("return", res);
           if (res.success === true) {
             restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
             setSnackbarOpen(true);

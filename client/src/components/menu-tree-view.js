@@ -77,8 +77,6 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
         const file = new File([blob], "fileName", { type: "image/*" });
 
         if (file) {
-          console.log("ibrahimfile", file);
-
           let tempMenu = [...menu];
           tempMenu[indexCategory].items[indexItem].photo = file;
           setMenu(tempMenu);
@@ -94,14 +92,12 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
 
         return file;
       } else {
-        console.error("Failed to fetch menu item photo:", response.statusText, id);
         let tempMenu = [...menu];
         tempMenu[indexCategory].items[indexItem].photo = null;
         setMenu(tempMenu);
         return null;
       }
     } catch (error) {
-      console.error("Error fetching menu item photo:", error, id);
       let tempMenu = [...menu];
       tempMenu[indexCategory].items[indexItem].photo = null;
       setMenu(tempMenu);
@@ -110,28 +106,14 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
   };
 
   React.useEffect(() => {
-    console.log("step1");
     menu.forEach((category, indexCategory) => {
-      console.log("step3", category, indexCategory);
       category?.items?.forEach((item, indexItem) => {
         if (!item?.photo) {
-          console.log("step4", item);
           fetchMenuItemPhoto(item?._id, indexCategory, indexItem);
         }
       });
     });
   }, []);
-
-  // React.useEffect(() => {
-  //   console.log("restchanged", restaurant);
-  //   console.log("selectedBranchIdsselectedBranchIds2", restaurant.selectedBranchIds);
-  //   if (restaurant?.restaurants && restaurant.restaurants.length > 0) {
-  //     setMenu(
-  //       restaurant.restaurants.filter((r) => r._id === restaurant.selectedBranchIds)?.[0]?.menu ??
-  //         [],
-  //     );
-  //   }
-  // }, [restaurant.selectedBranchIds]);
 
   React.useEffect(() => {
     if (editIndex !== null) {
@@ -140,7 +122,6 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
   }, [editIndex]);
 
   React.useEffect(() => {
-    console.log("indexes", editItemIndex);
     if (editItemIndex !== null && editItemIndex.index >= 0 && editItemIndex.itemIndex >= 0) {
       setEditItemText(menu?.[editItemIndex.index]?.items[editItemIndex.itemIndex]?.name || "");
       setEditItemPrice(menu[editItemIndex.index].items[editItemIndex.itemIndex].price);
@@ -180,7 +161,6 @@ export default function MenuTreeView({ menu, setMenu, activeStep }) {
     let newItems = [...newMenu[index].items];
     newItems.splice(itemIndex, 1);
     newMenu[index].items = [...newItems];
-    console.log("deletedelete", newItems, newMenu);
     setMenu(newMenu);
   };
 

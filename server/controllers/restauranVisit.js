@@ -5,23 +5,19 @@ import { sumArrays } from "../utils/concatVisitMonth.js";
 /*READ VISIT*/
 
 export const getRestaurantVisit = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     const { restaurant_ids } = req.params;
     let visit;
     visit = await RestaurantVisit.find({
       restaurant_id: { $in: [restaurant_ids] },
     });
-    console.log("VISITVISITVISIT", visit);
     res.status(200).json(visit);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting restaurant visit");
   }
 };
 
 export const getAllRestaurantVisitForAUser = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     const { user_id } = req.params;
     let visits;
@@ -70,11 +66,8 @@ export const getAllRestaurantVisitForAUser = async (req, res) => {
             }
           });
       });
-
-    console.log("VISITVISITVISIT", totalData);
     res.status(200).json(totalData);
   } catch (error) {
-    console.log(error);
     throw new Error("Error while getting restaurant visit");
   }
 };

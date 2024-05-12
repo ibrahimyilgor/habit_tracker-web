@@ -104,7 +104,6 @@ export const CodesTable = (props) => {
             <PlanSelector
               name="plan"
               setValue={(e) => {
-                console.log("eee", e?.target);
                 if (e?.target?.value) {
                   setPlan(e.target.value);
                 } else {

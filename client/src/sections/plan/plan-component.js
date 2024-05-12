@@ -30,9 +30,6 @@ export const PlanComponent = ({ plan }) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const lang = i18n.languages[0];
-
-  console.log("plann", plan);
-
   const changePlan = async (id) => {
     setCode("");
     try {
@@ -45,7 +42,6 @@ export const PlanComponent = ({ plan }) => {
         body: JSON.stringify({ plan_id: id, code: code, user_id: state?.user?.user?._id }),
       });
       const data = await response.json();
-      console.log("theresponse", data);
       if (data.success === true) {
         setSnackbarOpen(true);
         setSnackbarSeverity("success");
@@ -61,7 +57,6 @@ export const PlanComponent = ({ plan }) => {
       }
       return data;
     } catch (error) {
-      console.error("Error updating user:", error);
       setSnackbarOpen(true);
       setSnackbarSeverity("error");
       setSnackbarMessage(t("plan.errorMessage"));

@@ -7,10 +7,6 @@ import { SketchPicker } from "react-color";
 export const ColorPicker = ({ color, onChange, style, disabled }) => {
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("color", color);
-  }, [color]);
-
   const handleClick = () => {
     setOpen(true);
   };

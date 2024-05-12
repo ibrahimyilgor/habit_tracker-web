@@ -55,10 +55,6 @@ export const AccountProfile = () => {
   }, [localAvatar]);
 
   useEffect(() => {
-    console.log("userAvatar", userAvatar);
-  }, [userAvatar]);
-
-  useEffect(() => {
     if (state?.user?.user?.id) {
       state.getUser(state?.user?.user?.id);
     }

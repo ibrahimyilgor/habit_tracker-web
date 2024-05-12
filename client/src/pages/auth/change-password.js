@@ -36,7 +36,6 @@ const Page = (props) => {
 
     // Now you have the token, you can perform any necessary actions
     const decodedToken = jwt.decode(tokenTemp);
-    console.log("decodedToken", decodedToken);
     setToken(decodedToken);
     // You can pass the token to an API endpoint or use it as needed for password reset functionality
     // For example: send an API request to verify the token and display the appropriate UI
@@ -78,7 +77,6 @@ const Page = (props) => {
         return true; // Invalid token or missing expiration time
       }
       const currentTime = Math.floor(Date.now() / 1000);
-      console.log("irrrr", currentTime, token);
       return currentTime > token.exp;
     } catch (err) {
       return true; // Invalid token or error occurred

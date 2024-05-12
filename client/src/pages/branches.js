@@ -31,8 +31,6 @@ const Page = () => {
 
   const { t } = useTranslation();
 
-  console.log("restaurr", restaurant);
-
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
   }, []);

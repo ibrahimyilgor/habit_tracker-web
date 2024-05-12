@@ -11,12 +11,10 @@ import RestaurantVisit from "../models/RestaurantVisit.js";
 /*READ USER*/
 
 export const getUser = async (req, res) => {
-  console.log("idd", req.params);
   try {
     const { id } = req.params;
     const user = await User.findById(id).populate("plan_id");
     res.status(200).json(user);
-    console.log("idd2", user, id);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -59,9 +57,7 @@ export const deleteUser = async (req, res) => {
       success: true,
       message: `Deleted user ${deletedUser.name} and all their branches.`,
     });
-    console.log("ssccccssss");
   } catch (error) {
-    console.error(error);
     res
       .status(500)
       .json({ success: false, message: "Error deleting user.", error: error });
@@ -71,7 +67,6 @@ export const deleteUser = async (req, res) => {
 // GET USERS
 
 export const getAllUsers = async (req, res) => {
-  console.log("req.params", req.params);
   try {
     const users = await User.find().lean(); // Using lean() for plain JavaScript objects
 
@@ -97,7 +92,6 @@ export const getAllUsers = async (req, res) => {
       });
     }
   } catch (err) {
-    console.error("Error in getAllUsers:", err);
     res.status(500).json({
       error: "Internal Server Error",
       success: false,

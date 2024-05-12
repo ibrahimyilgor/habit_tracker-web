@@ -27,10 +27,6 @@ export const BranchAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnack
     address: "",
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -51,7 +47,6 @@ export const BranchAdd = ({ back, setSnackbarOpen, setSnackbarSeverity, setSnack
           planId: state?.user?.user?.plan_id?._id,
         })
         .then((res) => {
-          console.log("return", res);
           if (res.success === true) {
             restaurant.getBranches(state?.user?.user?._id, state?.user?.token, null);
             setSnackbarOpen(true);

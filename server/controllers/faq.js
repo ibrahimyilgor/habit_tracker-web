@@ -14,7 +14,6 @@ export const getFaq = async (req, res) => {
     // but here I'll modify the response to send the faqs as JSON data instead
     res.json(faqs);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Failed to retrieve FAQs." });
   }
 };

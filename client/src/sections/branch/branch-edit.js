@@ -34,10 +34,6 @@ export const BranchEdit = ({
     address: selectedForEdit?.address,
   });
 
-  useEffect(() => {
-    console.log("values", state, values);
-  }, [values]);
-
   const handleChange = useCallback((event) => {
     setValues((prevState) => ({
       ...prevState,
@@ -73,7 +69,6 @@ export const BranchEdit = ({
         back();
         return data;
       } catch (error) {
-        console.error("Error updating branch:", error);
         // handle the error, e.g. show a message to the user
       }
     },

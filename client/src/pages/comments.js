@@ -34,8 +34,6 @@ const Comments = () => {
     );
     const tempComments = await commentsResponse.json();
 
-    console.log("tempComments", tempComments);
-
     setComments(tempComments);
 
     return tempComments;
@@ -49,10 +47,6 @@ const Comments = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  useEffect(() => {
-    console.log("comments", comments, page, rowsPerPage);
-  }, [comments, page, rowsPerPage]);
 
   const handleRowsPerPageChange = useCallback((event) => {
     setRowsPerPage(event.target.value);

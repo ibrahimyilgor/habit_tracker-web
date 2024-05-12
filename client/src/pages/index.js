@@ -38,8 +38,6 @@ const Page = () => {
     );
     const tempComments = await commentsResponse.json();
 
-    console.log("tempComments", tempComments);
-
     setAverageRate(tempComments);
 
     return tempComments;
@@ -55,10 +53,6 @@ const Page = () => {
   const [yearSelector, setYearSelector] = useState(new Date().getFullYear());
   const [visit, setVisit] = useState([{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]);
   const [device, setDevice] = useState([0, 0, 0]);
-
-  useEffect(() => {
-    console.log("ibrahimvisit", branchFilter, visit, yearSelector);
-  }, [branchFilter, visit, yearSelector]);
 
   useEffect(() => {
     if (state?.user?.token && yearSelector) {
@@ -104,8 +98,6 @@ const Page = () => {
         },
       );
       const tempVisit = await visitResponse.json();
-
-      console.log("tempVisit", tempVisit);
 
       setVisit(
         tempVisit?.[0]?.data?.filter?.((tv) => tv?.year == yearSelector)?.[0]?.months

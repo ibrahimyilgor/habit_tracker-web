@@ -70,7 +70,6 @@ const Page = () => {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
-        console.log("saveduser2", err);
       }
     },
   });

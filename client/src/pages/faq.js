@@ -33,8 +33,6 @@ const Faq = () => {
 
   const [faqData, setFaqData] = useState([]);
 
-  console.log("lang", lang);
-
   useEffect(() => {
     // declare the data fetching function
     const fetchData = async () => {
@@ -46,13 +44,10 @@ const Faq = () => {
 
         const tempFaqData = await response.json();
 
-        console.log("tempFaqData", tempFaqData);
-
         setFaqData(tempFaqData);
 
         return tempFaqData;
       } catch (error) {
-        console.error("Error fetching PDF:", error);
         return null;
       }
     };

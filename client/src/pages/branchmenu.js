@@ -53,8 +53,6 @@ const Branchmenu = () => {
         );
         const tempMenu = await menuResponse.json();
 
-        console.log("tempMenu", tempMenu, tempMenu?.[0].menu || []);
-
         const response = await fetch(
           process.env.NEXT_PUBLIC_BACKEND_SERVER + `/pdfMenu/${idState}`,
           {
@@ -63,12 +61,10 @@ const Branchmenu = () => {
         );
 
         if (response.ok) {
-          console.log("response", response);
           const blob = await response.blob();
           const file = new File([blob], "fileName", { type: "application/pdf" });
           setFile(file);
         } else {
-          console.error("Failed to fetch PDF:", response.statusText);
           setFile(null);
         }
 
@@ -85,14 +81,6 @@ const Branchmenu = () => {
 
     fetchData().catch(console.error);
   }, [idState]);
-
-  useEffect(() => {
-    menu &&
-      menu.length > 0 &&
-      menu.map((m) => {
-        console.log("menu,", m.name);
-      });
-  }, [menu]);
 
   return (
     <Box sx={{ backgroundColor: colors?.backgroundColor ?? "#ffffff", height: "100vh" }}>
