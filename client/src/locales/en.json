@@ -105,7 +105,8 @@
         "loginErrorMessage": "Unsuccessful login",
         "description": "Prepare QR code menu for your business",
         "name": "Scandelicious",
-        "welcome": "Welcome to Scandelicious"
+        "welcome": "Welcome to Scandelicious",
+        "testAccount": "Use Test Account"
     },
     "register": {
         "title": "Register",

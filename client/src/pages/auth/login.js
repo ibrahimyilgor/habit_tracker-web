@@ -139,6 +139,21 @@ const Page = (props) => {
                   {t("login.forgotPassword")}
                 </Button>
               </Link>
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                variant="text"
+                onClick={() => {
+                  formik.setValues({
+                    ...formik.values,
+                    email: "test@test.test",
+                    password: "Test123!",
+                  });
+                }}
+              >
+                {t("login.testAccount")}
+              </Button>
             </form>
           </div>
         </Box>

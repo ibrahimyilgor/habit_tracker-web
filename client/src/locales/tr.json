@@ -105,7 +105,8 @@
         "loginErrorMessage": "Giriş yapılamadı",
         "description": "İşletmeniz için QR kodlu menü hazırlayın",
         "name": "Scandelicious",
-        "welcome": "Scandelicious'a hoşgeldiniz"
+        "welcome": "Scandelicious'a hoşgeldiniz",
+        "testAccount": "Test Hesabını Kullan"
     },
     "register": {
         "title": "Kayıt Ol",
