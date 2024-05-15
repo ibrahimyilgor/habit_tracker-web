@@ -72,6 +72,8 @@ export const NotificationsTable = (props) => {
                 <TableCell>{t("notifications.id")}</TableCell>
                 <TableCell>{t("notifications.titleName")}</TableCell>
                 <TableCell>{t("notifications.content")}</TableCell>
+                <TableCell>{t("notifications.titleNameTr")}</TableCell>
+                <TableCell>{t("notifications.contentTr")}</TableCell>
                 <TableCell>{t("notifications.sender")}</TableCell>
                 <TableCell>{t("notifications.sendTo")}</TableCell>
                 <TableCell>{t("notifications.duration")}</TableCell>
@@ -89,18 +91,36 @@ export const NotificationsTable = (props) => {
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <Typography variant="subtitle2">
-                          {notif?.title.length > 100
-                            ? notif?.title.slice(0, 100) + "..."
-                            : notif?.title}
+                          {notif?.title?.en?.length > 100
+                            ? notif?.title?.en?.slice(0, 100) + "..."
+                            : notif?.title?.en}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <Typography variant="subtitle2">
-                          {notif?.content.length > 100
-                            ? notif?.content.slice(0, 100) + "..."
-                            : notif?.content}
+                          {notif?.content?.en?.length > 100
+                            ? notif?.content?.en?.slice(0, 100) + "..."
+                            : notif?.content?.en}
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Stack alignItems="center" direction="row" spacing={2}>
+                        <Typography variant="subtitle2">
+                          {notif?.title?.tr?.length > 100
+                            ? notif?.title?.tr?.slice(0, 100) + "..."
+                            : notif?.title?.tr}
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Stack alignItems="center" direction="row" spacing={2}>
+                        <Typography variant="subtitle2">
+                          {notif?.content?.tr?.length > 100
+                            ? notif?.content?.tr?.slice(0, 100) + "..."
+                            : notif?.content?.tr}
                         </Typography>
                       </Stack>
                     </TableCell>

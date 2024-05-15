@@ -63,8 +63,9 @@ const NotificationAdmin = () => {
   const useNotifications = (page, rowsPerPage) => {
     return useMemo(() => {
       return applyPagination(
-        notifData.filter((res) => res?.title?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          [],
+        notifData.filter((res) =>
+          res?.title?.en?.toLowerCase().includes(searchQuery.toLowerCase()),
+        ) || [],
         page,
         rowsPerPage,
       );

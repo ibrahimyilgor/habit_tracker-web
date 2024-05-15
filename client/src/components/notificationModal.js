@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { maxWidth } from "@mui/system";
 import { isDesktop, isTablet, isMobile } from "react-device-detect";
+import i18n from "src/i18n";
 
 export const NotificationModal = ({ open, onClose, notification }) => {
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ export const NotificationModal = ({ open, onClose, notification }) => {
           }}
         >
           <Typography variant="h5" sx={{ mb: 3 }}>
-            {notification?.title || ""}
+            {notification?.title?.[i18n.languages[0]] || ""}
           </Typography>
         </Box>
         <Box
@@ -56,7 +57,7 @@ export const NotificationModal = ({ open, onClose, notification }) => {
           }}
         >
           <Typography variant="body1" sx={{ mb: 5, maxHeight: "60vh", overflowY: "auto" }}>
-            {notification?.content || ""}
+            {notification?.content?.[i18n.languages[0]] || ""}
           </Typography>
         </Box>
         <Box

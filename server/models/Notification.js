@@ -4,10 +4,24 @@ const Schema = mongoose.Schema;
 const NotificationSchema = new mongoose.Schema(
   {
     title: {
-      type: String,
+      en: {
+        type: String,
+        required: false,
+      },
+      tr: {
+        type: String,
+        required: false,
+      },
     },
     content: {
-      type: String,
+      en: {
+        type: String,
+        required: false,
+      },
+      tr: {
+        type: String,
+        required: false,
+      },
     },
     sender_id: {
       type: Schema.Types.ObjectId,

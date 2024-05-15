@@ -54,7 +54,11 @@ export const NotificationEdit = ({
   }, []);
 
   const isDisabled = () => {
-    if (values?.title?.length < 1 || values?.content?.length < 1 || isNaN(values?.duration)) {
+    if (
+      (values?.title?.en?.length < 1 && values?.title?.tr?.length < 1) ||
+      (values?.content?.en?.length < 1 && values?.content?.tr?.length < 1) ||
+      isNaN(values?.duration)
+    ) {
       return true;
     }
     if (senderType === "plan" && !values?.plan) {
@@ -109,7 +113,7 @@ export const NotificationEdit = ({
       <Card>
         <CardHeader
           // subheader="The information can be edited"
-          title={t("notifications.updateBranch")}
+          title={t("notifications.updateNotification")}
         />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
@@ -119,8 +123,21 @@ export const NotificationEdit = ({
                   fullWidth
                   label={t("notifications.titleName")}
                   name="title"
-                  onChange={handleChange}
-                  value={values.title}
+                  onChange={(e) => {
+                    setValues({ ...values, title: { tr: values.title.tr, en: e.target.value } });
+                  }}
+                  value={values.title.en}
+                />
+              </Grid>
+              <Grid xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label={t("notifications.titleNameTr")}
+                  name="title"
+                  onChange={(e) => {
+                    setValues({ ...values, title: { en: values.title.en, tr: e.target.value } });
+                  }}
+                  value={values.title.tr}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -128,8 +145,27 @@ export const NotificationEdit = ({
                   fullWidth
                   label={t("notifications.content")}
                   name="content"
-                  onChange={handleChange}
-                  value={values.content}
+                  onChange={(e) => {
+                    setValues({
+                      ...values,
+                      content: { tr: values.content.tr, en: e.target.value },
+                    });
+                  }}
+                  value={values.content.en}
+                />
+              </Grid>
+              <Grid xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label={t("notifications.contentTr")}
+                  name="content.tr"
+                  onChange={(e) => {
+                    setValues({
+                      ...values,
+                      content: { en: values.content.en, tr: e.target.value },
+                    });
+                  }}
+                  value={values.content.tr}
                 />
               </Grid>
               <Grid xs={12} md={6}>
