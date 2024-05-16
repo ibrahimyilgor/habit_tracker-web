@@ -32,7 +32,7 @@ const App = (props) => {
       <Head>
         <title>{t("titles.onlyTitle")}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-
+        <meta name="google-adsense-account" content="ca-pub-8065065298703022">
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HFXTRW3H4Q"></script>
         <script>
