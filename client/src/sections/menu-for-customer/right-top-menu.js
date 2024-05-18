@@ -41,13 +41,13 @@ export default function RightTopMenu({
         handleClose();
       },
     },
-    {
-      name: t("topNav.language"),
-      action: () => {
-        languagePopover.handleOpen();
-        handleClose();
-      },
-    },
+    // {
+    //   name: t("topNav.language"),
+    //   action: () => {
+    //     languagePopover.handleOpen();
+    //     handleClose();
+    //   },
+    // },
   ].filter(Boolean);
 
   return (
